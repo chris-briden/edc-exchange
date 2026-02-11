@@ -14,10 +14,12 @@ import {
   X,
   AtSign,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
 
 function SignupForm() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const redirect = searchParams.get("redirect") || "/";
 
   const [username, setUsername] = useState("");
@@ -139,7 +141,7 @@ function SignupForm() {
           ? `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirect)}`
           : "";
 
-      const { error } = await supabase.auth.signUp({
+      const { data: signUpData, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -152,6 +154,15 @@ function SignupForm() {
       });
 
       if (error) throw error;
+
+      // If Supabase returned a session, the user is auto-confirmed
+      // (email confirmation disabled in dashboard). Redirect immediately.
+      if (signUpData.session) {
+        router.push(redirect);
+        return;
+      }
+
+      // Otherwise show the "check your email" screen
       setSuccess(true);
     } catch (err: unknown) {
       setFormError(
