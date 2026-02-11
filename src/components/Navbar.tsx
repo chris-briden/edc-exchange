@@ -1,20 +1,84 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
   Search,
   Menu,
   X,
   Plus,
   Bell,
-  User,
   MessageSquare,
+  LogIn,
+  LogOut,
+  Settings,
+  User as UserIcon,
 } from "lucide-react";
+import { createClient } from "@/lib/supabase-browser";
+import type { User } from "@supabase/supabase-js";
+import type { Profile } from "@/lib/types";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const supabase = createClient();
+
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+      if (user) {
+        supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", user.id)
+          .single()
+          .then(({ data }) => {
+            if (data) setProfile(data as Profile);
+          });
+      }
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (!session?.user) {
+        setProfile(null);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    setDropdownOpen(false);
+    router.push("/");
+    router.refresh();
+  };
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
@@ -64,25 +128,89 @@ export default function Navbar() {
             >
               Browse
             </Link>
-            <button className="ml-2 flex items-center gap-1.5 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition">
-              <Plus className="w-4 h-4" />
-              List Item
-            </button>
-            <div className="flex items-center gap-1 ml-2">
-              <button className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition relative">
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
-              </button>
-              <button className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition">
-                <MessageSquare className="w-5 h-5" />
-              </button>
+
+            {user ? (
+              <>
+                <Link
+                  href="/items/new"
+                  className="ml-2 flex items-center gap-1.5 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition"
+                >
+                  <Plus className="w-4 h-4" />
+                  List Item
+                </Link>
+                <div className="flex items-center gap-1 ml-2">
+                  <button className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition relative">
+                    <Bell className="w-5 h-5" />
+                  </button>
+                  <button className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition">
+                    <MessageSquare className="w-5 h-5" />
+                  </button>
+
+                  {/* User avatar dropdown */}
+                  <div className="relative" ref={dropdownRef}>
+                    <button
+                      onClick={() => setDropdownOpen(!dropdownOpen)}
+                      className="p-1 rounded-lg hover:bg-gray-100 transition"
+                    >
+                      {profile?.avatar_url ? (
+                        <Image
+                          src={profile.avatar_url}
+                          alt={profile.username || ""}
+                          width={32}
+                          height={32}
+                          className="rounded-full"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-white text-sm font-bold">
+                          {profile?.username?.charAt(0)?.toUpperCase() || "U"}
+                        </div>
+                      )}
+                    </button>
+
+                    {dropdownOpen && (
+                      <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl border border-gray-200 shadow-xl py-2 z-50">
+                        <div className="px-4 py-2 border-b border-gray-100">
+                          <p className="font-semibold text-sm">
+                            {profile?.username || "User"}
+                          </p>
+                          <p className="text-xs text-gray-400 truncate">
+                            {user.email}
+                          </p>
+                        </div>
+                        <Link
+                          href="/profile"
+                          onClick={() => setDropdownOpen(false)}
+                          className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition"
+                        >
+                          <UserIcon className="w-4 h-4" /> My Profile
+                        </Link>
+                        <Link
+                          href="/profile/edit"
+                          onClick={() => setDropdownOpen(false)}
+                          className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition"
+                        >
+                          <Settings className="w-4 h-4" /> Edit Profile
+                        </Link>
+                        <button
+                          onClick={handleSignOut}
+                          className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition"
+                        >
+                          <LogOut className="w-4 h-4" /> Sign Out
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
+            ) : (
               <Link
-                href="/profile"
-                className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition"
+                href="/login"
+                className="ml-2 flex items-center gap-1.5 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition"
               >
-                <User className="w-5 h-5" />
+                <LogIn className="w-4 h-4" />
+                Sign In
               </Link>
-            </div>
+            )}
           </div>
 
           {/* Mobile menu toggle */}
@@ -90,7 +218,11 @@ export default function Navbar() {
             className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </button>
         </div>
       </div>
@@ -98,19 +230,56 @@ export default function Navbar() {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="md:hidden border-t border-gray-200 bg-white px-4 py-3 space-y-1">
-          <Link href="/community" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100">
+          <Link
+            href="/community"
+            className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100"
+          >
             Community
           </Link>
-          <Link href="/categories" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100">
+          <Link
+            href="/categories"
+            className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100"
+          >
             Browse
           </Link>
-          <Link href="/profile" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100">
-            Profile
-          </Link>
-          <button className="w-full flex items-center justify-center gap-1.5 mt-2 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium">
-            <Plus className="w-4 h-4" />
-            List Item
-          </button>
+          {user ? (
+            <>
+              <Link
+                href="/profile"
+                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100"
+              >
+                Profile
+              </Link>
+              <Link
+                href="/profile/edit"
+                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100"
+              >
+                Edit Profile
+              </Link>
+              <Link
+                href="/items/new"
+                className="w-full flex items-center justify-center gap-1.5 mt-2 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium"
+              >
+                <Plus className="w-4 h-4" />
+                List Item
+              </Link>
+              <button
+                onClick={handleSignOut}
+                className="w-full flex items-center justify-center gap-1.5 mt-2 px-4 py-2 rounded-full border border-red-300 text-red-600 text-sm font-medium"
+              >
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <Link
+              href="/login"
+              className="w-full flex items-center justify-center gap-1.5 mt-2 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium"
+            >
+              <LogIn className="w-4 h-4" />
+              Sign In
+            </Link>
+          )}
         </div>
       )}
     </nav>

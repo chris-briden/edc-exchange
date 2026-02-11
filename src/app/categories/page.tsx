@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import CategoryCard from "@/components/CategoryCard";
 import ItemCard from "@/components/ItemCard";
-import { categories, edcItems } from "@/lib/data";
+import DbItemCard from "@/components/DbItemCard";
+import { categories as mockCategories, edcItems } from "@/lib/data";
+import { createClient } from "@/lib/supabase-browser";
+import type { Item, Category } from "@/lib/types";
 
 const listingFilters = ["All Types", "For Sale", "For Trade", "For Lend", "For Rent"];
 const listingMap: Record<string, string | null> = {
@@ -20,16 +22,73 @@ const listingMap: Record<string, string | null> = {
 export default function CategoriesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [listingFilter, setListingFilter] = useState("All Types");
+  const [dbItems, setDbItems] = useState<Item[]>([]);
+  const [dbCategories, setDbCategories] = useState<Category[]>([]);
+  const [loaded, setLoaded] = useState(false);
 
-  let filtered = edcItems;
+  useEffect(() => {
+    const supabase = createClient();
+
+    Promise.all([
+      supabase
+        .from("items")
+        .select("*, profiles(*), categories(*), item_images(*)")
+        .eq("status", "active")
+        .order("created_at", { ascending: false }),
+      supabase.from("categories").select("*").order("name"),
+    ]).then(([itemsRes, catsRes]) => {
+      if (itemsRes.data && itemsRes.data.length > 0) {
+        setDbItems(itemsRes.data as Item[]);
+      }
+      if (catsRes.data && catsRes.data.length > 0) {
+        setDbCategories(catsRes.data as Category[]);
+      }
+      setLoaded(true);
+    });
+  }, []);
+
+  const hasDbData = dbItems.length > 0;
+  const displayCategories = dbCategories.length > 0 ? dbCategories : null;
+
+  // Filter DB items
+  let filteredDbItems = dbItems;
   if (selectedCategory) {
-    filtered = filtered.filter((i) => i.category === selectedCategory);
+    filteredDbItems = filteredDbItems.filter(
+      (i) => i.categories?.slug === selectedCategory
+    );
   }
   if (listingMap[listingFilter]) {
-    filtered = filtered.filter(
+    filteredDbItems = filteredDbItems.filter(
+      (i) => i.listing_type === listingMap[listingFilter]
+    );
+  }
+
+  // Filter mock items
+  let filteredMockItems = edcItems;
+  if (selectedCategory) {
+    filteredMockItems = filteredMockItems.filter(
+      (i) => i.category === selectedCategory
+    );
+  }
+  if (listingMap[listingFilter]) {
+    filteredMockItems = filteredMockItems.filter(
       (i) => i.listingType === listingMap[listingFilter]
     );
   }
+
+  // Category buttons
+  const categoryButtons = displayCategories
+    ? displayCategories.map((cat) => ({
+        id: cat.slug,
+        icon: cat.icon,
+        name: cat.name,
+      }))
+    : mockCategories.map((cat) => ({
+        id: cat.id,
+        icon: cat.icon,
+        name: cat.name,
+        count: cat.count,
+      }));
 
   return (
     <>
@@ -43,7 +102,7 @@ export default function CategoriesPage() {
 
         {/* Category cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3 mb-8">
-          {categories.map((cat) => (
+          {categoryButtons.map((cat) => (
             <button
               key={cat.id}
               onClick={() =>
@@ -59,9 +118,11 @@ export default function CategoriesPage() {
             >
               <span className="text-2xl">{cat.icon}</span>
               <p className="font-semibold text-sm mt-1">{cat.name}</p>
-              <p className="text-xs text-gray-400">
-                {cat.count.toLocaleString()} listings
-              </p>
+              {"count" in cat && (
+                <p className="text-xs text-gray-400">
+                  {(cat.count as number).toLocaleString()} listings
+                </p>
+              )}
             </button>
           ))}
         </div>
@@ -86,17 +147,26 @@ export default function CategoriesPage() {
 
         {/* Results */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {filtered.map((item) => (
-            <ItemCard key={item.id} item={item} />
-          ))}
+          {hasDbData
+            ? filteredDbItems.map((item) => (
+                <DbItemCard key={item.id} item={item} />
+              ))
+            : filteredMockItems.map((item) => (
+                <ItemCard key={item.id} item={item} />
+              ))}
         </div>
 
-        {filtered.length === 0 && (
-          <div className="text-center py-16 text-gray-400">
-            <p className="text-lg font-medium">No items match your filters</p>
-            <p className="text-sm mt-1">Try adjusting your category or listing type.</p>
-          </div>
-        )}
+        {loaded &&
+          (hasDbData ? filteredDbItems : filteredMockItems).length === 0 && (
+            <div className="text-center py-16 text-gray-400">
+              <p className="text-lg font-medium">
+                No items match your filters
+              </p>
+              <p className="text-sm mt-1">
+                Try adjusting your category or listing type.
+              </p>
+            </div>
+          )}
       </div>
 
       <Footer />

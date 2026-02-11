@@ -8,6 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.49.4",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^25.2.3",
     "@types/react": "^19.2.14",
