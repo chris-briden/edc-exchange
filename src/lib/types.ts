@@ -7,6 +7,7 @@ export type Profile = {
   avatar_url: string | null;
   bio: string | null;
   website: string | null;
+  location: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -33,12 +34,23 @@ export type Item = {
   rent_price: string | null;
   tags: string[];
   status: "active" | "sold" | "traded" | "removed";
+  shipping_cost: number | null;
+  ships_from_country: string | null;
+  accepts_returns: boolean;
+  box_and_docs: string;
+  views_count: number;
+  favorites_count: number;
+  last_renewed_at: string | null;
+  rental_deposit: number | null;
+  rental_period: string | null;
   created_at: string;
   updated_at: string;
   // Joined fields
   profiles?: Profile;
   categories?: Category;
   item_images?: ItemImage[];
+  likes?: { count: number }[];
+  comments?: { count: number }[];
 };
 
 export type ItemImage = {
@@ -86,6 +98,7 @@ export type Comment = {
   user_id: string;
   item_id: string | null;
   post_id: string | null;
+  parent_id: string | null;
   content: string;
   created_at: string;
   // Joined
