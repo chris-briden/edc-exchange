@@ -1,53 +1,151 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowLeft,
   Heart,
-  MessageCircle,
   Share2,
   Shield,
   Star,
   Flag,
   Loader2,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import CommentSection from "@/components/CommentSection";
+import CategoryIcon from "@/components/CategoryIcon";
 import { edcItems, listingTypeConfig } from "@/lib/data";
 import { createClient } from "@/lib/supabase-browser";
-import CategoryIcon from "@/components/CategoryIcon";
 import type { Item } from "@/lib/types";
 
-const listingConfig: Record<string, { color: string; label: string; bg: string }> = {
+const listingConfig: Record<
+  string,
+  { color: string; label: string; bg: string }
+> = {
   sell: { color: "text-green-700", label: "For Sale", bg: "bg-green-100" },
   trade: { color: "text-blue-700", label: "For Trade", bg: "bg-blue-100" },
-  lend: { color: "text-purple-700", label: "Available to Lend", bg: "bg-purple-100" },
+  lend: {
+    color: "text-purple-700",
+    label: "Available to Lend",
+    bg: "bg-purple-100",
+  },
   rent: { color: "text-amber-700", label: "For Rent", bg: "bg-amber-100" },
   showcase: { color: "text-gray-700", label: "Showcase", bg: "bg-gray-100" },
 };
 
 export default function ItemPage() {
   const params = useParams();
+  const router = useRouter();
   const id = params.id as string;
   const [dbItem, setDbItem] = useState<Item | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [isOwner, setIsOwner] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const supabase = createClient();
-    supabase
-      .from("items")
-      .select("*, profiles(*), categories(*), item_images(*)")
-      .eq("id", id)
-      .single()
-      .then(({ data, error }) => {
-        if (data && !error) setDbItem(data as Item);
-        setLoading(false);
-      });
+
+    const load = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setCurrentUserId(user?.id || null);
+
+      const { data, error } = await supabase
+        .from("items")
+        .select("*, profiles(*), categories(*), item_images(*)")
+        .eq("id", id)
+        .single();
+
+      if (data && !error) {
+        setDbItem(data as Item);
+        setIsOwner(user?.id === data.user_id);
+      }
+
+      // Get like count
+      const { count } = await supabase
+        .from("likes")
+        .select("*", { count: "exact", head: true })
+        .eq("item_id", id);
+      setLikeCount(count || 0);
+
+      // Check if user liked
+      if (user) {
+        const { data: likeData } = await supabase
+          .from("likes")
+          .select("id")
+          .eq("user_id", user.id)
+          .eq("item_id", id)
+          .single();
+        setLiked(!!likeData);
+      }
+
+      setLoading(false);
+    };
+
+    load();
   }, [id]);
+
+  const handleLike = async () => {
+    if (!currentUserId) {
+      router.push("/login");
+      return;
+    }
+    const supabase = createClient();
+
+    if (liked) {
+      await supabase
+        .from("likes")
+        .delete()
+        .eq("user_id", currentUserId)
+        .eq("item_id", id);
+      setLiked(false);
+      setLikeCount((c) => c - 1);
+    } else {
+      await supabase
+        .from("likes")
+        .insert({ user_id: currentUserId, item_id: id });
+      setLiked(true);
+      setLikeCount((c) => c + 1);
+    }
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      await navigator.share({
+        title: dbItem?.name || "EDC Item",
+        url: window.location.href,
+      });
+    } else {
+      await navigator.clipboard.writeText(window.location.href);
+    }
+  };
+
+  const handleAction = () => {
+    if (!currentUserId) {
+      router.push("/login");
+      return;
+    }
+    if (!dbItem) return;
+    router.push(`/messages?to=${dbItem.user_id}&item=${dbItem.id}`);
+  };
+
+  const handleDelete = async () => {
+    if (!confirm("Are you sure you want to delete this item?")) return;
+    setDeleting(true);
+    const supabase = createClient();
+    await supabase.from("items").delete().eq("id", id);
+    router.push("/profile");
+  };
 
   // Mock fallback
   const mockItem = edcItems.find((i) => i.id === id);
@@ -65,7 +163,8 @@ export default function ItemPage() {
 
   // Render DB item
   if (dbItem) {
-    const listing = listingConfig[dbItem.listing_type] || listingConfig.showcase;
+    const listing =
+      listingConfig[dbItem.listing_type] || listingConfig.showcase;
     const images = dbItem.item_images || [];
     const categorySlug = dbItem.categories?.slug || "";
     const ownerUsername = dbItem.profiles?.username || "Unknown";
@@ -86,7 +185,7 @@ export default function ItemPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Images */}
             <div>
-              <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl overflow-hidden relative">
+              <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl overflow-hidden relative">
                 {images.length > 0 ? (
                   <Image
                     src={images[selectedImage]?.url || images[0].url}
@@ -133,11 +232,25 @@ export default function ItemPage() {
 
             {/* Details */}
             <div>
-              <span
-                className={`inline-flex px-3 py-1 rounded-full text-sm font-semibold ${listing.bg} ${listing.color}`}
-              >
-                {listing.label}
-              </span>
+              <div className="flex items-start justify-between">
+                <span
+                  className={`inline-flex px-3 py-1 rounded-full text-sm font-semibold ${listing.bg} ${listing.color}`}
+                >
+                  {listing.label}
+                </span>
+                {isOwner && (
+                  <div className="flex gap-1">
+                    <button
+                      onClick={handleDelete}
+                      disabled={deleting}
+                      className="p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition"
+                      title="Delete item"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+              </div>
               <h1 className="text-2xl md:text-3xl font-extrabold mt-3">
                 {dbItem.name}
               </h1>
@@ -179,41 +292,66 @@ export default function ItemPage() {
               )}
 
               {/* Action buttons */}
-              <div className="flex flex-wrap gap-3 mt-6">
-                {dbItem.listing_type === "sell" && dbItem.price && (
-                  <button className="flex-1 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition">
-                    Buy Now &mdash; ${Number(dbItem.price).toFixed(0)}
+              {!isOwner && (
+                <div className="flex flex-wrap gap-3 mt-6">
+                  {dbItem.listing_type === "sell" && dbItem.price && (
+                    <button
+                      onClick={handleAction}
+                      className="flex-1 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition"
+                    >
+                      Buy Now &mdash; ${Number(dbItem.price).toFixed(0)}
+                    </button>
+                  )}
+                  {dbItem.listing_type === "trade" && (
+                    <button
+                      onClick={handleAction}
+                      className="flex-1 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+                    >
+                      Make Trade Offer
+                    </button>
+                  )}
+                  {dbItem.listing_type === "lend" && (
+                    <button
+                      onClick={handleAction}
+                      className="flex-1 py-3 rounded-xl bg-purple-600 text-white font-semibold hover:bg-purple-700 transition"
+                    >
+                      Request to Borrow
+                    </button>
+                  )}
+                  {dbItem.listing_type === "rent" && (
+                    <button
+                      onClick={handleAction}
+                      className="flex-1 py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition"
+                    >
+                      Rent &mdash; {dbItem.rent_price}
+                    </button>
+                  )}
+                  <button
+                    onClick={handleAction}
+                    className="py-3 px-4 rounded-xl border border-gray-300 text-gray-600 hover:bg-gray-50 transition"
+                  >
+                    Message Seller
                   </button>
-                )}
-                {dbItem.listing_type === "trade" && (
-                  <button className="flex-1 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">
-                    Make Trade Offer
-                  </button>
-                )}
-                {dbItem.listing_type === "lend" && (
-                  <button className="flex-1 py-3 rounded-xl bg-purple-600 text-white font-semibold hover:bg-purple-700 transition">
-                    Request to Borrow
-                  </button>
-                )}
-                {dbItem.listing_type === "rent" && (
-                  <button className="flex-1 py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition">
-                    Rent &mdash; {dbItem.rent_price}
-                  </button>
-                )}
-                <button className="py-3 px-4 rounded-xl border border-gray-300 text-gray-600 hover:bg-gray-50 transition">
-                  Message Seller
-                </button>
-              </div>
+                </div>
+              )}
 
               {/* Engagement */}
               <div className="flex items-center gap-5 mt-6 pt-5 border-t border-gray-200 text-gray-500 text-sm">
-                <button className="flex items-center gap-1.5 hover:text-red-500 transition">
-                  <Heart className="w-5 h-5" /> Like
+                <button
+                  onClick={handleLike}
+                  className={`flex items-center gap-1.5 transition ${
+                    liked ? "text-red-500" : "hover:text-red-500"
+                  }`}
+                >
+                  <Heart
+                    className={`w-5 h-5 ${liked ? "fill-current" : ""}`}
+                  />
+                  {likeCount} {likeCount === 1 ? "like" : "likes"}
                 </button>
-                <button className="flex items-center gap-1.5 hover:text-blue-500 transition">
-                  <MessageCircle className="w-5 h-5" /> Comment
-                </button>
-                <button className="flex items-center gap-1.5 hover:text-green-500 transition ml-auto">
+                <button
+                  onClick={handleShare}
+                  className="flex items-center gap-1.5 hover:text-green-500 transition ml-auto"
+                >
                   <Share2 className="w-5 h-5" /> Share
                 </button>
                 <button className="flex items-center gap-1.5 hover:text-red-400 transition">
@@ -224,21 +362,28 @@ export default function ItemPage() {
               {/* Seller info */}
               <div className="mt-6 p-4 rounded-xl bg-gray-50 border border-gray-200">
                 <div className="flex items-center gap-3">
-                  {ownerAvatar ? (
-                    <Image
-                      src={ownerAvatar}
-                      alt={ownerUsername}
-                      width={48}
-                      height={48}
-                      className="rounded-full"
-                    />
-                  ) : (
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold">
-                      {ownerUsername.charAt(0)}
-                    </div>
-                  )}
+                  <Link href={`/profile/${dbItem.user_id}`}>
+                    {ownerAvatar ? (
+                      <Image
+                        src={ownerAvatar}
+                        alt={ownerUsername}
+                        width={48}
+                        height={48}
+                        className="rounded-full"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold">
+                        {ownerUsername.charAt(0)}
+                      </div>
+                    )}
+                  </Link>
                   <div className="flex-1">
-                    <p className="font-semibold">{ownerUsername}</p>
+                    <Link
+                      href={`/profile/${dbItem.user_id}`}
+                      className="font-semibold hover:text-orange-600 transition"
+                    >
+                      {ownerUsername}
+                    </Link>
                     <div className="flex items-center gap-3 text-xs text-gray-500 mt-0.5">
                       <span className="flex items-center gap-1">
                         <Shield className="w-3.5 h-3.5 text-green-500" />{" "}
@@ -246,10 +391,19 @@ export default function ItemPage() {
                       </span>
                     </div>
                   </div>
+                  <Link
+                    href={`/profile/${dbItem.user_id}`}
+                    className="px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium hover:bg-gray-100 transition"
+                  >
+                    View Profile
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
+
+          {/* Comments Section */}
+          <CommentSection itemId={id} />
         </div>
 
         <Footer />
@@ -294,7 +448,6 @@ export default function ItemPage() {
         </Link>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Image */}
           <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl flex items-center justify-center">
             <div className="text-center">
               <div className="flex justify-center mb-3">
@@ -304,7 +457,6 @@ export default function ItemPage() {
             </div>
           </div>
 
-          {/* Details */}
           <div>
             <span
               className={`inline-flex px-3 py-1 rounded-full text-sm font-semibold ${listing.bg} ${listing.color}`}
@@ -350,45 +502,21 @@ export default function ItemPage() {
             </div>
 
             <div className="flex flex-wrap gap-3 mt-6">
-              {mockItem.listingType === "sell" && (
-                <button className="flex-1 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition">
-                  Buy Now &mdash; ${mockItem.price}
-                </button>
-              )}
-              {mockItem.listingType === "trade" && (
-                <button className="flex-1 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">
-                  Make Trade Offer
-                </button>
-              )}
-              {mockItem.listingType === "lend" && (
-                <button className="flex-1 py-3 rounded-xl bg-purple-600 text-white font-semibold hover:bg-purple-700 transition">
-                  Request to Borrow
-                </button>
-              )}
-              {mockItem.listingType === "rent" && (
-                <button className="flex-1 py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition">
-                  Rent &mdash; {mockItem.rentPrice}
-                </button>
-              )}
-              <button className="py-3 px-4 rounded-xl border border-gray-300 text-gray-600 hover:bg-gray-50 transition">
-                Message Seller
-              </button>
+              <Link
+                href="/login"
+                className="flex-1 py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-700 transition text-center"
+              >
+                Sign in to {mockItem.listingType === "sell" ? "Buy" : mockItem.listingType === "trade" ? "Trade" : mockItem.listingType === "rent" ? "Rent" : "Interact"}
+              </Link>
             </div>
 
             <div className="flex items-center gap-5 mt-6 pt-5 border-t border-gray-200 text-gray-500 text-sm">
-              <button className="flex items-center gap-1.5 hover:text-red-500 transition">
+              <span className="flex items-center gap-1.5">
                 <Heart className="w-5 h-5" /> {mockItem.likes} likes
-              </button>
-              <button className="flex items-center gap-1.5 hover:text-blue-500 transition">
-                <MessageCircle className="w-5 h-5" /> {mockItem.comments}{" "}
-                comments
-              </button>
-              <button className="flex items-center gap-1.5 hover:text-green-500 transition ml-auto">
+              </span>
+              <span className="flex items-center gap-1.5 ml-auto">
                 <Share2 className="w-5 h-5" /> Share
-              </button>
-              <button className="flex items-center gap-1.5 hover:text-red-400 transition">
-                <Flag className="w-4 h-4" />
-              </button>
+              </span>
             </div>
 
             <div className="mt-6 p-4 rounded-xl bg-gray-50 border border-gray-200">
@@ -397,12 +525,7 @@ export default function ItemPage() {
                   {mockItem.owner.username.charAt(0)}
                 </div>
                 <div className="flex-1">
-                  <Link
-                    href="/profile"
-                    className="font-semibold hover:text-orange-600 transition"
-                  >
-                    {mockItem.owner.username}
-                  </Link>
+                  <p className="font-semibold">{mockItem.owner.username}</p>
                   <div className="flex items-center gap-3 text-xs text-gray-500 mt-0.5">
                     <span className="flex items-center gap-1">
                       <Shield className="w-3.5 h-3.5 text-green-500" />{" "}
@@ -410,17 +533,10 @@ export default function ItemPage() {
                     </span>
                     <span className="flex items-center gap-1">
                       <Star className="w-3.5 h-3.5 text-yellow-500" /> 4.9
-                      rating
                     </span>
                     <span>{mockItem.owner.itemCount} items</span>
                   </div>
                 </div>
-                <Link
-                  href="/profile"
-                  className="px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium hover:bg-gray-100 transition"
-                >
-                  View Profile
-                </Link>
               </div>
             </div>
           </div>
