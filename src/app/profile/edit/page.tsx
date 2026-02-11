@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Camera, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { createClient } from "@/lib/supabase-browser";
@@ -19,6 +20,7 @@ export default function EditProfilePage() {
   const [fullName, setFullName] = useState("");
   const [bio, setBio] = useState("");
   const [website, setWebsite] = useState("");
+  const [location, setLocation] = useState("");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
@@ -44,6 +46,7 @@ export default function EditProfilePage() {
         setFullName(p.full_name || "");
         setBio(p.bio || "");
         setWebsite(p.website || "");
+        setLocation(p.location || "");
         setAvatarUrl(p.avatar_url);
       }
       setLoading(false);
@@ -95,11 +98,13 @@ export default function EditProfilePage() {
           full_name: fullName || null,
           bio: bio || null,
           website: website || null,
+          location: location || null,
           avatar_url: newAvatarUrl,
           updated_at: new Date().toISOString(),
         });
 
       if (updateError) throw updateError;
+      toast.success("Profile updated!");
       setSuccess(true);
       setTimeout(() => router.push("/profile"), 1000);
     } catch (err: unknown) {
@@ -255,6 +260,24 @@ export default function EditProfilePage() {
               onChange={(e) => setWebsite(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               placeholder="https://"
+            />
+          </div>
+
+          {/* Location */}
+          <div>
+            <label
+              htmlFor="location"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Location
+            </label>
+            <input
+              id="location"
+              type="text"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+              placeholder="e.g. Austin, TX"
             />
           </div>
 

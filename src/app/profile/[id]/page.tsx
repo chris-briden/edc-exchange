@@ -12,73 +12,95 @@ import {
   Loader2,
   Crosshair,
   MessageSquare,
+  MapPin,
 } from "lucide-react";
+import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import DbItemCard from "@/components/DbItemCard";
+import CommunityPostCard from "@/components/CommunityPostCard";
 import CategoryIcon from "@/components/CategoryIcon";
 import { createClient } from "@/lib/supabase-browser";
-import type { Profile, Item, EdcLoadout } from "@/lib/types";
+import type { Profile, Item, EdcLoadout, Post } from "@/lib/types";
+
+const tabs = ["Listings", "Collection", "Community"] as const;
+type Tab = (typeof tabs)[number];
 
 export default function PublicProfilePage() {
   const params = useParams();
   const profileId = params.id as string;
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [items, setItems] = useState<Item[]>([]);
+  const [listingItems, setListingItems] = useState<Item[]>([]);
+  const [showcaseItems, setShowcaseItems] = useState<Item[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [loadoutItems, setLoadoutItems] = useState<Item[]>([]);
   const [loadout, setLoadout] = useState<EdcLoadout | null>(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [followerCount, setFollowerCount] = useState(0);
-  const [itemCount, setItemCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
+  const [activeTab, setActiveTab] = useState<Tab>("Listings");
 
   useEffect(() => {
     const supabase = createClient();
 
     const load = async () => {
-      // Get current user
       const {
         data: { user },
       } = await supabase.auth.getUser();
       setCurrentUserId(user?.id || null);
 
-      // Redirect to own profile if viewing self
       if (user?.id === profileId) {
         window.location.href = "/profile";
         return;
       }
 
-      // Fetch target profile
-      const { data: profileData } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", profileId)
-        .single();
+      const [profileRes, listingsRes, showcaseRes, postsRes, followerRes, followingRes, loadoutRes] =
+        await Promise.all([
+          supabase.from("profiles").select("*").eq("id", profileId).single(),
+          supabase
+            .from("items")
+            .select("*, profiles(*), categories(*), item_images(*), likes(count), comments(count)")
+            .eq("user_id", profileId)
+            .eq("status", "active")
+            .neq("listing_type", "showcase")
+            .order("created_at", { ascending: false }),
+          supabase
+            .from("items")
+            .select("*, profiles(*), categories(*), item_images(*), likes(count), comments(count)")
+            .eq("user_id", profileId)
+            .eq("status", "active")
+            .eq("listing_type", "showcase")
+            .order("created_at", { ascending: false }),
+          supabase
+            .from("posts")
+            .select("*, profiles(*), post_images(*), likes(count), comments(count)")
+            .eq("user_id", profileId)
+            .order("created_at", { ascending: false }),
+          supabase
+            .from("followers")
+            .select("*", { count: "exact", head: true })
+            .eq("following_id", profileId),
+          supabase
+            .from("followers")
+            .select("*", { count: "exact", head: true })
+            .eq("follower_id", profileId),
+          supabase
+            .from("edc_loadouts")
+            .select("*")
+            .eq("user_id", profileId)
+            .eq("is_primary", true)
+            .single(),
+        ]);
 
-      if (profileData) {
-        setProfile(profileData as Profile);
-      }
-
-      // Fetch items
-      const { data: itemsData } = await supabase
-        .from("items")
-        .select("*, profiles(*), categories(*), item_images(*)")
-        .eq("user_id", profileId)
-        .eq("status", "active")
-        .order("created_at", { ascending: false });
-      if (itemsData) {
-        setItems(itemsData as Item[]);
-        setItemCount(itemsData.length);
-      }
-
-      // Fetch follower count
-      const { count } = await supabase
-        .from("followers")
-        .select("*", { count: "exact", head: true })
-        .eq("following_id", profileId);
-      setFollowerCount(count || 0);
+      if (profileRes.data) setProfile(profileRes.data as Profile);
+      if (listingsRes.data) setListingItems(listingsRes.data as Item[]);
+      if (showcaseRes.data) setShowcaseItems(showcaseRes.data as Item[]);
+      if (postsRes.data) setPosts(postsRes.data as Post[]);
+      setFollowerCount(followerRes.count || 0);
+      setFollowingCount(followingRes.count || 0);
 
       // Check if current user follows this profile
       if (user) {
@@ -91,20 +113,12 @@ export default function PublicProfilePage() {
         setIsFollowing(!!followData);
       }
 
-      // Fetch primary EDC loadout
-      const { data: loadoutData } = await supabase
-        .from("edc_loadouts")
-        .select("*")
-        .eq("user_id", profileId)
-        .eq("is_primary", true)
-        .single();
-
-      if (loadoutData) {
-        setLoadout(loadoutData as EdcLoadout);
+      if (loadoutRes.data) {
+        setLoadout(loadoutRes.data as EdcLoadout);
         const { data: loadoutItemsData } = await supabase
           .from("edc_loadout_items")
           .select("*, items(*, categories(*), item_images(*))")
-          .eq("loadout_id", loadoutData.id)
+          .eq("loadout_id", loadoutRes.data.id)
           .order("position");
         if (loadoutItemsData) {
           setLoadoutItems(
@@ -147,6 +161,22 @@ export default function PublicProfilePage() {
     setFollowLoading(false);
   };
 
+  const handleShare = async () => {
+    const url = profile?.username
+      ? `${window.location.origin}/u/${profile.username}`
+      : window.location.href;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: `${profile?.username}'s Profile`, url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        toast.success("Profile link copied!");
+      }
+    } catch {
+      // cancelled
+    }
+  };
+
   if (loading) {
     return (
       <>
@@ -179,6 +209,8 @@ export default function PublicProfilePage() {
     );
   }
 
+  const allItemCount = listingItems.length + showcaseItems.length;
+
   return (
     <>
       <Navbar />
@@ -210,7 +242,7 @@ export default function PublicProfilePage() {
               {profile.bio && (
                 <p className="text-gray-300 mt-2 max-w-md">{profile.bio}</p>
               )}
-              <div className="flex items-center gap-5 mt-4 text-sm text-gray-400">
+              <div className="flex items-center gap-5 mt-4 text-sm text-gray-400 flex-wrap">
                 <span className="flex items-center gap-1">
                   <Calendar className="w-4 h-4" />
                   Joined{" "}
@@ -219,10 +251,20 @@ export default function PublicProfilePage() {
                     month: "short",
                   })}
                 </span>
-                <span>{itemCount} items</span>
+                {profile.location && (
+                  <span className="flex items-center gap-1">
+                    <MapPin className="w-4 h-4" />
+                    {profile.location}
+                  </span>
+                )}
+                <span>{allItemCount} items</span>
                 <span>
                   <strong className="text-white">{followerCount}</strong>{" "}
                   followers
+                </span>
+                <span>
+                  <strong className="text-white">{followingCount}</strong>{" "}
+                  following
                 </span>
               </div>
             </div>
@@ -252,7 +294,10 @@ export default function PublicProfilePage() {
               >
                 <MessageSquare className="w-4 h-4" /> Message
               </Link>
-              <button className="p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+              <button
+                onClick={handleShare}
+                className="p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition"
+              >
                 <Share2 className="w-4 h-4" />
               </button>
             </div>
@@ -309,20 +354,89 @@ export default function PublicProfilePage() {
         </div>
       )}
 
-      {/* Items */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-8">
-        <h3 className="font-bold text-lg mb-4">
-          Collection ({items.length} items)
-        </h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {items.map((item) => (
-            <DbItemCard key={item.id} item={item} />
+      {/* Tabs */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="flex gap-1 border-b border-gray-200 mb-6">
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-4 py-3 text-sm font-medium border-b-2 transition ${
+                activeTab === tab
+                  ? "border-orange-600 text-orange-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              {tab}
+              <span className="ml-1.5 text-xs text-gray-400">
+                {tab === "Listings"
+                  ? listingItems.length
+                  : tab === "Collection"
+                    ? showcaseItems.length
+                    : posts.length}
+              </span>
+            </button>
           ))}
         </div>
-        {items.length === 0 && (
-          <div className="text-center py-12 text-gray-400">
-            <p className="text-lg font-medium">No items yet</p>
-          </div>
+      </div>
+
+      {/* Tab content */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-8">
+        {activeTab === "Listings" && (
+          <>
+            <h3 className="font-bold text-lg mb-4">
+              Active Listings ({listingItems.length})
+            </h3>
+            {listingItems.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {listingItems.map((item) => (
+                  <DbItemCard key={item.id} item={item} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12 text-gray-400">
+                <p className="text-lg font-medium">No active listings</p>
+              </div>
+            )}
+          </>
+        )}
+
+        {activeTab === "Collection" && (
+          <>
+            <h3 className="font-bold text-lg mb-4">
+              Showcase ({showcaseItems.length})
+            </h3>
+            {showcaseItems.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {showcaseItems.map((item) => (
+                  <DbItemCard key={item.id} item={item} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12 text-gray-400">
+                <p className="text-lg font-medium">No showcase items</p>
+              </div>
+            )}
+          </>
+        )}
+
+        {activeTab === "Community" && (
+          <>
+            <h3 className="font-bold text-lg mb-4">
+              Posts ({posts.length})
+            </h3>
+            {posts.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {posts.map((post) => (
+                  <CommunityPostCard key={post.id} post={post} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12 text-gray-400">
+                <p className="text-lg font-medium">No posts yet</p>
+              </div>
+            )}
+          </>
         )}
       </div>
 
