@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { Heart, MessageCircle } from "lucide-react";
 import CategoryIcon from "@/components/CategoryIcon";
 import type { Item } from "@/lib/types";
 
@@ -27,6 +28,8 @@ export default function DbItemCard({ item }: { item: Item }) {
   const categorySlug = item.categories?.slug || "";
   const ownerUsername = item.profiles?.username || "Unknown";
   const ownerAvatar = item.profiles?.avatar_url;
+  const likesCount = item.likes?.[0]?.count ?? 0;
+  const commentsCount = item.comments?.[0]?.count ?? 0;
 
   return (
     <Link
@@ -99,6 +102,20 @@ export default function DbItemCard({ item }: { item: Item }) {
               <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-blue-500" />
             )}
             <span className="text-xs text-gray-500">{ownerUsername}</span>
+          </div>
+          <div className="flex items-center gap-3 text-xs text-gray-400">
+            {likesCount > 0 && (
+              <span className="flex items-center gap-1">
+                <Heart className="w-3.5 h-3.5" />
+                {likesCount}
+              </span>
+            )}
+            {commentsCount > 0 && (
+              <span className="flex items-center gap-1">
+                <MessageCircle className="w-3.5 h-3.5" />
+                {commentsCount}
+              </span>
+            )}
           </div>
         </div>
       </div>
