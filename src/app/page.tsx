@@ -164,9 +164,12 @@ export default function Home() {
             enthusiasts worldwide.
           </p>
           <div className="flex flex-wrap justify-center gap-3 mt-6">
-            <button className="px-6 py-3 rounded-full bg-white text-orange-600 font-semibold hover:bg-blue-50 transition">
+            <Link
+              href="/signup"
+              className="px-6 py-3 rounded-full bg-white text-orange-600 font-semibold hover:bg-blue-50 transition"
+            >
               Create Account
-            </button>
+            </Link>
             <Link
               href="/community"
               className="px-6 py-3 rounded-full bg-white/20 text-white font-semibold hover:bg-white/30 transition backdrop-blur"
