@@ -11,6 +11,7 @@ create table if not exists public.profiles (
   avatar_url text,
   bio text,
   website text,
+  location text,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
@@ -39,7 +40,7 @@ begin
   );
   return new;
 end;
-$$ language plpgsql security definer;
+$$ language plpgsql security definer set search_path = '';
 
 create or replace trigger on_auth_user_created
   after insert on auth.users
@@ -90,6 +91,15 @@ create table if not exists public.items (
   rent_price text,
   tags text[] default '{}',
   status text not null default 'active' check (status in ('active','sold','traded','removed')),
+  shipping_cost numeric,
+  ships_from_country text default 'US',
+  accepts_returns boolean default false,
+  box_and_docs text default 'none',
+  views_count int default 0,
+  favorites_count int default 0,
+  last_renewed_at timestamptz default now(),
+  rental_deposit numeric,
+  rental_period text,
   created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
@@ -220,6 +230,7 @@ create table if not exists public.comments (
   item_id uuid references public.items(id) on delete cascade,
   post_id uuid references public.posts(id) on delete cascade,
   content text not null,
+  parent_id uuid references public.comments(id) on delete cascade,
   created_at timestamptz default now(),
   constraint comments_target check (
     (item_id is not null and post_id is null) or
@@ -341,6 +352,33 @@ create policy "Authenticated users can send messages"
 
 create policy "Users can update own received messages (mark read)"
   on public.messages for update using (auth.uid() = receiver_id);
+
+-- ============================================================
+-- RPC FUNCTIONS
+-- ============================================================
+
+-- Safely increment item views
+create or replace function public.increment_views(p_item_id uuid)
+returns void as $$
+begin
+  update public.items
+  set views_count = coalesce(views_count, 0) + 1
+  where id = p_item_id;
+end;
+$$ language plpgsql security definer set search_path = '';
+
+-- ============================================================
+-- PERFORMANCE INDEXES
+-- ============================================================
+create index if not exists idx_items_category_id on public.items(category_id);
+create index if not exists idx_items_user_id on public.items(user_id);
+create index if not exists idx_items_status on public.items(status);
+create index if not exists idx_items_created_at on public.items(created_at desc);
+create index if not exists idx_items_listing_type on public.items(listing_type);
+create index if not exists idx_profiles_username on public.profiles(username);
+create index if not exists idx_comments_parent_id on public.comments(parent_id);
+create index if not exists idx_messages_sender_id on public.messages(sender_id);
+create index if not exists idx_messages_receiver_id on public.messages(receiver_id);
 
 -- ============================================================
 -- STORAGE BUCKETS (created via Supabase dashboard)

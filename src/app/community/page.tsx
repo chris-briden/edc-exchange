@@ -3,7 +3,14 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { PenSquare, Filter, Heart, MessageCircle, Share2 } from "lucide-react";
+import {
+  PenSquare,
+  Filter,
+  Heart,
+  MessageCircle,
+  Share2,
+  ArrowUpDown,
+} from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CommunityPostCard from "@/components/CommunityPostCard";
@@ -19,6 +26,12 @@ const filterMap: Record<string, string | null> = {
   Discussions: "discussion",
   Photos: "photo",
 };
+
+const sortOptions = [
+  { label: "Newest", value: "newest" },
+  { label: "Most Popular", value: "popular" },
+  { label: "Most Discussed", value: "discussed" },
+];
 
 const typeStyles: Record<string, { badge: string; bg: string }> = {
   collection: { badge: "Collection", bg: "bg-purple-100 text-purple-700" },
@@ -111,20 +124,26 @@ function DbPostCard({
         </span>
       </div>
 
-      <h3 className="font-bold text-lg leading-snug mb-2">{post.title}</h3>
-      <p className="text-gray-600 text-sm leading-relaxed">{post.content}</p>
+      <Link href={`/community/${post.id}`} className="block">
+        <h3 className="font-bold text-lg leading-snug mb-2 hover:text-orange-600 transition">
+          {post.title}
+        </h3>
+        <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
+          {post.content}
+        </p>
 
-      {/* Post image */}
-      {firstImage && (
-        <div className="mt-3 relative aspect-video rounded-xl overflow-hidden">
-          <Image
-            src={firstImage}
-            alt={post.title}
-            fill
-            className="object-cover"
-          />
-        </div>
-      )}
+        {/* Post image */}
+        {firstImage && (
+          <div className="mt-3 relative aspect-video rounded-xl overflow-hidden">
+            <Image
+              src={firstImage}
+              alt={post.title}
+              fill
+              className="object-cover"
+            />
+          </div>
+        )}
+      </Link>
 
       {/* Tags */}
       {post.tags && post.tags.length > 0 && (
@@ -148,10 +167,13 @@ function DbPostCard({
           <Heart className={`w-4 h-4 ${liked ? "fill-current" : ""}`} />
           <span>{likeCount}</span>
         </button>
-        <button className="flex items-center gap-1.5 hover:text-blue-500 transition">
+        <Link
+          href={`/community/${post.id}`}
+          className="flex items-center gap-1.5 hover:text-blue-500 transition"
+        >
           <MessageCircle className="w-4 h-4" />
           <span>{post.comments?.[0]?.count || 0}</span>
-        </button>
+        </Link>
         <button className="flex items-center gap-1.5 hover:text-green-500 transition ml-auto">
           <Share2 className="w-4 h-4" />
           <span>Share</span>
@@ -163,30 +185,53 @@ function DbPostCard({
 
 export default function CommunityPage() {
   const [active, setActive] = useState("All");
+  const [sortBy, setSortBy] = useState("newest");
   const [dbPosts, setDbPosts] = useState<Post[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
-  useEffect(() => {
+  const fetchPosts = useCallback(async () => {
     const supabase = createClient();
 
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setCurrentUserId(user?.id || null);
-    });
-
-    supabase
+    const { data } = await supabase
       .from("posts")
       .select(
         "*, profiles(*), post_images(*), likes(count), comments(count)"
       )
-      .order("created_at", { ascending: false })
-      .then(({ data }) => {
-        if (data && data.length > 0) {
-          setDbPosts(data as Post[]);
-        }
-        setLoaded(true);
-      });
+      .order("created_at", { ascending: false });
+
+    if (data && data.length > 0) {
+      let posts = data as Post[];
+
+      // Client-side sorting for popular/discussed since Supabase
+      // can't order by aggregate count joins easily
+      if (sortBy === "popular") {
+        posts.sort(
+          (a, b) =>
+            (b.likes?.[0]?.count || 0) - (a.likes?.[0]?.count || 0)
+        );
+      } else if (sortBy === "discussed") {
+        posts.sort(
+          (a, b) =>
+            (b.comments?.[0]?.count || 0) - (a.comments?.[0]?.count || 0)
+        );
+      }
+
+      setDbPosts(posts);
+    }
+    setLoaded(true);
+  }, [sortBy]);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setCurrentUserId(user?.id || null);
+    });
   }, []);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
 
   const hasDbData = dbPosts.length > 0;
 
@@ -222,29 +267,50 @@ export default function CommunityPage() {
           </Link>
         </div>
 
-        {/* Filters */}
-        <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-2">
-          <Filter className="w-4 h-4 text-gray-400 shrink-0" />
-          {filters.map((f) => (
-            <button
-              key={f}
-              onClick={() => setActive(f)}
-              className={`px-3.5 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition ${
-                active === f
-                  ? "bg-orange-600 text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
+        {/* Filters + Sort */}
+        <div className="flex flex-wrap items-center gap-3 mb-6">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1">
+            <Filter className="w-4 h-4 text-gray-400 shrink-0" />
+            {filters.map((f) => (
+              <button
+                key={f}
+                onClick={() => setActive(f)}
+                className={`px-3.5 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition ${
+                  active === f
+                    ? "bg-orange-600 text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+
+          <div className="ml-auto flex items-center gap-2">
+            <ArrowUpDown className="w-4 h-4 text-gray-400" />
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
-              {f}
-            </button>
-          ))}
+              {sortOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {/* Posts feed */}
         <div className="space-y-4">
           {hasDbData
             ? filteredDb.map((post) => (
-                <DbPostCard key={post.id} post={post} currentUserId={currentUserId} />
+                <DbPostCard
+                  key={post.id}
+                  post={post}
+                  currentUserId={currentUserId}
+                />
               ))
             : filteredMock.map((post) => (
                 <CommunityPostCard key={post.id} post={post} />

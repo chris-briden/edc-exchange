@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -8,15 +11,57 @@ import {
   Flashlight,
   PenTool,
   Wrench,
+  Loader2,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CategoryCard from "@/components/CategoryCard";
 import ItemCard from "@/components/ItemCard";
+import DbItemCard from "@/components/DbItemCard";
 import CommunityPostCard from "@/components/CommunityPostCard";
-import { categories, edcItems, communityPosts } from "@/lib/data";
+import { categories as mockCategories, edcItems, communityPosts } from "@/lib/data";
+import { createClient } from "@/lib/supabase-browser";
+import type { Item, Post, Category as DbCategory } from "@/lib/types";
+
+type DbCategoryWithCount = DbCategory & { items: { count: number }[] };
 
 export default function Home() {
+  const [dbCategories, setDbCategories] = useState<DbCategoryWithCount[]>([]);
+  const [dbItems, setDbItems] = useState<Item[]>([]);
+  const [dbPosts, setDbPosts] = useState<Post[]>([]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const supabase = createClient();
+
+    Promise.all([
+      supabase
+        .from("categories")
+        .select("*, items(count)")
+        .order("name"),
+      supabase
+        .from("items")
+        .select("*, profiles(*), categories(*), item_images(*)")
+        .eq("status", "active")
+        .order("created_at", { ascending: false })
+        .limit(4),
+      supabase
+        .from("posts")
+        .select("*, profiles(*), post_images(*), likes(count), comments(count)")
+        .order("created_at", { ascending: false })
+        .limit(4),
+    ]).then(([catRes, itemRes, postRes]) => {
+      if (catRes.data) setDbCategories(catRes.data as DbCategoryWithCount[]);
+      if (itemRes.data) setDbItems(itemRes.data as Item[]);
+      if (postRes.data) setDbPosts(postRes.data as Post[]);
+      setLoaded(true);
+    });
+  }, []);
+
+  const hasDbCategories = dbCategories.length > 0;
+  const hasDbItems = dbItems.length > 0;
+  const hasDbPosts = dbPosts.length > 0;
+
   return (
     <>
       <Navbar />
@@ -80,7 +125,7 @@ export default function Home() {
             <div className="flex items-center justify-center gap-3">
               <TrendingUp className="w-8 h-8 text-blue-600" />
               <div className="text-left">
-                <p className="font-semibold text-sm">10,000+ Listings</p>
+                <p className="font-semibold text-sm">Growing Marketplace</p>
                 <p className="text-xs text-gray-500">
                   Knives, lights, pens & more
                 </p>
@@ -89,9 +134,9 @@ export default function Home() {
             <div className="flex items-center justify-center gap-3">
               <Users className="w-8 h-8 text-purple-600" />
               <div className="text-left">
-                <p className="font-semibold text-sm">5,000+ Members</p>
+                <p className="font-semibold text-sm">EDC Community</p>
                 <p className="text-xs text-gray-500">
-                  Growing EDC community
+                  Connect with enthusiasts
                 </p>
               </div>
             </div>
@@ -111,9 +156,23 @@ export default function Home() {
           </Link>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {categories.map((cat) => (
-            <CategoryCard key={cat.id} category={cat} />
-          ))}
+          {hasDbCategories
+            ? dbCategories.map((cat) => (
+                <CategoryCard
+                  key={cat.id}
+                  slug={cat.slug}
+                  name={cat.name}
+                  count={cat.items?.[0]?.count ?? 0}
+                />
+              ))
+            : mockCategories.map((cat) => (
+                <CategoryCard
+                  key={cat.id}
+                  slug={cat.id}
+                  name={cat.name}
+                  count={cat.count}
+                />
+              ))}
         </div>
       </section>
 
@@ -128,11 +187,23 @@ export default function Home() {
             See all <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {edcItems.slice(0, 4).map((item) => (
-            <ItemCard key={item.id} item={item} />
-          ))}
-        </div>
+        {!loaded ? (
+          <div className="flex justify-center py-12">
+            <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
+          </div>
+        ) : hasDbItems ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {dbItems.map((item) => (
+              <DbItemCard key={item.id} item={item} />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {edcItems.slice(0, 4).map((item) => (
+              <ItemCard key={item.id} item={item} />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Community Section */}
@@ -146,11 +217,67 @@ export default function Home() {
             View all <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {communityPosts.slice(0, 4).map((post) => (
-            <CommunityPostCard key={post.id} post={post} />
-          ))}
-        </div>
+        {!loaded ? (
+          <div className="flex justify-center py-12">
+            <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
+          </div>
+        ) : hasDbPosts ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {dbPosts.map((post) => {
+              const postType = typeStyles[post.type] || typeStyles.discussion;
+              return (
+                <Link
+                  key={post.id}
+                  href={`/community`}
+                  className="bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-md transition block"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
+                      {post.profiles?.username?.charAt(0)?.toUpperCase() || "U"}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-sm">
+                        {post.profiles?.username || "User"}
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        {new Date(post.created_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <span
+                      className={`px-2.5 py-1 rounded-full text-xs font-semibold ${postType.bg}`}
+                    >
+                      {postType.badge}
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-lg leading-snug mb-2">
+                    {post.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
+                    {post.content}
+                  </p>
+                  {post.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mt-3">
+                      {post.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-xs text-orange-600 font-medium"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {communityPosts.slice(0, 4).map((post) => (
+              <CommunityPostCard key={post.id} post={post} />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* CTA */}
@@ -184,3 +311,10 @@ export default function Home() {
     </>
   );
 }
+
+const typeStyles: Record<string, { badge: string; bg: string }> = {
+  collection: { badge: "Collection", bg: "bg-purple-100 text-purple-700" },
+  review: { badge: "Review", bg: "bg-blue-100 text-blue-700" },
+  discussion: { badge: "Discussion", bg: "bg-green-100 text-green-700" },
+  photo: { badge: "Photo", bg: "bg-amber-100 text-amber-700" },
+};
