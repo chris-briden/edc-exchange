@@ -10,20 +10,25 @@ import {
   Share2,
   Plus,
   Loader2,
+  PenLine,
+  Crosshair,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ItemCard from "@/components/ItemCard";
 import DbItemCard from "@/components/DbItemCard";
+import CategoryIcon from "@/components/CategoryIcon";
 import { users, edcItems } from "@/lib/data";
 import { createClient } from "@/lib/supabase-browser";
-import type { Profile, Item } from "@/lib/types";
+import type { Profile, Item, EdcLoadout } from "@/lib/types";
 
 export default function ProfilePage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [items, setItems] = useState<Item[]>([]);
+  const [loadout, setLoadout] = useState<EdcLoadout | null>(null);
+  const [loadoutItems, setLoadoutItems] = useState<Item[]>([]);
   const [isOwnProfile, setIsOwnProfile] = useState(false);
 
   useEffect(() => {
@@ -47,6 +52,31 @@ export default function ProfilePage() {
           .order("created_at", { ascending: false });
         if (itemsData) {
           setItems(itemsData as Item[]);
+        }
+
+        // Fetch primary EDC loadout
+        const { data: loadoutData } = await supabase
+          .from("edc_loadouts")
+          .select("*")
+          .eq("user_id", user.id)
+          .eq("is_primary", true)
+          .single();
+
+        if (loadoutData) {
+          setLoadout(loadoutData as EdcLoadout);
+          // Fetch loadout items
+          const { data: loadoutItemsData } = await supabase
+            .from("edc_loadout_items")
+            .select("*, items(*, categories(*), item_images(*))")
+            .eq("loadout_id", loadoutData.id)
+            .order("position");
+          if (loadoutItemsData) {
+            setLoadoutItems(
+              loadoutItemsData
+                .map((li: Record<string, unknown>) => li.items as Item)
+                .filter(Boolean)
+            );
+          }
         }
       }
       setLoading(false);
@@ -84,7 +114,7 @@ export default function ProfilePage() {
                   className="rounded-2xl shadow-lg"
                 />
               ) : (
-                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-3xl font-bold shadow-lg">
+                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-3xl font-bold shadow-lg">
                   {profile.username?.charAt(0)?.toUpperCase() || "U"}
                 </div>
               )}
@@ -127,8 +157,89 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Collection */}
+        {/* My EDC Section */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+          <div className="bg-gradient-to-r from-blue-50 to-orange-50 rounded-2xl p-6 border border-blue-100">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <Crosshair className="w-5 h-5 text-orange-600" />
+                <h3 className="font-bold text-lg">
+                  {loadout?.name || "My EDC"}
+                </h3>
+              </div>
+              {isOwnProfile && (
+                <Link
+                  href="/profile/my-edc"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
+                >
+                  <PenLine className="w-3.5 h-3.5" />
+                  {loadout ? "Edit" : "Set Up"}
+                </Link>
+              )}
+            </div>
+
+            {loadoutItems.length > 0 ? (
+              <>
+                {loadout?.description && (
+                  <p className="text-gray-600 text-sm mb-4">
+                    {loadout.description}
+                  </p>
+                )}
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+                  {loadoutItems.map((item) => {
+                    const firstImage = item.item_images?.[0]?.url;
+                    const categorySlug = item.categories?.slug || "";
+                    return (
+                      <Link
+                        key={item.id}
+                        href={`/item/${item.id}`}
+                        className="group"
+                      >
+                        <div className="aspect-square rounded-xl bg-white border border-gray-200 overflow-hidden shadow-sm group-hover:shadow-md group-hover:-translate-y-0.5 transition-all">
+                          {firstImage ? (
+                            <Image
+                              src={firstImage}
+                              alt={item.name}
+                              width={120}
+                              height={120}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <CategoryIcon slug={categorySlug} size="md" />
+                            </div>
+                          )}
+                        </div>
+                        <p className="text-xs text-gray-600 font-medium mt-1.5 text-center line-clamp-1">
+                          {item.name}
+                        </p>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </>
+            ) : (
+              <div className="text-center py-6 text-gray-400">
+                <Crosshair className="w-10 h-10 mx-auto mb-2 text-gray-300" />
+                <p className="text-sm font-medium">No EDC set up yet</p>
+                <p className="text-xs mt-1">
+                  Showcase the items you carry every day
+                </p>
+                {isOwnProfile && (
+                  <Link
+                    href="/profile/my-edc"
+                    className="inline-flex items-center gap-1.5 mt-3 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition"
+                  >
+                    <Plus className="w-4 h-4" /> Set Up My EDC
+                  </Link>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Collection */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-8">
           <div className="flex items-center justify-between mb-6">
             <h3 className="font-bold text-lg">
               My Collection ({items.length} items)
@@ -178,7 +289,7 @@ export default function ProfilePage() {
       <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
           <div className="flex flex-col sm:flex-row items-start gap-6">
-            <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-3xl font-bold shadow-lg">
+            <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-3xl font-bold shadow-lg">
               {user.username.charAt(0)}
             </div>
             <div className="flex-1">
@@ -227,8 +338,40 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Collection */}
+      {/* Mock My EDC Section */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+        <div className="bg-gradient-to-r from-blue-50 to-orange-50 rounded-2xl p-6 border border-blue-100">
+          <div className="flex items-center gap-2 mb-1">
+            <Crosshair className="w-5 h-5 text-orange-600" />
+            <h3 className="font-bold text-lg">
+              Today&apos;s Carry &mdash; Titanium Tuesday
+            </h3>
+          </div>
+          <p className="text-gray-600 text-sm mb-4">
+            CRK Sebenza 31, Emisar D4V2 Ti, Tactile Turn Short, Ridge Wallet Ti
+          </p>
+          <div className="grid grid-cols-4 sm:grid-cols-4 gap-3">
+            {[
+              { name: "CRK Sebenza 31", cat: "knives" },
+              { name: "Emisar D4V2 Ti", cat: "flashlights" },
+              { name: "Tactile Turn Short", cat: "pens" },
+              { name: "Ridge Wallet Ti", cat: "wallets" },
+            ].map((item) => (
+              <div key={item.name} className="group">
+                <div className="aspect-square rounded-xl bg-white border border-gray-200 flex items-center justify-center shadow-sm">
+                  <CategoryIcon slug={item.cat} size="lg" />
+                </div>
+                <p className="text-xs text-gray-600 font-medium mt-1.5 text-center line-clamp-1">
+                  {item.name}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Collection tabs + items */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-8">
         <div className="flex gap-1 border-b border-gray-200 mb-6">
           {["Collection", "For Sale / Trade", "Reviews", "Activity"].map(
             (tab, i) => (
@@ -244,30 +387,6 @@ export default function ProfilePage() {
               </button>
             )
           )}
-        </div>
-
-        <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-6 mb-8 border border-orange-100">
-          <h3 className="font-bold text-lg mb-1">
-            Today&apos;s Carry &mdash; Titanium Tuesday
-          </h3>
-          <p className="text-gray-600 text-sm mb-4">
-            CRK Sebenza 31, Emisar D4V2 Ti, Tactile Turn Short, Ridge Wallet Ti
-          </p>
-          <div className="flex gap-3 flex-wrap">
-            {[
-              "CRK Sebenza 31",
-              "Emisar D4V2 Ti",
-              "Tactile Turn Short",
-              "Ridge Wallet Ti",
-            ].map((item) => (
-              <div
-                key={item}
-                className="w-20 h-20 rounded-xl bg-white border border-orange-200 flex items-center justify-center text-xs text-gray-500 font-medium text-center p-2"
-              >
-                {item}
-              </div>
-            ))}
-          </div>
         </div>
 
         <h3 className="font-bold text-lg mb-4">

@@ -98,3 +98,25 @@ export type Follower = {
   following_id: string;
   created_at: string;
 };
+
+export type EdcLoadout = {
+  id: string;
+  user_id: string;
+  name: string;
+  description: string | null;
+  is_primary: boolean;
+  created_at: string;
+  updated_at: string;
+  // Joined fields
+  edc_loadout_items?: EdcLoadoutItem[];
+};
+
+export type EdcLoadoutItem = {
+  id: string;
+  loadout_id: string;
+  item_id: string;
+  position: number;
+  created_at: string;
+  // Joined fields
+  items?: Item;
+};

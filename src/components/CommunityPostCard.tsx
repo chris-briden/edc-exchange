@@ -16,7 +16,7 @@ export default function CommunityPostCard({ post }: { post: CommunityPost }) {
     <article className="bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-md transition">
       {/* Author row */}
       <div className="flex items-center gap-3 mb-3">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-white font-bold text-sm">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
           {post.author.username.charAt(0)}
         </div>
         <div className="flex-1 min-w-0">
