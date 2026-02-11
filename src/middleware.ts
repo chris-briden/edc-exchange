@@ -1,7 +1,7 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const protectedPaths = ["/profile/edit", "/profile/my-edc", "/items/new", "/posts/new", "/messages"];
+const protectedPaths = ["/profile/edit", "/profile/my-edc", "/items/new", "/items/", "/posts/new", "/messages"];
 
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -46,5 +46,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/profile/edit", "/profile/my-edc", "/items/new", "/posts/new", "/messages"],
+  matcher: ["/profile/edit", "/profile/my-edc", "/items/new", "/items/:id/edit", "/posts/new", "/messages"],
 };

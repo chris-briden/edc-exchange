@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ImagePlus, X, Loader2 } from "lucide-react";
@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { createClient } from "@/lib/supabase-browser";
-import type { Category } from "@/lib/types";
+import type { Category, Item } from "@/lib/types";
 
 const conditions = [
   "Brand New In Box",
@@ -38,10 +38,16 @@ const rentalPeriodOptions = [
   { value: "monthly", label: "Per Month" },
 ];
 
-export default function NewItemPage() {
+type ExistingImage = { id: string; url: string; position: number };
+
+export default function EditItemPage() {
+  const params = useParams();
   const router = useRouter();
+  const itemId = params.id as string;
+
   const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Form state
@@ -61,40 +67,107 @@ export default function NewItemPage() {
   const [acceptsReturns, setAcceptsReturns] = useState(false);
   const [boxAndDocs, setBoxAndDocs] = useState("none");
   const [tags, setTags] = useState("");
-  const [images, setImages] = useState<File[]>([]);
-  const [previews, setPreviews] = useState<string[]>([]);
+
+  // Images
+  const [existingImages, setExistingImages] = useState<ExistingImage[]>([]);
+  const [removedImageIds, setRemovedImageIds] = useState<string[]>([]);
+  const [newImages, setNewImages] = useState<File[]>([]);
+  const [newPreviews, setNewPreviews] = useState<string[]>([]);
 
   useEffect(() => {
     const supabase = createClient();
-    supabase
-      .from("categories")
-      .select("*")
-      .order("name")
-      .then(({ data }) => {
-        if (data) setCategories(data as Category[]);
-      });
-  }, []);
 
-  const handleImageAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const load = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        router.push("/login");
+        return;
+      }
+
+      const [catRes, itemRes] = await Promise.all([
+        supabase.from("categories").select("*").order("name"),
+        supabase
+          .from("items")
+          .select("*, item_images(*)")
+          .eq("id", itemId)
+          .single(),
+      ]);
+
+      if (catRes.data) setCategories(catRes.data as Category[]);
+
+      if (!itemRes.data || itemRes.error) {
+        toast.error("Item not found");
+        router.push("/categories");
+        return;
+      }
+
+      const item = itemRes.data as Item;
+
+      // Verify ownership
+      if (item.user_id !== user.id) {
+        toast.error("You can only edit your own listings");
+        router.push(`/item/${itemId}`);
+        return;
+      }
+
+      // Populate form
+      setName(item.name);
+      setBrand(item.brand || "");
+      setCategoryId(item.category_id);
+      setDescription(item.description || "");
+      setCondition(item.condition || "Good");
+      setListingType(item.listing_type);
+      setPrice(item.price ? String(item.price) : "");
+      setRentPrice(item.rent_price || "");
+      setRentalDeposit(item.rental_deposit ? String(item.rental_deposit) : "");
+      setRentalPeriod(item.rental_period || "daily");
+      setShippingCost(item.shipping_cost ? String(item.shipping_cost) : "");
+      setFreeShipping(!item.shipping_cost && (item.listing_type === "sell" || item.listing_type === "rent"));
+      setShipsFrom(item.ships_from_country || "US");
+      setAcceptsReturns(item.accepts_returns || false);
+      setBoxAndDocs(item.box_and_docs || "none");
+      setTags(item.tags ? item.tags.join(", ") : "");
+
+      const imgs = (item.item_images || []) as ExistingImage[];
+      imgs.sort((a, b) => a.position - b.position);
+      setExistingImages(imgs);
+
+      setLoading(false);
+    };
+
+    load();
+  }, [itemId, router]);
+
+  const totalImages =
+    existingImages.filter((img) => !removedImageIds.includes(img.id)).length +
+    newImages.length;
+
+  const handleNewImageAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    const remaining = 10 - images.length;
-    const newFiles = files.slice(0, remaining);
-    setImages((prev) => [...prev, ...newFiles]);
-    setPreviews((prev) => [
+    const remaining = 10 - totalImages;
+    const added = files.slice(0, remaining);
+    setNewImages((prev) => [...prev, ...added]);
+    setNewPreviews((prev) => [
       ...prev,
-      ...newFiles.map((f) => URL.createObjectURL(f)),
+      ...added.map((f) => URL.createObjectURL(f)),
     ]);
   };
 
-  const removeImage = (index: number) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
-    setPreviews((prev) => prev.filter((_, i) => i !== index));
+  const removeExistingImage = (id: string) => {
+    setRemovedImageIds((prev) => [...prev, id]);
+  };
+
+  const removeNewImage = (index: number) => {
+    setNewImages((prev) => prev.filter((_, i) => i !== index));
+    setNewPreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setLoading(true);
+    setSaving(true);
 
     try {
       const supabase = createClient();
@@ -103,10 +176,9 @@ export default function NewItemPage() {
       } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { data: item, error: itemError } = await supabase
+      const { error: updateError } = await supabase
         .from("items")
-        .insert({
-          user_id: user.id,
+        .update({
           category_id: categoryId,
           name,
           brand: brand || null,
@@ -121,7 +193,9 @@ export default function NewItemPage() {
               : null,
           rental_period: listingType === "rent" ? rentalPeriod : null,
           shipping_cost:
-            (listingType === "sell" || listingType === "rent") && !freeShipping && shippingCost
+            (listingType === "sell" || listingType === "rent") &&
+            !freeShipping &&
+            shippingCost
               ? parseFloat(shippingCost)
               : null,
           ships_from_country: shipsFrom || "US",
@@ -132,16 +206,27 @@ export default function NewItemPage() {
             .map((t) => t.trim().toLowerCase())
             .filter(Boolean),
         })
-        .select()
-        .single();
+        .eq("id", itemId);
 
-      if (itemError) throw itemError;
+      if (updateError) throw updateError;
 
-      // Upload images
-      for (let i = 0; i < images.length; i++) {
-        const file = images[i];
+      // Delete removed images
+      if (removedImageIds.length > 0) {
+        await supabase
+          .from("item_images")
+          .delete()
+          .in("id", removedImageIds);
+      }
+
+      // Upload new images
+      const keptCount = existingImages.filter(
+        (img) => !removedImageIds.includes(img.id)
+      ).length;
+
+      for (let i = 0; i < newImages.length; i++) {
+        const file = newImages[i];
         const ext = file.name.split(".").pop();
-        const path = `${user.id}/${item.id}/${crypto.randomUUID()}.${ext}`;
+        const path = `${user.id}/${itemId}/${crypto.randomUUID()}.${ext}`;
 
         const { error: uploadError } = await supabase.storage
           .from("item-images")
@@ -154,21 +239,41 @@ export default function NewItemPage() {
 
         const { error: imgError } = await supabase
           .from("item_images")
-          .insert({ item_id: item.id, url: publicUrl, position: i });
+          .insert({
+            item_id: itemId,
+            url: publicUrl,
+            position: keptCount + i,
+          });
         if (imgError) throw imgError;
       }
 
-      toast.success("Item listed successfully!");
-      router.push(`/item/${item.id}`);
+      toast.success("Listing updated!");
+      router.push(`/item/${itemId}`);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Failed to create item";
+      const msg =
+        err instanceof Error ? err.message : "Failed to update listing";
       setError(msg);
       toast.error(msg);
-      setLoading(false);
+      setSaving(false);
     }
   };
 
   const showShipping = listingType === "sell" || listingType === "rent";
+
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <Loader2 className="w-8 h-8 animate-spin text-orange-600" />
+        </div>
+      </>
+    );
+  }
+
+  const keptExisting = existingImages.filter(
+    (img) => !removedImageIds.includes(img.id)
+  );
 
   return (
     <>
@@ -176,13 +281,13 @@ export default function NewItemPage() {
 
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
         <Link
-          href="/categories"
+          href={`/item/${itemId}`}
           className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 mb-6"
         >
-          <ArrowLeft className="w-4 h-4" /> Back to marketplace
+          <ArrowLeft className="w-4 h-4" /> Back to listing
         </Link>
 
-        <h1 className="text-2xl font-extrabold mb-6">List a New Item</h1>
+        <h1 className="text-2xl font-extrabold mb-6">Edit Listing</h1>
 
         {error && (
           <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
@@ -197,36 +302,59 @@ export default function NewItemPage() {
               Photos (up to 10)
             </label>
             <div className="flex gap-3 flex-wrap">
-              {previews.map((src, i) => (
-                <div key={i} className="relative w-24 h-24">
+              {keptExisting.map((img, i) => (
+                <div key={img.id} className="relative w-24 h-24">
                   <Image
-                    src={src}
-                    alt={`Preview ${i + 1}`}
+                    src={img.url}
+                    alt={`Image ${i + 1}`}
                     fill
                     className="rounded-xl object-cover"
+                    sizes="96px"
                   />
                   <button
                     type="button"
-                    onClick={() => removeImage(i)}
+                    onClick={() => removeExistingImage(img.id)}
                     className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center"
                   >
                     <X className="w-3 h-3" />
                   </button>
-                  {i === 0 && (
+                  {i === 0 && keptExisting.length > 0 && (
                     <span className="absolute bottom-1 left-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">
                       Primary
                     </span>
                   )}
                 </div>
               ))}
-              {images.length < 10 && (
+              {newPreviews.map((src, i) => (
+                <div key={`new-${i}`} className="relative w-24 h-24">
+                  <Image
+                    src={src}
+                    alt={`New ${i + 1}`}
+                    fill
+                    className="rounded-xl object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeNewImage(i)}
+                    className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                  {keptExisting.length === 0 && i === 0 && (
+                    <span className="absolute bottom-1 left-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">
+                      Primary
+                    </span>
+                  )}
+                </div>
+              ))}
+              {totalImages < 10 && (
                 <label className="w-24 h-24 rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center cursor-pointer hover:border-orange-400 transition">
                   <ImagePlus className="w-6 h-6 text-gray-400" />
                   <input
                     type="file"
                     accept="image/*"
                     multiple
-                    onChange={handleImageAdd}
+                    onChange={handleNewImageAdd}
                     className="hidden"
                   />
                 </label>
@@ -524,11 +652,11 @@ export default function NewItemPage() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={saving}
             className="w-full py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-700 transition disabled:opacity-50 flex items-center justify-center gap-2"
           >
-            {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-            {loading ? "Creating..." : "List Item"}
+            {saving && <Loader2 className="w-4 h-4 animate-spin" />}
+            {saving ? "Saving..." : "Save Changes"}
           </button>
         </form>
       </div>
