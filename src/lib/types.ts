@@ -120,3 +120,16 @@ export type EdcLoadoutItem = {
   // Joined fields
   items?: Item;
 };
+
+export type Message = {
+  id: string;
+  sender_id: string;
+  receiver_id: string;
+  item_id: string | null;
+  content: string;
+  is_read: boolean;
+  created_at: string;
+  // Joined fields
+  sender?: Profile;
+  receiver?: Profile;
+};

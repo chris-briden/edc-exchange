@@ -80,6 +80,18 @@ export default function Navbar() {
     router.refresh();
   };
 
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    if (q) {
+      router.push(`/categories?search=${encodeURIComponent(q)}`);
+      setSearchQuery("");
+      setMobileOpen(false);
+    }
+  };
+
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -95,7 +107,7 @@ export default function Navbar() {
           </Link>
 
           {/* Search bar */}
-          <div className="flex-1 max-w-xl mx-4">
+          <form onSubmit={handleSearch} className="flex-1 max-w-xl mx-4">
             <div
               className={`relative flex items-center rounded-full border transition-all ${
                 searchFocused
@@ -108,11 +120,13 @@ export default function Navbar() {
                 type="text"
                 placeholder="Search knives, flashlights, pens..."
                 className="w-full pl-10 pr-4 py-2 bg-transparent text-sm rounded-full focus:outline-none"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setSearchFocused(false)}
               />
             </div>
-          </div>
+          </form>
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-1">
@@ -142,9 +156,12 @@ export default function Navbar() {
                   <button className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition relative">
                     <Bell className="w-5 h-5" />
                   </button>
-                  <button className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition">
+                  <Link
+                    href="/messages"
+                    className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition"
+                  >
                     <MessageSquare className="w-5 h-5" />
-                  </button>
+                  </Link>
 
                   {/* User avatar dropdown */}
                   <div className="relative" ref={dropdownRef}>
@@ -249,6 +266,12 @@ export default function Navbar() {
                 className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100"
               >
                 Profile
+              </Link>
+              <Link
+                href="/messages"
+                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100"
+              >
+                Messages
               </Link>
               <Link
                 href="/profile/edit"

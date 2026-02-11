@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { PenSquare, Filter, Heart, MessageCircle, Share2 } from "lucide-react";
@@ -27,9 +27,54 @@ const typeStyles: Record<string, { badge: string; bg: string }> = {
   photo: { badge: "Photo", bg: "bg-amber-100 text-amber-700" },
 };
 
-function DbPostCard({ post }: { post: Post }) {
+function DbPostCard({
+  post,
+  currentUserId,
+}: {
+  post: Post;
+  currentUserId: string | null;
+}) {
   const style = typeStyles[post.type] || typeStyles.discussion;
   const firstImage = post.post_images?.[0]?.url;
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(post.likes?.[0]?.count || 0);
+
+  useEffect(() => {
+    if (!currentUserId) return;
+    const supabase = createClient();
+    supabase
+      .from("likes")
+      .select("id")
+      .eq("user_id", currentUserId)
+      .eq("post_id", post.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data) setLiked(true);
+      });
+  }, [currentUserId, post.id]);
+
+  const toggleLike = async () => {
+    if (!currentUserId) {
+      window.location.href = "/login";
+      return;
+    }
+    const supabase = createClient();
+    if (liked) {
+      setLiked(false);
+      setLikeCount((c) => c - 1);
+      await supabase
+        .from("likes")
+        .delete()
+        .eq("user_id", currentUserId)
+        .eq("post_id", post.id);
+    } else {
+      setLiked(true);
+      setLikeCount((c) => c + 1);
+      await supabase
+        .from("likes")
+        .insert({ user_id: currentUserId, post_id: post.id });
+    }
+  };
 
   return (
     <article className="bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-md transition">
@@ -49,9 +94,12 @@ function DbPostCard({ post }: { post: Post }) {
           </div>
         )}
         <div className="flex-1 min-w-0">
-          <p className="font-semibold text-sm">
+          <Link
+            href={`/profile/${post.user_id}`}
+            className="font-semibold text-sm hover:text-orange-600 transition"
+          >
             {post.profiles?.username || "Unknown"}
-          </p>
+          </Link>
           <p className="text-xs text-gray-400">
             {new Date(post.created_at).toLocaleDateString()}
           </p>
@@ -91,9 +139,14 @@ function DbPostCard({ post }: { post: Post }) {
 
       {/* Actions */}
       <div className="flex items-center gap-6 mt-4 pt-4 border-t border-gray-100 text-gray-500 text-sm">
-        <button className="flex items-center gap-1.5 hover:text-red-500 transition">
-          <Heart className="w-4 h-4" />
-          <span>{post.likes?.[0]?.count || 0}</span>
+        <button
+          onClick={toggleLike}
+          className={`flex items-center gap-1.5 transition ${
+            liked ? "text-red-500" : "hover:text-red-500"
+          }`}
+        >
+          <Heart className={`w-4 h-4 ${liked ? "fill-current" : ""}`} />
+          <span>{likeCount}</span>
         </button>
         <button className="flex items-center gap-1.5 hover:text-blue-500 transition">
           <MessageCircle className="w-4 h-4" />
@@ -112,9 +165,15 @@ export default function CommunityPage() {
   const [active, setActive] = useState("All");
   const [dbPosts, setDbPosts] = useState<Post[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   useEffect(() => {
     const supabase = createClient();
+
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setCurrentUserId(user?.id || null);
+    });
+
     supabase
       .from("posts")
       .select(
@@ -185,7 +244,7 @@ export default function CommunityPage() {
         <div className="space-y-4">
           {hasDbData
             ? filteredDb.map((post) => (
-                <DbPostCard key={post.id} post={post} />
+                <DbPostCard key={post.id} post={post} currentUserId={currentUserId} />
               ))
             : filteredMock.map((post) => (
                 <CommunityPostCard key={post.id} post={post} />

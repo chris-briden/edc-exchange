@@ -316,6 +316,33 @@ create policy "Users can remove own loadout items"
   );
 
 -- ============================================================
+-- MESSAGES (direct messaging between users)
+-- ============================================================
+create table if not exists public.messages (
+  id uuid default gen_random_uuid() primary key,
+  sender_id uuid references public.profiles(id) on delete cascade not null,
+  receiver_id uuid references public.profiles(id) on delete cascade not null,
+  item_id uuid references public.items(id) on delete set null,
+  content text not null,
+  is_read boolean default false,
+  created_at timestamptz default now(),
+  constraint no_self_message check (sender_id != receiver_id)
+);
+
+alter table public.messages enable row level security;
+
+create policy "Users can view own messages"
+  on public.messages for select using (
+    auth.uid() = sender_id or auth.uid() = receiver_id
+  );
+
+create policy "Authenticated users can send messages"
+  on public.messages for insert with check (auth.uid() = sender_id);
+
+create policy "Users can update own received messages (mark read)"
+  on public.messages for update using (auth.uid() = receiver_id);
+
+-- ============================================================
 -- STORAGE BUCKETS (created via Supabase dashboard)
 -- ============================================================
 -- item-images   (public, upload for authenticated)

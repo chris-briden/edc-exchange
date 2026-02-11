@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { SlidersHorizontal } from "lucide-react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import { SlidersHorizontal, X } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ItemCard from "@/components/ItemCard";
@@ -20,9 +21,12 @@ const listingMap: Record<string, string | null> = {
   "For Rent": "rent",
 };
 
-export default function CategoriesPage() {
+function CategoriesContent() {
+  const searchParams = useSearchParams();
+  const initialSearch = searchParams.get("search") || "";
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [listingFilter, setListingFilter] = useState("All Types");
+  const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [dbItems, setDbItems] = useState<Item[]>([]);
   const [dbCategories, setDbCategories] = useState<Category[]>([]);
   const [loaded, setLoaded] = useState(false);
@@ -51,8 +55,19 @@ export default function CategoriesPage() {
   const hasDbData = dbItems.length > 0;
   const displayCategories = dbCategories.length > 0 ? dbCategories : null;
 
+  const q = searchQuery.toLowerCase().trim();
+
   // Filter DB items
   let filteredDbItems = dbItems;
+  if (q) {
+    filteredDbItems = filteredDbItems.filter(
+      (i) =>
+        i.name.toLowerCase().includes(q) ||
+        (i.brand && i.brand.toLowerCase().includes(q)) ||
+        (i.description && i.description.toLowerCase().includes(q)) ||
+        (i.tags && i.tags.some((t) => t.toLowerCase().includes(q)))
+    );
+  }
   if (selectedCategory) {
     filteredDbItems = filteredDbItems.filter(
       (i) => i.categories?.slug === selectedCategory
@@ -66,6 +81,15 @@ export default function CategoriesPage() {
 
   // Filter mock items
   let filteredMockItems = edcItems;
+  if (q) {
+    filteredMockItems = filteredMockItems.filter(
+      (i) =>
+        i.name.toLowerCase().includes(q) ||
+        i.brand.toLowerCase().includes(q) ||
+        i.description.toLowerCase().includes(q) ||
+        (i.tags && i.tags.some((t: string) => t.toLowerCase().includes(q)))
+    );
+  }
   if (selectedCategory) {
     filteredMockItems = filteredMockItems.filter(
       (i) => i.category === selectedCategory
@@ -97,9 +121,24 @@ export default function CategoriesPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <h1 className="text-3xl font-extrabold mb-2">Browse Marketplace</h1>
-        <p className="text-gray-500 mb-6">
+        <p className="text-gray-500 mb-4">
           Find your next EDC grail. Buy, sell, trade, lend, or rent.
         </p>
+
+        {/* Search bar */}
+        {searchQuery && (
+          <div className="flex items-center gap-2 mb-6">
+            <span className="text-sm text-gray-500">
+              Showing results for &ldquo;<strong>{searchQuery}</strong>&rdquo;
+            </span>
+            <button
+              onClick={() => setSearchQuery("")}
+              className="p-1 rounded-full hover:bg-gray-100 transition"
+            >
+              <X className="w-4 h-4 text-gray-400" />
+            </button>
+          </div>
+        )}
 
         {/* Category cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3 mb-8">
@@ -174,5 +213,13 @@ export default function CategoriesPage() {
 
       <Footer />
     </>
+  );
+}
+
+export default function CategoriesPage() {
+  return (
+    <Suspense>
+      <CategoriesContent />
+    </Suspense>
   );
 }
