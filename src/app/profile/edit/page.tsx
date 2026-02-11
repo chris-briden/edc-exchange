@@ -89,21 +89,27 @@ export default function EditProfilePage() {
 
       const { error: updateError } = await supabase
         .from("profiles")
-        .update({
+        .upsert({
+          id: user.id,
           username,
           full_name: fullName || null,
           bio: bio || null,
           website: website || null,
           avatar_url: newAvatarUrl,
           updated_at: new Date().toISOString(),
-        })
-        .eq("id", user.id);
+        });
 
       if (updateError) throw updateError;
       setSuccess(true);
       setTimeout(() => router.push("/profile"), 1000);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Failed to save profile");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : typeof err === "object" && err !== null && "message" in err
+            ? String((err as { message: unknown }).message)
+            : "Failed to save profile";
+      setError(msg);
     } finally {
       setSaving(false);
     }
