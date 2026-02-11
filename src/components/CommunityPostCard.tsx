@@ -22,13 +22,12 @@ export default function CommunityPostCard({
   if (isDbPost(post)) {
     const style = typeStyles[post.type] || typeStyles.discussion;
     const username = post.profiles?.username || "User";
-    const userId = post.user_id;
     const likesCount = post.likes?.[0]?.count ?? 0;
     const commentsCount = post.comments?.[0]?.count ?? 0;
 
     return (
       <Link
-        href="/community"
+        href={`/community/${post.id}`}
         className="bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-md transition block"
       >
         <div className="flex items-center gap-3 mb-3">
