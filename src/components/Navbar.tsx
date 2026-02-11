@@ -220,13 +220,21 @@ export default function Navbar() {
                 </div>
               </>
             ) : (
-              <Link
-                href="/login"
-                className="ml-2 flex items-center gap-1.5 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition"
-              >
-                <LogIn className="w-4 h-4" />
-                Sign In
-              </Link>
+              <div className="flex items-center gap-2 ml-2">
+                <Link
+                  href="/login"
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-gray-300 text-gray-700 text-sm font-medium hover:bg-gray-50 transition"
+                >
+                  <LogIn className="w-4 h-4" />
+                  Sign In
+                </Link>
+                <Link
+                  href="/signup"
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition"
+                >
+                  Create Account
+                </Link>
+              </div>
             )}
           </div>
 
@@ -295,13 +303,21 @@ export default function Navbar() {
               </button>
             </>
           ) : (
-            <Link
-              href="/login"
-              className="w-full flex items-center justify-center gap-1.5 mt-2 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium"
-            >
-              <LogIn className="w-4 h-4" />
-              Sign In
-            </Link>
+            <div className="space-y-2 mt-2">
+              <Link
+                href="/login"
+                className="w-full flex items-center justify-center gap-1.5 px-4 py-2 rounded-full border border-gray-300 text-gray-700 text-sm font-medium"
+              >
+                <LogIn className="w-4 h-4" />
+                Sign In
+              </Link>
+              <Link
+                href="/signup"
+                className="w-full flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium"
+              >
+                Create Account
+              </Link>
+            </div>
           )}
         </div>
       )}
