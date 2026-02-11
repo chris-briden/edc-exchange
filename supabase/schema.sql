@@ -20,6 +20,9 @@ alter table public.profiles enable row level security;
 create policy "Public profiles are viewable by everyone"
   on public.profiles for select using (true);
 
+create policy "Users can insert own profile"
+  on public.profiles for insert with check (auth.uid() = id);
+
 create policy "Users can update own profile"
   on public.profiles for update using (auth.uid() = id);
 
@@ -257,6 +260,60 @@ create policy "Authenticated users can follow"
 
 create policy "Users can unfollow"
   on public.followers for delete using (auth.uid() = follower_id);
+
+-- ============================================================
+-- EDC LOADOUTS (user's daily carry setups)
+-- ============================================================
+create table if not exists public.edc_loadouts (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references public.profiles(id) on delete cascade not null,
+  name text not null default 'My Daily Carry',
+  description text,
+  is_primary boolean default false,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+alter table public.edc_loadouts enable row level security;
+
+create policy "Loadouts are viewable by everyone"
+  on public.edc_loadouts for select using (true);
+
+create policy "Users can create own loadouts"
+  on public.edc_loadouts for insert with check (auth.uid() = user_id);
+
+create policy "Users can update own loadouts"
+  on public.edc_loadouts for update using (auth.uid() = user_id);
+
+create policy "Users can delete own loadouts"
+  on public.edc_loadouts for delete using (auth.uid() = user_id);
+
+-- ============================================================
+-- EDC LOADOUT ITEMS (items in a loadout)
+-- ============================================================
+create table if not exists public.edc_loadout_items (
+  id uuid default gen_random_uuid() primary key,
+  loadout_id uuid references public.edc_loadouts(id) on delete cascade not null,
+  item_id uuid references public.items(id) on delete cascade not null,
+  position int not null default 0,
+  created_at timestamptz default now(),
+  unique (loadout_id, item_id)
+);
+
+alter table public.edc_loadout_items enable row level security;
+
+create policy "Loadout items are viewable by everyone"
+  on public.edc_loadout_items for select using (true);
+
+create policy "Users can manage own loadout items"
+  on public.edc_loadout_items for insert with check (
+    auth.uid() = (select user_id from public.edc_loadouts where id = loadout_id)
+  );
+
+create policy "Users can remove own loadout items"
+  on public.edc_loadout_items for delete using (
+    auth.uid() = (select user_id from public.edc_loadouts where id = loadout_id)
+  );
 
 -- ============================================================
 -- STORAGE BUCKETS (created via Supabase dashboard)

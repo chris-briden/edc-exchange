@@ -1,5 +1,14 @@
 import Link from "next/link";
-import { ArrowRight, TrendingUp, Shield, Users } from "lucide-react";
+import {
+  ArrowRight,
+  TrendingUp,
+  Shield,
+  Users,
+  PocketKnife,
+  Flashlight,
+  PenTool,
+  Wrench,
+} from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CategoryCard from "@/components/CategoryCard";
@@ -14,11 +23,11 @@ export default function Home() {
 
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 text-8xl">🔪</div>
-          <div className="absolute top-20 right-20 text-7xl">🔦</div>
-          <div className="absolute bottom-10 left-1/3 text-6xl">🖊️</div>
-          <div className="absolute bottom-20 right-10 text-8xl">🔧</div>
+        <div className="absolute inset-0 opacity-[0.07]">
+          <PocketKnife className="absolute top-10 left-10 w-24 h-24 text-orange-400" />
+          <Flashlight className="absolute top-20 right-20 w-20 h-20 text-blue-400" />
+          <PenTool className="absolute bottom-10 left-1/3 w-16 h-16 text-orange-300" />
+          <Wrench className="absolute bottom-20 right-10 w-24 h-24 text-blue-300" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
           <div className="max-w-2xl">
@@ -28,7 +37,7 @@ export default function Home() {
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
               The marketplace for{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-blue-400">
                 everyday carry
               </span>{" "}
               enthusiasts
@@ -146,16 +155,16 @@ export default function Home() {
 
       {/* CTA */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <div className="rounded-3xl bg-gradient-to-br from-orange-600 to-red-600 text-white p-8 md:p-12 text-center">
+        <div className="rounded-3xl bg-gradient-to-br from-orange-600 to-blue-600 text-white p-8 md:p-12 text-center">
           <h2 className="text-3xl md:text-4xl font-extrabold">
             Ready to join the carry?
           </h2>
-          <p className="mt-3 text-orange-100 max-w-md mx-auto">
+          <p className="mt-3 text-blue-100 max-w-md mx-auto">
             Share your collection, find your next grail, and connect with EDC
             enthusiasts worldwide.
           </p>
           <div className="flex flex-wrap justify-center gap-3 mt-6">
-            <button className="px-6 py-3 rounded-full bg-white text-orange-600 font-semibold hover:bg-orange-50 transition">
+            <button className="px-6 py-3 rounded-full bg-white text-orange-600 font-semibold hover:bg-blue-50 transition">
               Create Account
             </button>
             <Link

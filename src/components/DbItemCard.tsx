@@ -2,30 +2,27 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Heart, MessageCircle } from "lucide-react";
+import CategoryIcon from "@/components/CategoryIcon";
 import type { Item } from "@/lib/types";
 
-const listingTypeConfig: Record<string, { color: string; label: string; bg: string }> = {
+const listingTypeConfig: Record<
+  string,
+  { color: string; label: string; bg: string }
+> = {
   sell: { color: "text-green-700", label: "For Sale", bg: "bg-green-100" },
   trade: { color: "text-blue-700", label: "For Trade", bg: "bg-blue-100" },
-  lend: { color: "text-purple-700", label: "Available to Lend", bg: "bg-purple-100" },
+  lend: {
+    color: "text-purple-700",
+    label: "Available to Lend",
+    bg: "bg-purple-100",
+  },
   rent: { color: "text-amber-700", label: "For Rent", bg: "bg-amber-100" },
   showcase: { color: "text-gray-700", label: "Showcase", bg: "bg-gray-100" },
 };
 
-const categoryIcons: Record<string, string> = {
-  knives: "🔪",
-  flashlights: "🔦",
-  pens: "🖊️",
-  "multi-tools": "🔧",
-  fidget: "🌀",
-  wallets: "👛",
-  watches: "⌚",
-  bags: "🎒",
-};
-
 export default function DbItemCard({ item }: { item: Item }) {
-  const listing = listingTypeConfig[item.listing_type] || listingTypeConfig.showcase;
+  const listing =
+    listingTypeConfig[item.listing_type] || listingTypeConfig.showcase;
   const firstImage = item.item_images?.[0]?.url;
   const categorySlug = item.categories?.slug || "";
   const ownerUsername = item.profiles?.username || "Unknown";
@@ -37,7 +34,7 @@ export default function DbItemCard({ item }: { item: Item }) {
       className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all hover:-translate-y-0.5"
     >
       {/* Image */}
-      <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
+      <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
         {firstImage ? (
           <Image
             src={firstImage}
@@ -49,9 +46,9 @@ export default function DbItemCard({ item }: { item: Item }) {
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center p-4">
-              <span className="text-4xl block mb-2">
-                {categoryIcons[categorySlug] || "📦"}
-              </span>
+              <div className="flex justify-center mb-2">
+                <CategoryIcon slug={categorySlug} size="xl" />
+              </div>
               <p className="text-xs text-gray-400 font-medium">{item.brand}</p>
             </div>
           </div>
@@ -99,7 +96,7 @@ export default function DbItemCard({ item }: { item: Item }) {
                 className="rounded-full"
               />
             ) : (
-              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-red-500" />
+              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-blue-500" />
             )}
             <span className="text-xs text-gray-500">{ownerUsername}</span>
           </div>

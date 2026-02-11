@@ -18,6 +18,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { edcItems, listingTypeConfig } from "@/lib/data";
 import { createClient } from "@/lib/supabase-browser";
+import CategoryIcon from "@/components/CategoryIcon";
 import type { Item } from "@/lib/types";
 
 const listingConfig: Record<string, { color: string; label: string; bg: string }> = {
@@ -26,17 +27,6 @@ const listingConfig: Record<string, { color: string; label: string; bg: string }
   lend: { color: "text-purple-700", label: "Available to Lend", bg: "bg-purple-100" },
   rent: { color: "text-amber-700", label: "For Rent", bg: "bg-amber-100" },
   showcase: { color: "text-gray-700", label: "Showcase", bg: "bg-gray-100" },
-};
-
-const categoryIcons: Record<string, string> = {
-  knives: "🔪",
-  flashlights: "🔦",
-  pens: "🖊️",
-  "multi-tools": "🔧",
-  fidget: "🌀",
-  wallets: "👛",
-  watches: "⌚",
-  bags: "🎒",
 };
 
 export default function ItemPage() {
@@ -108,9 +98,9 @@ export default function ItemPage() {
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
-                      <span className="text-7xl block mb-3">
-                        {categoryIcons[categorySlug] || "📦"}
-                      </span>
+                      <div className="flex justify-center mb-3">
+                        <CategoryIcon slug={categorySlug} size="xl" />
+                      </div>
                       <p className="text-gray-400 text-sm">No images</p>
                     </div>
                   </div>
@@ -243,7 +233,7 @@ export default function ItemPage() {
                       className="rounded-full"
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-white font-bold">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold">
                       {ownerUsername.charAt(0)}
                     </div>
                   )}
@@ -305,16 +295,11 @@ export default function ItemPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Image */}
-          <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex items-center justify-center">
+          <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl flex items-center justify-center">
             <div className="text-center">
-              <span className="text-7xl block mb-3">
-                {mockItem.category === "knives" && "🔪"}
-                {mockItem.category === "flashlights" && "🔦"}
-                {mockItem.category === "pens" && "🖊️"}
-                {mockItem.category === "multi-tools" && "🔧"}
-                {mockItem.category === "fidget" && "🌀"}
-                {mockItem.category === "wallets" && "👛"}
-              </span>
+              <div className="flex justify-center mb-3">
+                <CategoryIcon slug={mockItem.category} size="xl" />
+              </div>
               <p className="text-gray-400 text-sm">Product image placeholder</p>
             </div>
           </div>
@@ -408,7 +393,7 @@ export default function ItemPage() {
 
             <div className="mt-6 p-4 rounded-xl bg-gray-50 border border-gray-200">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-white font-bold">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold">
                   {mockItem.owner.username.charAt(0)}
                 </div>
                 <div className="flex-1">

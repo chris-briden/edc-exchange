@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Heart, MessageCircle } from "lucide-react";
+import CategoryIcon from "@/components/CategoryIcon";
 import { listingTypeConfig, type EDCItem } from "@/lib/data";
 
 export default function ItemCard({ item }: { item: EDCItem }) {
@@ -11,22 +12,19 @@ export default function ItemCard({ item }: { item: EDCItem }) {
       className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all hover:-translate-y-0.5"
     >
       {/* Image placeholder */}
-      <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 relative overflow-hidden">
+      <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center p-4">
-            <span className="text-4xl block mb-2">
-              {item.category === "knives" && "🔪"}
-              {item.category === "flashlights" && "🔦"}
-              {item.category === "pens" && "🖊️"}
-              {item.category === "multi-tools" && "🔧"}
-              {item.category === "fidget" && "🌀"}
-              {item.category === "wallets" && "👛"}
-            </span>
+            <div className="flex justify-center mb-2">
+              <CategoryIcon slug={item.category} size="xl" />
+            </div>
             <p className="text-xs text-gray-400 font-medium">{item.brand}</p>
           </div>
         </div>
         {/* Listing type badge */}
-        <div className={`absolute top-3 left-3 ${listing.bg} ${listing.color} px-2.5 py-1 rounded-full text-xs font-semibold`}>
+        <div
+          className={`absolute top-3 left-3 ${listing.bg} ${listing.color} px-2.5 py-1 rounded-full text-xs font-semibold`}
+        >
           {listing.label}
         </div>
       </div>
@@ -36,7 +34,9 @@ export default function ItemCard({ item }: { item: EDCItem }) {
         <h3 className="font-semibold text-sm group-hover:text-orange-600 transition line-clamp-1">
           {item.name}
         </h3>
-        <p className="text-gray-500 text-xs mt-1">{item.brand} &middot; {item.condition}</p>
+        <p className="text-gray-500 text-xs mt-1">
+          {item.brand} &middot; {item.condition}
+        </p>
 
         {item.price && (
           <p className="text-lg font-bold text-green-700 mt-2">
@@ -56,8 +56,10 @@ export default function ItemCard({ item }: { item: EDCItem }) {
 
         <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
           <div className="flex items-center gap-1">
-            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-red-500" />
-            <span className="text-xs text-gray-500">{item.owner.username}</span>
+            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-blue-500" />
+            <span className="text-xs text-gray-500">
+              {item.owner.username}
+            </span>
           </div>
           <div className="flex items-center gap-3 text-gray-400 text-xs">
             <span className="flex items-center gap-1">

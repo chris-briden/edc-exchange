@@ -86,7 +86,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-orange-500 to-blue-600 flex items-center justify-center">
               <span className="text-white font-bold text-sm">EDC</span>
             </div>
             <span className="font-bold text-xl hidden sm:block">
@@ -161,7 +161,7 @@ export default function Navbar() {
                           className="rounded-full"
                         />
                       ) : (
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-white text-sm font-bold">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white text-sm font-bold">
                           {profile?.username?.charAt(0)?.toUpperCase() || "U"}
                         </div>
                       )}

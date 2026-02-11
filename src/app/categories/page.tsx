@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ItemCard from "@/components/ItemCard";
 import DbItemCard from "@/components/DbItemCard";
+import CategoryIcon from "@/components/CategoryIcon";
 import { categories as mockCategories, edcItems } from "@/lib/data";
 import { createClient } from "@/lib/supabase-browser";
 import type { Item, Category } from "@/lib/types";
@@ -110,19 +111,21 @@ export default function CategoriesPage() {
                   selectedCategory === cat.id ? null : cat.id
                 )
               }
-              className={`text-left rounded-xl p-4 border-2 transition ${
+              className={`text-left rounded-xl p-4 border-2 transition flex items-center gap-3 ${
                 selectedCategory === cat.id
                   ? "border-orange-500 bg-orange-50"
                   : "border-gray-200 bg-white hover:border-gray-300"
               }`}
             >
-              <span className="text-2xl">{cat.icon}</span>
-              <p className="font-semibold text-sm mt-1">{cat.name}</p>
+              <CategoryIcon slug={cat.id} size="sm" />
+              <div>
+                <p className="font-semibold text-sm">{cat.name}</p>
               {"count" in cat && (
                 <p className="text-xs text-gray-400">
                   {(cat.count as number).toLocaleString()} listings
                 </p>
               )}
+              </div>
             </button>
           ))}
         </div>
