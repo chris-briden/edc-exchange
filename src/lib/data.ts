@@ -309,13 +309,13 @@ export const communityPosts: CommunityPost[] = [
 // Color palette for category cards (orange + blue brand palette)
 export const categoryColors: Record<string, string> = {
   knives: "from-orange-500 to-orange-600",
-  flashlights: "from-amber-500 to-orange-500",
-  pens: "from-blue-500 to-blue-600",
-  "multi-tools": "from-sky-500 to-blue-600",
-  fidget: "from-orange-400 to-amber-500",
-  wallets: "from-blue-600 to-blue-700",
-  watches: "from-slate-600 to-blue-600",
-  bags: "from-blue-400 to-sky-500",
+  flashlights: "from-orange-500 to-orange-600",
+  pens: "from-orange-500 to-orange-600",
+  "multi-tools": "from-orange-500 to-orange-600",
+  fidget: "from-orange-500 to-orange-600",
+  wallets: "from-orange-500 to-orange-600",
+  watches: "from-orange-500 to-orange-600",
+  bags: "from-orange-500 to-orange-600",
 };
 
 // Listing type colors and labels
@@ -326,3 +326,4 @@ export const listingTypeConfig: Record<string, { color: string; label: string; b
   rent: { color: "text-amber-700", label: "For Rent", bg: "bg-amber-100" },
   showcase: { color: "text-gray-700", label: "Showcase", bg: "bg-gray-100" },
 };
+
