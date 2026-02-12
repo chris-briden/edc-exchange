@@ -144,11 +144,11 @@ function LoginForm() {
 
         <p className="text-center text-xs text-gray-400 mt-6">
           By signing in, you agree to our{" "}
-          <Link href="#" className="underline hover:text-gray-600">
+          <Link href="/terms" className="underline hover:text-gray-600">
             Terms of Service
           </Link>{" "}
           and{" "}
-          <Link href="#" className="underline hover:text-gray-600">
+          <Link href="/privacy" className="underline hover:text-gray-600">
             Privacy Policy
           </Link>
           .
