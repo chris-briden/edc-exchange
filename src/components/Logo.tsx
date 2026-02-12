@@ -11,7 +11,7 @@ export default function Logo({ height = 48, showText = true, textClassName = "" 
     <div className="flex items-center gap-3">
       <Image
         src="/logo.png"
-        alt="EDC Exchange"
+        alt="The Carry Exchange"
         width={Math.round(height * 3.5)}
         height={height}
         className="shrink-0 object-contain"
@@ -19,3 +19,4 @@ export default function Logo({ height = 48, showText = true, textClassName = "" 
     </div>
   );
 }
+
