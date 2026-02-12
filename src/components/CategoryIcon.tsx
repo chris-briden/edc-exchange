@@ -16,13 +16,13 @@ const iconConfig: Record<
   { Icon: LucideIcon; gradient: string }
 > = {
   knives: { Icon: PocketKnife, gradient: "from-orange-500 to-orange-600" },
-  flashlights: { Icon: Flashlight, gradient: "from-amber-500 to-orange-500" },
-  pens: { Icon: PenTool, gradient: "from-blue-500 to-blue-600" },
-  "multi-tools": { Icon: Wrench, gradient: "from-sky-500 to-blue-600" },
-  fidget: { Icon: Disc3, gradient: "from-orange-400 to-amber-500" },
-  wallets: { Icon: Wallet, gradient: "from-blue-600 to-blue-700" },
-  watches: { Icon: Watch, gradient: "from-slate-600 to-blue-600" },
-  bags: { Icon: Backpack, gradient: "from-blue-400 to-sky-500" },
+  flashlights: { Icon: Flashlight, gradient: "from-orange-500 to-orange-600" },
+  pens: { Icon: PenTool, gradient: "from-orange-500 to-orange-600" },
+  "multi-tools": { Icon: Wrench, gradient: "from-orange-500 to-orange-600" },
+  fidget: { Icon: Disc3, gradient: "from-orange-500 to-orange-600" },
+  wallets: { Icon: Wallet, gradient: "from-orange-500 to-orange-600" },
+  watches: { Icon: Watch, gradient: "from-orange-500 to-orange-600" },
+  bags: { Icon: Backpack, gradient: "from-orange-500 to-orange-600" },
 };
 
 const defaultConfig = { Icon: Package, gradient: "from-gray-500 to-gray-600" };
@@ -54,3 +54,4 @@ export default function CategoryIcon({
 }
 
 export { iconConfig };
+
