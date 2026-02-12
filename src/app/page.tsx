@@ -115,7 +115,7 @@ export default function Home() {
               alt="EDC Exchange Emblem"
               width={400}
               height={400}
-              className="opacity-20 select-none pointer-events-none"
+              className="opacity-50 select-none pointer-events-none drop-shadow-2xl"
             />
           </div>
           </div>
@@ -331,4 +331,5 @@ const typeStyles: Record<string, { badge: string; bg: string }> = {
   discussion: { badge: "Discussion", bg: "bg-green-100 text-green-700" },
   photo: { badge: "Photo", bg: "bg-amber-100 text-amber-700" },
 };
+
 
