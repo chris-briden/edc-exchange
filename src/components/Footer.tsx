@@ -18,6 +18,9 @@ export default function Footer() {
             <p className="text-sm leading-relaxed">
               The community marketplace for everyday carry enthusiasts.
             </p>
+            <p className="text-xs text-gray-500 mt-2 font-medium">
+              jointhecarry.com
+            </p>
           </div>
           <div>
             <h4 className="font-semibold text-white mb-3 text-sm uppercase tracking-wider">
