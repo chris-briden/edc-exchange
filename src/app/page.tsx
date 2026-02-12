@@ -112,7 +112,7 @@ export default function Home() {
           <div className="hidden md:flex flex-1 items-center justify-center">
             <Image
               src="/icon-white.png"
-              alt="EDC Exchange Emblem"
+              alt="The Carry Exchange Emblem"
               width={400}
               height={400}
               className="opacity-50 select-none pointer-events-none drop-shadow-2xl"
@@ -331,6 +331,7 @@ const typeStyles: Record<string, { badge: string; bg: string }> = {
   discussion: { badge: "Discussion", bg: "bg-green-100 text-green-700" },
   photo: { badge: "Photo", bg: "bg-amber-100 text-amber-700" },
 };
+
 
 
 
