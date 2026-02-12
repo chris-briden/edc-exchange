@@ -100,7 +100,7 @@ function DbPostCard({
             alt={post.profiles.username || ""}
             width={40}
             height={40}
-            className="rounded-full"
+            className="rounded-full w-10 h-10 object-cover"
           />
         ) : (
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold text-sm">

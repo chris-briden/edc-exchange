@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ImagePlus, X, Loader2 } from "lucide-react";
+import { ArrowLeft, ImagePlus, X, Loader2, Crosshair } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -63,6 +63,7 @@ export default function NewItemPage() {
   const [tags, setTags] = useState("");
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
+  const [addToEdc, setAddToEdc] = useState(false);
 
   useEffect(() => {
     const supabase = createClient();
@@ -156,6 +157,51 @@ export default function NewItemPage() {
           .from("item_images")
           .insert({ item_id: item.id, url: publicUrl, position: i });
         if (imgError) throw imgError;
+      }
+
+      // Add to Daily Carry if checkbox was checked
+      if (addToEdc && listingType === "showcase") {
+        // Get or create primary loadout
+        let loadoutId: string | null = null;
+        const { data: existingLoadout } = await supabase
+          .from("edc_loadouts")
+          .select("id")
+          .eq("user_id", user.id)
+          .eq("is_primary", true)
+          .single();
+
+        if (existingLoadout) {
+          loadoutId = existingLoadout.id;
+        } else {
+          const { data: newLoadout } = await supabase
+            .from("edc_loadouts")
+            .insert({
+              user_id: user.id,
+              name: "My Daily Carry",
+              is_primary: true,
+            })
+            .select()
+            .single();
+          if (newLoadout) loadoutId = newLoadout.id;
+        }
+
+        if (loadoutId) {
+          // Get next position
+          const { data: existingItems } = await supabase
+            .from("edc_loadout_items")
+            .select("position")
+            .eq("loadout_id", loadoutId)
+            .order("position", { ascending: false })
+            .limit(1);
+
+          const nextPosition = (existingItems?.[0]?.position ?? -1) + 1;
+
+          await supabase.from("edc_loadout_items").insert({
+            loadout_id: loadoutId,
+            item_id: item.id,
+            position: nextPosition,
+          });
+        }
       }
 
       toast.success("Item listed successfully!");
@@ -352,6 +398,29 @@ export default function NewItemPage() {
               ))}
             </div>
           </div>
+
+          {/* Add to Daily Carry (showcase only) */}
+          {listingType === "showcase" && (
+            <div className="p-4 bg-gradient-to-r from-blue-50 to-orange-50 rounded-xl border border-blue-100">
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={addToEdc}
+                  onChange={(e) => setAddToEdc(e.target.checked)}
+                  className="w-4 h-4 rounded border-gray-300 text-orange-600 focus:ring-orange-500"
+                />
+                <div className="flex items-center gap-2">
+                  <Crosshair className="w-4 h-4 text-orange-600" />
+                  <span className="text-sm font-medium text-gray-700">
+                    Add to My Daily Carry
+                  </span>
+                </div>
+              </label>
+              <p className="text-xs text-gray-500 mt-1.5 ml-7">
+                Include this item in your EDC loadout on your profile
+              </p>
+            </div>
+          )}
 
           {/* Price (sell) */}
           {listingType === "sell" && (

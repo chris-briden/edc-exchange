@@ -44,6 +44,7 @@ export default function MyEdcPage() {
         .from("items")
         .select("*, categories(*), item_images(*)")
         .eq("user_id", user.id)
+        .eq("listing_type", "showcase")
         .order("created_at", { ascending: false });
       if (itemsData) {
         setUserItems(itemsData as Item[]);

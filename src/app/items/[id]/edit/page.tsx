@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ImagePlus, X, Loader2 } from "lucide-react";
+import { ArrowLeft, ImagePlus, X, Loader2, Crosshair } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -67,6 +67,8 @@ export default function EditItemPage() {
   const [acceptsReturns, setAcceptsReturns] = useState(false);
   const [boxAndDocs, setBoxAndDocs] = useState("none");
   const [tags, setTags] = useState("");
+  const [addToEdc, setAddToEdc] = useState(false);
+  const [wasInEdc, setWasInEdc] = useState(false);
 
   // Images
   const [existingImages, setExistingImages] = useState<ExistingImage[]>([]);
@@ -133,6 +135,30 @@ export default function EditItemPage() {
       const imgs = (item.item_images || []) as ExistingImage[];
       imgs.sort((a, b) => a.position - b.position);
       setExistingImages(imgs);
+
+      // Check if this item is in the user's EDC loadout
+      if (item.listing_type === "showcase") {
+        const { data: loadoutData } = await supabase
+          .from("edc_loadouts")
+          .select("id")
+          .eq("user_id", user.id)
+          .eq("is_primary", true)
+          .single();
+
+        if (loadoutData) {
+          const { data: loadoutItem } = await supabase
+            .from("edc_loadout_items")
+            .select("id")
+            .eq("loadout_id", loadoutData.id)
+            .eq("item_id", itemId)
+            .single();
+
+          if (loadoutItem) {
+            setAddToEdc(true);
+            setWasInEdc(true);
+          }
+        }
+      }
 
       setLoading(false);
     };
@@ -245,6 +271,84 @@ export default function EditItemPage() {
             position: keptCount + i,
           });
         if (imgError) throw imgError;
+      }
+
+      // Handle EDC loadout add/remove for showcase items
+      if (listingType === "showcase") {
+        if (addToEdc && !wasInEdc) {
+          // Add to EDC
+          let loadoutId: string | null = null;
+          const { data: existingLoadout } = await supabase
+            .from("edc_loadouts")
+            .select("id")
+            .eq("user_id", user.id)
+            .eq("is_primary", true)
+            .single();
+
+          if (existingLoadout) {
+            loadoutId = existingLoadout.id;
+          } else {
+            const { data: newLoadout } = await supabase
+              .from("edc_loadouts")
+              .insert({
+                user_id: user.id,
+                name: "My Daily Carry",
+                is_primary: true,
+              })
+              .select()
+              .single();
+            if (newLoadout) loadoutId = newLoadout.id;
+          }
+
+          if (loadoutId) {
+            const { data: existingItems } = await supabase
+              .from("edc_loadout_items")
+              .select("position")
+              .eq("loadout_id", loadoutId)
+              .order("position", { ascending: false })
+              .limit(1);
+
+            const nextPosition = (existingItems?.[0]?.position ?? -1) + 1;
+
+            await supabase.from("edc_loadout_items").insert({
+              loadout_id: loadoutId,
+              item_id: itemId,
+              position: nextPosition,
+            });
+          }
+        } else if (!addToEdc && wasInEdc) {
+          // Remove from EDC
+          const { data: existingLoadout } = await supabase
+            .from("edc_loadouts")
+            .select("id")
+            .eq("user_id", user.id)
+            .eq("is_primary", true)
+            .single();
+
+          if (existingLoadout) {
+            await supabase
+              .from("edc_loadout_items")
+              .delete()
+              .eq("loadout_id", existingLoadout.id)
+              .eq("item_id", itemId);
+          }
+        }
+      } else if (wasInEdc) {
+        // If listing type changed away from showcase, remove from EDC
+        const { data: existingLoadout } = await supabase
+          .from("edc_loadouts")
+          .select("id")
+          .eq("user_id", user.id)
+          .eq("is_primary", true)
+          .single();
+
+        if (existingLoadout) {
+          await supabase
+            .from("edc_loadout_items")
+            .delete()
+            .eq("loadout_id", existingLoadout.id)
+            .eq("item_id", itemId);
+        }
       }
 
       toast.success("Listing updated!");
@@ -480,6 +584,29 @@ export default function EditItemPage() {
               ))}
             </div>
           </div>
+
+          {/* Add to Daily Carry (showcase only) */}
+          {listingType === "showcase" && (
+            <div className="p-4 bg-gradient-to-r from-blue-50 to-orange-50 rounded-xl border border-blue-100">
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={addToEdc}
+                  onChange={(e) => setAddToEdc(e.target.checked)}
+                  className="w-4 h-4 rounded border-gray-300 text-orange-600 focus:ring-orange-500"
+                />
+                <div className="flex items-center gap-2">
+                  <Crosshair className="w-4 h-4 text-orange-600" />
+                  <span className="text-sm font-medium text-gray-700">
+                    Add to My Daily Carry
+                  </span>
+                </div>
+              </label>
+              <p className="text-xs text-gray-500 mt-1.5 ml-7">
+                Include this item in your EDC loadout on your profile
+              </p>
+            </div>
+          )}
 
           {/* Price (sell) */}
           {listingType === "sell" && (

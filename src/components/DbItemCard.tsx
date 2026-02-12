@@ -96,7 +96,7 @@ export default function DbItemCard({ item }: { item: Item }) {
                 alt={ownerUsername}
                 width={20}
                 height={20}
-                className="rounded-full"
+                className="rounded-full w-5 h-5 object-cover"
               />
             ) : (
               <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-blue-500" />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,6 +13,7 @@ import {
   PenLine,
   Crosshair,
   MapPin,
+  X,
 } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
@@ -21,7 +22,7 @@ import DbItemCard from "@/components/DbItemCard";
 import CategoryIcon from "@/components/CategoryIcon";
 import CommunityPostCard from "@/components/CommunityPostCard";
 import { createClient } from "@/lib/supabase-browser";
-import type { Profile, Item, EdcLoadout, Post } from "@/lib/types";
+import type { Profile, Item, EdcLoadout, Post, Category } from "@/lib/types";
 
 const tabs = ["Listings", "Collection", "Community"] as const;
 type Tab = (typeof tabs)[number];
@@ -34,10 +35,13 @@ export default function ProfilePage() {
   const [showcaseItems, setShowcaseItems] = useState<Item[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
   const [loadout, setLoadout] = useState<EdcLoadout | null>(null);
-  const [loadoutItems, setLoadoutItems] = useState<Item[]>([]);
+  const [edcItemIds, setEdcItemIds] = useState<string[]>([]);
   const [followerCount, setFollowerCount] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
   const [activeTab, setActiveTab] = useState<Tab>("Listings");
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     const supabase = createClient();
@@ -46,8 +50,9 @@ export default function ProfilePage() {
         router.push("/login?redirect=/profile");
         return;
       }
+      setUserId(user.id);
 
-      const [profileRes, listingsRes, showcaseRes, postsRes, followerRes, followingRes, loadoutRes] =
+      const [profileRes, listingsRes, showcaseRes, postsRes, followerRes, followingRes, loadoutRes, categoriesRes] =
         await Promise.all([
           supabase.from("profiles").select("*").eq("id", user.id).single(),
           supabase
@@ -81,6 +86,7 @@ export default function ProfilePage() {
             .eq("user_id", user.id)
             .eq("is_primary", true)
             .single(),
+          supabase.from("categories").select("*").order("name"),
         ]);
 
       if (profileRes.data) setProfile(profileRes.data as Profile);
@@ -89,26 +95,110 @@ export default function ProfilePage() {
       if (postsRes.data) setPosts(postsRes.data as Post[]);
       setFollowerCount(followerRes.count || 0);
       setFollowingCount(followingRes.count || 0);
+      if (categoriesRes.data) setCategories(categoriesRes.data as Category[]);
 
       if (loadoutRes.data) {
         setLoadout(loadoutRes.data as EdcLoadout);
         const { data: loadoutItemsData } = await supabase
           .from("edc_loadout_items")
-          .select("*, items(*, categories(*), item_images(*))")
+          .select("item_id")
           .eq("loadout_id", loadoutRes.data.id)
           .order("position");
         if (loadoutItemsData) {
-          setLoadoutItems(
-            loadoutItemsData
-              .map((li: Record<string, unknown>) => li.items as Item)
-              .filter(Boolean)
-          );
+          setEdcItemIds(loadoutItemsData.map((li: { item_id: string }) => li.item_id));
         }
       }
 
       setLoading(false);
     });
   }, [router]);
+
+  // Derive EDC items and collection-only items from showcaseItems + edcItemIds
+  const edcItems = showcaseItems.filter((item) => edcItemIds.includes(item.id));
+  const collectionOnly = showcaseItems.filter((item) => !edcItemIds.includes(item.id));
+  const filteredCollection = selectedCategory
+    ? collectionOnly.filter((item) => item.category_id === selectedCategory)
+    : collectionOnly;
+
+  const handleAddToEdc = useCallback(
+    async (itemId: string) => {
+      // Optimistic update
+      setEdcItemIds((prev) => [...prev, itemId]);
+
+      try {
+        const supabase = createClient();
+        let loadoutId = loadout?.id;
+
+        if (!loadoutId) {
+          // Auto-create loadout
+          const { data: newLoadout, error: createErr } = await supabase
+            .from("edc_loadouts")
+            .insert({
+              user_id: userId!,
+              name: "My Daily Carry",
+              is_primary: true,
+            })
+            .select()
+            .single();
+          if (createErr) throw createErr;
+          setLoadout(newLoadout as EdcLoadout);
+          loadoutId = newLoadout.id;
+        }
+
+        // Get next position
+        const { data: existingItems } = await supabase
+          .from("edc_loadout_items")
+          .select("position")
+          .eq("loadout_id", loadoutId)
+          .order("position", { ascending: false })
+          .limit(1);
+
+        const nextPosition = (existingItems?.[0]?.position ?? -1) + 1;
+
+        const { error: insertErr } = await supabase
+          .from("edc_loadout_items")
+          .insert({
+            loadout_id: loadoutId,
+            item_id: itemId,
+            position: nextPosition,
+          });
+        if (insertErr) throw insertErr;
+
+        toast.success("Added to Daily Carry!");
+      } catch {
+        // Revert on error
+        setEdcItemIds((prev) => prev.filter((id) => id !== itemId));
+        toast.error("Failed to add to Daily Carry");
+      }
+    },
+    [loadout, userId]
+  );
+
+  const handleRemoveFromEdc = useCallback(
+    async (itemId: string) => {
+      if (!loadout?.id) return;
+
+      // Optimistic update
+      setEdcItemIds((prev) => prev.filter((id) => id !== itemId));
+
+      try {
+        const supabase = createClient();
+        const { error: deleteErr } = await supabase
+          .from("edc_loadout_items")
+          .delete()
+          .eq("loadout_id", loadout.id)
+          .eq("item_id", itemId);
+        if (deleteErr) throw deleteErr;
+
+        toast.success("Removed from Daily Carry");
+      } catch {
+        // Revert on error
+        setEdcItemIds((prev) => [...prev, itemId]);
+        toast.error("Failed to remove from Daily Carry");
+      }
+    },
+    [loadout]
+  );
 
   const handleShare = async () => {
     const url = profile?.username
@@ -172,10 +262,10 @@ export default function ProfilePage() {
                 alt={profile.username || ""}
                 width={96}
                 height={96}
-                className="rounded-2xl shadow-lg"
+                className="rounded-full w-24 h-24 object-cover shadow-lg"
               />
             ) : (
-              <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-3xl font-bold shadow-lg">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-3xl font-bold shadow-lg">
                 {profile.username?.charAt(0)?.toUpperCase() || "U"}
               </div>
             )}
@@ -240,8 +330,13 @@ export default function ProfilePage() {
             <div className="flex items-center gap-2">
               <Crosshair className="w-5 h-5 text-orange-600" />
               <h3 className="font-bold text-lg">
-                {loadout?.name || "My EDC"}
+                {loadout?.name || "My Daily Carry"}
               </h3>
+              {edcItems.length > 0 && (
+                <span className="text-xs text-gray-400 ml-1">
+                  ({edcItems.length})
+                </span>
+              )}
             </div>
             <Link
               href="/profile/my-edc"
@@ -252,7 +347,7 @@ export default function ProfilePage() {
             </Link>
           </div>
 
-          {loadoutItems.length > 0 ? (
+          {edcItems.length > 0 ? (
             <>
               {loadout?.description && (
                 <p className="text-gray-600 text-sm mb-4">
@@ -260,34 +355,40 @@ export default function ProfilePage() {
                 </p>
               )}
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-                {loadoutItems.map((item) => {
+                {edcItems.map((item) => {
                   const firstImage = item.item_images?.[0]?.url;
                   const categorySlug = item.categories?.slug || "";
                   return (
-                    <Link
-                      key={item.id}
-                      href={`/item/${item.id}`}
-                      className="group"
-                    >
-                      <div className="aspect-square rounded-xl bg-white border border-gray-200 overflow-hidden shadow-sm group-hover:shadow-md group-hover:-translate-y-0.5 transition-all">
-                        {firstImage ? (
-                          <Image
-                            src={firstImage}
-                            alt={item.name}
-                            width={120}
-                            height={120}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <CategoryIcon slug={categorySlug} size="md" />
-                          </div>
-                        )}
-                      </div>
+                    <div key={item.id} className="group relative">
+                      <Link href={`/item/${item.id}`}>
+                        <div className="aspect-square rounded-xl bg-white border border-gray-200 overflow-hidden shadow-sm group-hover:shadow-md group-hover:-translate-y-0.5 transition-all">
+                          {firstImage ? (
+                            <Image
+                              src={firstImage}
+                              alt={item.name}
+                              width={120}
+                              height={120}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <CategoryIcon slug={categorySlug} size="md" />
+                            </div>
+                          )}
+                        </div>
+                      </Link>
                       <p className="text-xs text-gray-600 font-medium mt-1.5 text-center line-clamp-1">
                         {item.name}
                       </p>
-                    </Link>
+                      {/* Remove from EDC button on hover */}
+                      <button
+                        onClick={() => handleRemoveFromEdc(item.id)}
+                        className="absolute top-1 right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-red-600 transition-all shadow-md"
+                        title="Remove from Daily Carry"
+                      >
+                        <X className="w-3.5 h-3.5 text-white" />
+                      </button>
+                    </div>
                   );
                 })}
               </div>
@@ -374,9 +475,9 @@ export default function ProfilePage() {
 
         {activeTab === "Collection" && (
           <>
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold text-lg">
-                Showcase ({showcaseItems.length})
+                Collection ({collectionOnly.length})
               </h3>
               <Link
                 href="/items/new"
@@ -385,17 +486,130 @@ export default function ProfilePage() {
                 <Plus className="w-4 h-4" /> Add to Collection
               </Link>
             </div>
-            {showcaseItems.length > 0 ? (
+
+            {/* Category filter pills */}
+            {collectionOnly.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-6">
+                <button
+                  onClick={() => setSelectedCategory(null)}
+                  className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition ${
+                    selectedCategory === null
+                      ? "bg-orange-600 text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  All
+                </button>
+                {categories
+                  .filter((cat) =>
+                    collectionOnly.some((item) => item.category_id === cat.id)
+                  )
+                  .map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => setSelectedCategory(cat.id)}
+                      className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition ${
+                        selectedCategory === cat.id
+                          ? "bg-orange-600 text-white"
+                          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                      }`}
+                    >
+                      {cat.name}
+                    </button>
+                  ))}
+              </div>
+            )}
+
+            {filteredCollection.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {showcaseItems.map((item) => (
-                  <DbItemCard key={item.id} item={item} />
-                ))}
+                {filteredCollection.map((item) => {
+                  const firstImage = item.item_images?.[0]?.url;
+                  const categorySlug = item.categories?.slug || "";
+                  const ownerUsername = item.profiles?.username || "Unknown";
+                  const ownerAvatar = item.profiles?.avatar_url;
+                  return (
+                    <div key={item.id} className="group relative">
+                      <Link
+                        href={`/item/${item.id}`}
+                        className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all hover:-translate-y-0.5 block"
+                      >
+                        <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
+                          {firstImage ? (
+                            <Image
+                              src={firstImage}
+                              alt={item.name}
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform"
+                              sizes="(max-width: 768px) 50vw, 25vw"
+                            />
+                          ) : (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <CategoryIcon slug={categorySlug} size="xl" />
+                            </div>
+                          )}
+                          <div className="absolute top-3 left-3 bg-gray-100 text-gray-700 px-2.5 py-1 rounded-full text-xs font-semibold">
+                            Showcase
+                          </div>
+                        </div>
+                        <div className="p-4">
+                          <h3 className="font-semibold text-sm group-hover:text-orange-600 transition line-clamp-1">
+                            {item.name}
+                          </h3>
+                          <p className="text-gray-500 text-xs mt-1">
+                            {item.brand} &middot; {item.condition}
+                          </p>
+                          <div className="flex items-center mt-3 pt-3 border-t border-gray-100">
+                            <div className="flex items-center gap-1">
+                              {ownerAvatar ? (
+                                <Image
+                                  src={ownerAvatar}
+                                  alt={ownerUsername}
+                                  width={20}
+                                  height={20}
+                                  className="rounded-full w-5 h-5 object-cover"
+                                />
+                              ) : (
+                                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-blue-500" />
+                              )}
+                              <span className="text-xs text-gray-500">{ownerUsername}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                      {/* Add to Daily Carry overlay */}
+                      <button
+                        onClick={() => handleAddToEdc(item.id)}
+                        className="absolute inset-0 bg-black/0 group-hover:bg-black/40 rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
+                      >
+                        <div className="flex flex-col items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform">
+                          <div className="w-10 h-10 rounded-full bg-orange-600 flex items-center justify-center shadow-lg">
+                            <Plus className="w-5 h-5 text-white" />
+                          </div>
+                          <span className="text-sm font-semibold text-white drop-shadow-lg">
+                            Add to Daily Carry
+                          </span>
+                        </div>
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : collectionOnly.length > 0 ? (
+              <div className="text-center py-12 text-gray-400">
+                <p className="text-lg font-medium">No items in this category</p>
+                <p className="text-sm mt-1">Try selecting a different filter</p>
               </div>
             ) : (
               <div className="text-center py-12 text-gray-400">
-                <p className="text-lg font-medium">No showcase items</p>
+                <p className="text-lg font-medium">
+                  {showcaseItems.length > 0
+                    ? "All collection items are in your Daily Carry!"
+                    : "No showcase items"}
+                </p>
                 <p className="text-sm mt-1">
-                  Show off your collection — list items as &quot;Showcase&quot;
+                  {showcaseItems.length > 0
+                    ? "Remove items from Daily Carry to see them here"
+                    : 'Show off your collection — list items as "Showcase"'}
                 </p>
               </div>
             )}

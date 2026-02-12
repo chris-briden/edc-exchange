@@ -225,10 +225,10 @@ export default function PublicProfilePage() {
                 alt={profile.username || ""}
                 width={96}
                 height={96}
-                className="rounded-2xl shadow-lg"
+                className="rounded-full w-24 h-24 object-cover shadow-lg"
               />
             ) : (
-              <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-3xl font-bold shadow-lg">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-3xl font-bold shadow-lg">
                 {profile.username?.charAt(0)?.toUpperCase() || "U"}
               </div>
             )}

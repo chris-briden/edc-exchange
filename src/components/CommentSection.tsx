@@ -42,7 +42,7 @@ function CommentItem({
               alt={comment.profiles.username || ""}
               width={36}
               height={36}
-              className="rounded-full"
+              className="rounded-full w-9 h-9 object-cover"
             />
           ) : (
             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white text-xs font-bold">
@@ -112,7 +112,7 @@ function CommentItem({
                     alt={reply.profiles.username || ""}
                     width={28}
                     height={28}
-                    className="rounded-full"
+                    className="rounded-full w-7 h-7 object-cover"
                   />
                 ) : (
                   <div className="w-7 h-7 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white text-[10px] font-bold">

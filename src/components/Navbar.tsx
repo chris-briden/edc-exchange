@@ -175,7 +175,7 @@ export default function Navbar() {
                           alt={profile.username || ""}
                           width={32}
                           height={32}
-                          className="rounded-full"
+                          className="rounded-full w-8 h-8 object-cover"
                         />
                       ) : (
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white text-sm font-bold">

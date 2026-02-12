@@ -8,6 +8,7 @@ import { ArrowLeft, Camera, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AvatarCropper from "@/components/AvatarCropper";
 import { createClient } from "@/lib/supabase-browser";
 import type { Profile } from "@/lib/types";
 
@@ -24,6 +25,8 @@ export default function EditProfilePage() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [showCropper, setShowCropper] = useState(false);
+  const [tempImageUrl, setTempImageUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
@@ -56,8 +59,22 @@ export default function EditProfilePage() {
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setTempImageUrl(event.target?.result as string);
+      setShowCropper(true);
+    };
+    reader.readAsDataURL(file);
+    // Reset input so same file can be re-selected
+    e.target.value = "";
+  };
+
+  const handleCropComplete = async (croppedBlob: Blob) => {
+    const file = new File([croppedBlob], "avatar.jpg", { type: "image/jpeg" });
     setAvatarFile(file);
-    setAvatarPreview(URL.createObjectURL(file));
+    setAvatarPreview(URL.createObjectURL(croppedBlob));
+    setShowCropper(false);
+    setTempImageUrl(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -299,6 +316,17 @@ export default function EditProfilePage() {
           </div>
         </form>
       </div>
+
+      {showCropper && tempImageUrl && (
+        <AvatarCropper
+          imageSrc={tempImageUrl}
+          onCropComplete={handleCropComplete}
+          onCancel={() => {
+            setShowCropper(false);
+            setTempImageUrl(null);
+          }}
+        />
+      )}
 
       <Footer />
     </>
