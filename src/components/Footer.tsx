@@ -9,14 +9,11 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <Image
-                src="/logo.svg"
+                src="/logo.png"
                 alt="EDC Exchange"
-                width={44}
+                width={154}
                 height={44}
               />
-              <span className="font-bold text-lg text-white">
-                EDC Exchange
-              </span>
             </div>
             <p className="text-sm leading-relaxed">
               The community marketplace for everyday carry enthusiasts.
