@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ImagePlus, X, Loader2, Crosshair } from "lucide-react";
+import { ArrowLeft, ImagePlus, X, Loader2, Crosshair, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -64,6 +64,7 @@ export default function NewItemPage() {
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [addToEdc, setAddToEdc] = useState(false);
+  const [stripeConnected, setStripeConnected] = useState<boolean | null>(null);
 
   useEffect(() => {
     const supabase = createClient();
@@ -74,6 +75,14 @@ export default function NewItemPage() {
       .then(({ data }) => {
         if (data) setCategories(data as Category[]);
       });
+
+    // Check Stripe connection status
+    fetch("/api/stripe/connect")
+      .then((res) => res.json())
+      .then((data) => {
+        setStripeConnected(data.connected && data.charges_enabled);
+      })
+      .catch(() => setStripeConnected(false));
   }, []);
 
   const handleImageAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,6 +107,11 @@ export default function NewItemPage() {
     setLoading(true);
 
     try {
+      // Gate: require Stripe for sell/rent listings
+      if ((listingType === "sell" || listingType === "rent") && !stripeConnected) {
+        throw new Error("Please connect your Stripe account before listing items for sale or rent. Go to your profile to set it up.");
+      }
+
       const supabase = createClient();
       const {
         data: { user },
@@ -397,6 +411,25 @@ export default function NewItemPage() {
                 </button>
               ))}
             </div>
+
+            {/* Stripe gate warning */}
+            {(listingType === "sell" || listingType === "rent") && stripeConnected === false && (
+              <div className="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200 flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+                <div className="text-sm">
+                  <p className="font-medium text-amber-800">
+                    Stripe account required
+                  </p>
+                  <p className="text-amber-600 text-xs mt-0.5">
+                    You need to{" "}
+                    <a href="/profile" className="underline font-medium">
+                      connect a Stripe account
+                    </a>{" "}
+                    before listing items for sale or rent.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Add to Daily Carry (showcase only) */}

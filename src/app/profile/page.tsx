@@ -21,6 +21,7 @@ import Footer from "@/components/Footer";
 import DbItemCard from "@/components/DbItemCard";
 import CategoryIcon from "@/components/CategoryIcon";
 import CommunityPostCard from "@/components/CommunityPostCard";
+import ConnectStripeButton from "@/components/ConnectStripeButton";
 import { createClient } from "@/lib/supabase-browser";
 import type { Profile, Item, EdcLoadout, Post, Category } from "@/lib/types";
 
@@ -110,6 +111,29 @@ export default function ProfilePage() {
       }
 
       setLoading(false);
+
+      // Handle Stripe callback query params
+      const urlParams = new URLSearchParams(window.location.search);
+      const stripeStatus = urlParams.get("stripe");
+      if (stripeStatus === "connected") {
+        toast.success("Stripe account connected successfully! You can now receive payments.");
+        window.history.replaceState({}, "", "/profile");
+      } else if (stripeStatus === "pending") {
+        toast.info("Stripe onboarding started. Please complete the setup to receive payments.");
+        window.history.replaceState({}, "", "/profile");
+      } else if (stripeStatus === "error") {
+        toast.error("There was an issue connecting your Stripe account. Please try again.");
+        window.history.replaceState({}, "", "/profile");
+      }
+
+      const paymentStatus = urlParams.get("payment");
+      if (paymentStatus === "success") {
+        toast.success("Payment completed successfully!");
+        window.history.replaceState({}, "", "/profile");
+      } else if (paymentStatus === "rental_success") {
+        toast.success("Rental confirmed! The lender has been notified.");
+        window.history.replaceState({}, "", "/profile");
+      }
     });
   }, [router]);
 
@@ -321,6 +345,11 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Stripe Connect Section */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-8">
+        <ConnectStripeButton />
       </div>
 
       {/* My EDC Section */}

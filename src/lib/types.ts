@@ -8,6 +8,7 @@ export type Profile = {
   bio: string | null;
   website: string | null;
   location: string | null;
+  stripe_account_id: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -145,4 +146,31 @@ export type Message = {
   // Joined fields
   sender?: Profile;
   receiver?: Profile;
+};
+
+export type Transaction = {
+  id: string;
+  listing_id: string;
+  buyer_id: string;
+  seller_id: string;
+  amount: number;
+  platform_fee: number;
+  stripe_payment_intent_id: string;
+  security_deposit_payment_intent_id: string | null;
+  type: "sale" | "rental";
+  status: string;
+  rental_start_date: string | null;
+  rental_end_date: string | null;
+  rental_status:
+    | "active"
+    | "returned"
+    | "deposit_captured"
+    | "deposit_released"
+    | null;
+  created_at: string;
+  updated_at: string;
+  // Joined fields
+  items?: Item;
+  buyer?: Profile;
+  seller?: Profile;
 };

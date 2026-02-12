@@ -24,6 +24,7 @@ import Footer from "@/components/Footer";
 import CommentSection from "@/components/CommentSection";
 import CategoryIcon from "@/components/CategoryIcon";
 import DbItemCard from "@/components/DbItemCard";
+import { BuyNowForm, RentalPaymentForm } from "@/components/StripePaymentForm";
 import { createClient } from "@/lib/supabase-browser";
 import type { Item } from "@/lib/types";
 
@@ -63,6 +64,8 @@ export default function ItemPage() {
   const [isOwner, setIsOwner] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [similarItems, setSimilarItems] = useState<Item[]>([]);
+  const [showBuyForm, setShowBuyForm] = useState(false);
+  const [showRentalForm, setShowRentalForm] = useState(false);
 
   useEffect(() => {
     const supabase = createClient();
@@ -411,7 +414,13 @@ export default function ItemPage() {
               <div className="flex flex-wrap gap-3 mt-6">
                 {dbItem.listing_type === "sell" && dbItem.price && (
                   <button
-                    onClick={handleAction}
+                    onClick={() => {
+                      if (!currentUserId) {
+                        router.push("/login");
+                        return;
+                      }
+                      setShowBuyForm(true);
+                    }}
                     className="flex-1 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition"
                   >
                     Buy Now &mdash; ${Number(dbItem.price).toFixed(0)}
@@ -435,10 +444,21 @@ export default function ItemPage() {
                 )}
                 {dbItem.listing_type === "rent" && (
                   <button
-                    onClick={handleAction}
+                    onClick={() => {
+                      if (!currentUserId) {
+                        router.push("/login");
+                        return;
+                      }
+                      setShowRentalForm(true);
+                    }}
                     className="flex-1 py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition"
                   >
                     Rent &mdash; {dbItem.rent_price}
+                    {dbItem.rental_period && (
+                      <span className="text-amber-200 text-sm font-normal">
+                        {" "}/ {dbItem.rental_period}
+                      </span>
+                    )}
                   </button>
                 )}
                 <button
@@ -541,6 +561,27 @@ export default function ItemPage() {
       </div>
 
       <Footer />
+
+      {/* Payment modals */}
+      {showBuyForm && dbItem.price && (
+        <BuyNowForm
+          listingId={dbItem.id}
+          itemName={dbItem.name}
+          price={Number(dbItem.price)}
+          onClose={() => setShowBuyForm(false)}
+        />
+      )}
+
+      {showRentalForm && dbItem.rent_price && (
+        <RentalPaymentForm
+          listingId={dbItem.id}
+          itemName={dbItem.name}
+          rentPrice={dbItem.rent_price}
+          rentalPeriod={dbItem.rental_period}
+          depositAmount={dbItem.rental_deposit}
+          onClose={() => setShowRentalForm(false)}
+        />
+      )}
     </>
   );
 }
