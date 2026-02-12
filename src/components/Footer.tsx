@@ -25,10 +25,10 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm">
               <li><Link href="/categories" className="hover:text-white transition">Browse All</Link></li>
-              <li><Link href="/categories" className="hover:text-white transition">Knives</Link></li>
-              <li><Link href="/categories" className="hover:text-white transition">Flashlights</Link></li>
-              <li><Link href="/categories" className="hover:text-white transition">Pens</Link></li>
-              <li><Link href="/categories" className="hover:text-white transition">Multi-Tools</Link></li>
+              <li><Link href="/categories?category=knives" className="hover:text-white transition">Knives</Link></li>
+              <li><Link href="/categories?category=flashlights" className="hover:text-white transition">Flashlights</Link></li>
+              <li><Link href="/categories?category=pens" className="hover:text-white transition">Pens</Link></li>
+              <li><Link href="/categories?category=multi-tools" className="hover:text-white transition">Multi-Tools</Link></li>
             </ul>
           </div>
           <div>
@@ -37,9 +37,9 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm">
               <li><Link href="/community" className="hover:text-white transition">Feed</Link></li>
-              <li><Link href="/community" className="hover:text-white transition">Collections</Link></li>
-              <li><Link href="/community" className="hover:text-white transition">Reviews</Link></li>
-              <li><Link href="/community" className="hover:text-white transition">Discussions</Link></li>
+              <li><Link href="/community?filter=collection" className="hover:text-white transition">Collections</Link></li>
+              <li><Link href="/community?filter=review" className="hover:text-white transition">Reviews</Link></li>
+              <li><Link href="/community?filter=discussion" className="hover:text-white transition">Discussions</Link></li>
             </ul>
           </div>
           <div>
@@ -47,10 +47,10 @@ export default function Footer() {
               Company
             </h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="#" className="hover:text-white transition">About</Link></li>
-              <li><Link href="#" className="hover:text-white transition">Trust & Safety</Link></li>
-              <li><Link href="#" className="hover:text-white transition">Terms of Service</Link></li>
-              <li><Link href="#" className="hover:text-white transition">Privacy Policy</Link></li>
+              <li><Link href="/about" className="hover:text-white transition">About</Link></li>
+              <li><Link href="/trust-safety" className="hover:text-white transition">Trust & Safety</Link></li>
+              <li><Link href="/terms" className="hover:text-white transition">Terms of Service</Link></li>
+              <li><Link href="/privacy" className="hover:text-white transition">Privacy Policy</Link></li>
             </ul>
           </div>
         </div>
@@ -61,5 +61,3 @@ export default function Footer() {
     </footer>
   );
 }
-
-
