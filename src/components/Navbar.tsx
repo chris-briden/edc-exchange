@@ -100,7 +100,7 @@ export default function Navbar() {
           <Link href="/" className="flex items-center gap-3 shrink-0">
             <Image
               src="/logo.png"
-              alt="EDC Exchange"
+              alt="The Carry Exchange"
               width={224}
               height={64}
             />
@@ -324,6 +324,7 @@ export default function Navbar() {
     </nav>
   );
 }
+
 
 
 
