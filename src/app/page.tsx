@@ -98,7 +98,7 @@ export default function Home() {
                 href="/community"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-orange-600 text-white font-semibold hover:bg-orange-700 transition shadow-lg shadow-orange-600/25"
               >
-                Explore Community <ArrowRight className="w-4 h-4" />
+                Join the Carry <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/categories"
@@ -308,7 +308,7 @@ export default function Home() {
               href="/signup"
               className="px-6 py-3 rounded-full bg-white text-orange-600 font-semibold hover:bg-blue-50 transition"
             >
-              Create Account
+              Join the Carry â
             </Link>
             <Link
               href="/community"
