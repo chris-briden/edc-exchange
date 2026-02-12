@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Outer bezel ring -->
+  <circle cx="100" cy="100" r="95" fill="#3a3a3a" />
+  <circle cx="100" cy="100" r="78" fill="#fff" />
+
+  <!-- Bezel indices/markers -->
+  <!-- Top triangle marker -->
+  <polygon points="100,8 94,20 106,20" fill="#fff" />
+  <!-- Hour markers around the bezel -->
+  <g fill="#fff">
+    <rect x="98" y="10" width="4" height="10" rx="1" transform="rotate(30 100 100)" />
+    <rect x="98" y="10" width="4" height="10" rx="1" transform="rotate(60 100 100)" />
+    <rect x="98" y="10" width="4" height="10" rx="1" transform="rotate(90 100 100)" />
+    <rect x="98" y="10" width="4" height="10" rx="1" transform="rotate(120 100 100)" />
+    <rect x="98" y="10" width="4" height="10" rx="1" transform="rotate(150 100 100)" />
+    <rect x="98" y="10" width="4" height="10" rx="1" transform="rotate(180 100 100)" />
+    <rect x="98" y="10" width="4" height="10" rx="1" transform="rotate(210 100 100)" />
+    <rect x="98" y="10" width="4" height="10" rx="1" transform="rotate(240 100 100)" />
+    <rect x="98" y="10" width="4" height="10" rx="1" transform="rotate(270 100 100)" />
+    <rect x="98" y="10" width="4" height="10" rx="1" transform="rotate(300 100 100)" />
+    <rect x="98" y="10" width="4" height="10" rx="1" transform="rotate(330 100 100)" />
+  </g>
+
+  <!-- Inner circle border -->
+  <circle cx="100" cy="100" r="72" fill="none" stroke="#3a3a3a" stroke-width="3" />
+
+  <!-- Gear/cog -->
+  <g fill="#3a3a3a">
+    <!-- Gear body -->
+    <circle cx="100" cy="100" r="38" />
+    <!-- Gear teeth -->
+    <rect x="94" y="58" width="12" height="12" rx="2" transform="rotate(0 100 100)" />
+    <rect x="94" y="58" width="12" height="12" rx="2" transform="rotate(30 100 100)" />
+    <rect x="94" y="58" width="12" height="12" rx="2" transform="rotate(60 100 100)" />
+    <rect x="94" y="58" width="12" height="12" rx="2" transform="rotate(90 100 100)" />
+    <rect x="94" y="58" width="12" height="12" rx="2" transform="rotate(120 100 100)" />
+    <rect x="94" y="58" width="12" height="12" rx="2" transform="rotate(150 100 100)" />
+    <rect x="94" y="58" width="12" height="12" rx="2" transform="rotate(180 100 100)" />
+    <rect x="94" y="58" width="12" height="12" rx="2" transform="rotate(210 100 100)" />
+    <rect x="94" y="58" width="12" height="12" rx="2" transform="rotate(240 100 100)" />
+    <rect x="94" y="58" width="12" height="12" rx="2" transform="rotate(270 100 100)" />
+    <rect x="94" y="58" width="12" height="12" rx="2" transform="rotate(300 100 100)" />
+    <rect x="94" y="58" width="12" height="12" rx="2" transform="rotate(330 100 100)" />
+  </g>
+  <!-- Gear inner cutout -->
+  <circle cx="100" cy="100" r="25" fill="#fff" />
+  <circle cx="100" cy="100" r="22" fill="none" stroke="#3a3a3a" stroke-width="2" />
+
+  <!-- Crossed knife and pen in steel blue -->
+  <g transform="translate(100,100)">
+    <!-- Knife (top-left to bottom-right) -->
+    <g transform="rotate(45)" fill="#5b7d95" stroke="#4a6a80" stroke-width="0.5">
+      <!-- Blade -->
+      <path d="M-4,-55 L0,-68 L4,-55 Z" />
+      <rect x="-4" y="-55" width="8" height="30" rx="1" />
+      <!-- Handle -->
+      <rect x="-5" y="-25" width="10" height="35" rx="3" fill="#5b7d95" />
+      <!-- Guard -->
+      <rect x="-7" y="-26" width="14" height="4" rx="1" fill="#4a6a80" />
+      <!-- Handle detail lines -->
+      <line x1="-3" y1="-15" x2="3" y2="-15" stroke="#4a6a80" stroke-width="1" />
+      <line x1="-3" y1="-8" x2="3" y2="-8" stroke="#4a6a80" stroke-width="1" />
+      <line x1="-3" y1="-1" x2="3" y2="-1" stroke="#4a6a80" stroke-width="1" />
+    </g>
+    <!-- Pen (top-right to bottom-left) -->
+    <g transform="rotate(-45)" fill="#5b7d95" stroke="#4a6a80" stroke-width="0.5">
+      <!-- Pen tip -->
+      <path d="M-3,-55 L0,-68 L3,-55 Z" />
+      <!-- Pen body -->
+      <rect x="-4" y="-55" width="8" height="30" rx="1" />
+      <!-- Pen grip -->
+      <rect x="-5" y="-25" width="10" height="35" rx="3" fill="#5b7d95" />
+      <!-- Clip -->
+      <rect x="4" y="-50" width="3" height="20" rx="1" fill="#4a6a80" />
+      <!-- Grip detail lines -->
+      <line x1="-3" y1="-15" x2="3" y2="-15" stroke="#4a6a80" stroke-width="1" />
+      <line x1="-3" y1="-8" x2="3" y2="-8" stroke="#4a6a80" stroke-width="1" />
+      <line x1="-3" y1="-1" x2="3" y2="-1" stroke="#4a6a80" stroke-width="1" />
+    </g>
+    <!-- Center rivet -->
+    <circle cx="0" cy="0" r="4" fill="#fff" stroke="#3a3a3a" stroke-width="1.5" />
+  </g>
+</svg>

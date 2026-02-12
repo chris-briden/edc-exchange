@@ -98,11 +98,14 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-orange-500 to-blue-600 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">EDC</span>
-            </div>
-            <span className="font-bold text-xl hidden sm:block">
-              EDC <span className="text-orange-600">Exchange</span>
+            <Image
+              src="/logo.svg"
+              alt="EDC Exchange"
+              width={36}
+              height={36}
+            />
+            <span className="font-bold text-xl hidden sm:block text-gray-900">
+              EDC Exchange
             </span>
           </Link>
 
