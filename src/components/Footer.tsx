@@ -9,11 +9,10 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <Image
-                src="/logo.png"
+                src="/logo-white.png"
                 alt="EDC Exchange"
                 width={182}
                 height={52}
-                className="brightness-0 invert"
               />
             </div>
             <p className="text-sm leading-relaxed">
@@ -62,4 +61,5 @@ export default function Footer() {
     </footer>
   );
 }
+
 
