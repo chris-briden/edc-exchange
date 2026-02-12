@@ -87,7 +87,7 @@ export default function EditProfilePage() {
         const {
           data: { publicUrl },
         } = supabase.storage.from("avatars").getPublicUrl(path);
-        newAvatarUrl = publicUrl;
+        newAvatarUrl = `${publicUrl}?t=${Date.now()}`;
       }
 
       const { error: updateError } = await supabase
