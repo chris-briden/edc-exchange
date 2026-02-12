@@ -76,7 +76,7 @@ export default function Home() {
           <Wrench className="absolute bottom-20 right-10 w-24 h-24 text-blue-300" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
-          <div className="flex items-center justify-between gap-12">
+          <div className="flex items-center gap-8">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-600/20 border border-orange-500/30 text-orange-300 text-sm font-medium mb-6">
               <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
@@ -109,7 +109,7 @@ export default function Home() {
             </div>
           </div>
           {/* Icon Emblem */}
-          <div className="hidden md:flex items-center justify-center flex-shrink-0">
+          <div className="hidden md:flex flex-1 items-center justify-center">
             <Image
               src="/icon-white.png"
               alt="EDC Exchange Emblem"
@@ -331,5 +331,6 @@ const typeStyles: Record<string, { badge: string; bg: string }> = {
   discussion: { badge: "Discussion", bg: "bg-green-100 text-green-700" },
   photo: { badge: "Photo", bg: "bg-amber-100 text-amber-700" },
 };
+
 
 
