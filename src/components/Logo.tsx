@@ -6,9 +6,9 @@ interface LogoProps {
   textClassName?: string;
 }
 
-export default function Logo({ size = 36, showText = true, textClassName = "" }: LogoProps) {
+export default function Logo({ size = 48, showText = true, textClassName = "" }: LogoProps) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-3">
       <Image
         src="/logo.svg"
         alt="EDC Exchange"

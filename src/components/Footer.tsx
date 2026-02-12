@@ -7,12 +7,12 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center gap-3 mb-4">
               <Image
                 src="/logo.svg"
                 alt="EDC Exchange"
-                width={32}
-                height={32}
+                width={44}
+                height={44}
               />
               <span className="font-bold text-lg text-white">
                 EDC Exchange
