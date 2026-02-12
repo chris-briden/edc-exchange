@@ -308,7 +308,7 @@ export default function Home() {
               href="/signup"
               className="px-6 py-3 rounded-full bg-white text-orange-600 font-semibold hover:bg-blue-50 transition"
             >
-              Join the Carry â
+              Join the Carry →
             </Link>
             <Link
               href="/community"
@@ -331,6 +331,7 @@ const typeStyles: Record<string, { badge: string; bg: string }> = {
   discussion: { badge: "Discussion", bg: "bg-green-100 text-green-700" },
   photo: { badge: "Photo", bg: "bg-amber-100 text-amber-700" },
 };
+
 
 
 
