@@ -11,8 +11,9 @@ export default function Footer() {
               <Image
                 src="/logo.png"
                 alt="EDC Exchange"
-                width={154}
-                height={44}
+                width={182}
+                height={52}
+                className="brightness-0 invert"
               />
             </div>
             <p className="text-sm leading-relaxed">
@@ -61,3 +62,4 @@ export default function Footer() {
     </footer>
   );
 }
+
