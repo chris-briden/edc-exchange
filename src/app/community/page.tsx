@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import {
   PenSquare,
   Filter,
@@ -183,8 +184,13 @@ function DbPostCard({
   );
 }
 
-export default function CommunityPage() {
-  const [active, setActive] = useState("All");
+function CommunityPageInner() {
+  const searchParams = useSearchParams();
+  const filterParam = searchParams.get("filter");
+  const initialFilter = filterParam
+    ? Object.entries(filterMap).find(([, v]) => v === filterParam)?.[0] || "All"
+    : "All";
+  const [active, setActive] = useState(initialFilter);
   const [sortBy, setSortBy] = useState("newest");
   const [dbPosts, setDbPosts] = useState<Post[]>([]);
   const [loaded, setLoaded] = useState(false);
@@ -330,5 +336,13 @@ export default function CommunityPage() {
 
       <Footer />
     </>
+  );
+}
+
+export default function CommunityPage() {
+  return (
+    <Suspense>
+      <CommunityPageInner />
+    </Suspense>
   );
 }
