@@ -1,26 +1,21 @@
 import Image from "next/image";
 
 interface LogoProps {
-  size?: number;
+  height?: number;
   showText?: boolean;
   textClassName?: string;
 }
 
-export default function Logo({ size = 48, showText = true, textClassName = "" }: LogoProps) {
+export default function Logo({ height = 48, showText = true, textClassName = "" }: LogoProps) {
   return (
     <div className="flex items-center gap-3">
       <Image
-        src="/logo.svg"
+        src="/logo.png"
         alt="EDC Exchange"
-        width={size}
-        height={size}
-        className="shrink-0"
+        width={Math.round(height * 3.5)}
+        height={height}
+        className="shrink-0 object-contain"
       />
-      {showText && (
-        <span className={`font-bold ${textClassName}`}>
-          EDC Exchange
-        </span>
-      )}
     </div>
   );
 }
