@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import {
   Search,
   Menu,
-  X,
+  X
   Plus,
   Bell,
   MessageSquare,
@@ -99,14 +99,11 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 shrink-0">
             <Image
-              src="/logo.svg"
+              src="/logo.png"
               alt="EDC Exchange"
-              width={48}
+              width={168}
               height={48}
             />
-            <span className="font-bold text-xl hidden sm:block text-gray-900">
-              EDC Exchange
-            </span>
           </Link>
 
           {/* Search bar */}
@@ -327,3 +324,4 @@ export default function Navbar() {
     </nav>
   );
 }
+
