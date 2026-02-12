@@ -1,6 +1,7 @@
 import Link from "next/link";
-import CategoryIcon from "@/components/CategoryIcon";
+import { iconConfig } from "@/components/CategoryIcon";
 import { categoryColors } from "@/lib/data";
+import { Package } from "lucide-react";
 
 type CategoryCardProps = {
   slug: string;
@@ -10,6 +11,8 @@ type CategoryCardProps = {
 
 export default function CategoryCard({ slug, name, count }: CategoryCardProps) {
   const gradient = categoryColors[slug] || "from-gray-500 to-gray-700";
+  const config = iconConfig[slug] || { Icon: Package };
+  const Icon = config.Icon;
 
   return (
     <Link
@@ -19,9 +22,9 @@ export default function CategoryCard({ slug, name, count }: CategoryCardProps) {
       <div
         className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-90 group-hover:opacity-100 transition`}
       />
-      <div className="relative z-10">
-        <div className="mb-2">
-          <CategoryIcon slug={slug} size="lg" />
+      <div className="relative z-10 flex flex-col items-center justify-center text-center">
+        <div className="mb-4 flex items-center justify-center">
+          <Icon className="w-16 h-16 text-white/90 drop-shadow-lg" strokeWidth={1.5} />
         </div>
         <h3 className="font-bold text-lg">{name}</h3>
         {count !== undefined && (
