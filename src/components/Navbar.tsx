@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import {
   Search,
   Menu,
-  X
+  X,
   Plus,
   Bell,
   MessageSquare,
@@ -324,4 +324,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
 
