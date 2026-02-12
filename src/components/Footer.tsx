@@ -10,7 +10,7 @@ export default function Footer() {
             <div className="flex items-center gap-3 mb-4">
               <Image
                 src="/logo-white.png"
-                alt="EDC Exchange"
+                alt="The Carry Exchange"
                 width={182}
                 height={52}
               />
@@ -58,9 +58,10 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-800 mt-10 pt-6 text-center text-sm">
-          &copy; 2026 EDC Exchange. All rights reserved.
+          &copy; 2026 The Carry Exchange. All rights reserved.
         </div>
       </div>
     </footer>
   );
 }
+
