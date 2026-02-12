@@ -25,7 +25,8 @@ create policy "Users can insert own profile"
   on public.profiles for insert with check (auth.uid() = id);
 
 create policy "Users can update own profile"
-  on public.profiles for update using (auth.uid() = id);
+  on public.profiles for update using (auth.uid() = id)
+  with check (auth.uid() = id);
 
 -- Auto-create profile on signup
 create or replace function public.handle_new_user()
@@ -386,3 +387,4 @@ create index if not exists idx_messages_receiver_id on public.messages(receiver_
 -- item-images   (public, upload for authenticated)
 -- post-images   (public, upload for authenticated)
 -- avatars       (public, upload for authenticated)
+
