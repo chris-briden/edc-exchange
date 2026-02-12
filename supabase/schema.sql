@@ -387,4 +387,36 @@ create index if not exists idx_messages_receiver_id on public.messages(receiver_
 -- item-images   (public, upload for authenticated)
 -- post-images   (public, upload for authenticated)
 -- avatars       (public, upload for authenticated)
+--
+-- Storage RLS policies on storage.objects:
+
+create policy "Anyone can view images"
+  on storage.objects for select
+  using (bucket_id = any(array['item-images', 'post-images', 'avatars']));
+
+create policy "Authenticated users can upload images"
+  on storage.objects for insert
+  with check (
+    bucket_id = any(array['item-images', 'post-images', 'avatars'])
+    and auth.role() = 'authenticated'
+  );
+
+create policy "Users can update own images"
+  on storage.objects for update
+  using (
+    bucket_id = any(array['item-images', 'post-images', 'avatars'])
+    and (auth.uid())::text = (storage.foldername(name))[1]
+  )
+  with check (
+    bucket_id = any(array['item-images', 'post-images', 'avatars'])
+    and (auth.uid())::text = (storage.foldername(name))[1]
+  );
+
+create policy "Users can delete own images"
+  on storage.objects for delete
+  using (
+    bucket_id = any(array['item-images', 'post-images', 'avatars'])
+    and (auth.uid())::text = (storage.foldername(name))[1]
+  );
+
 
