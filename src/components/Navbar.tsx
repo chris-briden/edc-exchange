@@ -101,8 +101,8 @@ export default function Navbar() {
             <Image
               src="/logo.png"
               alt="EDC Exchange"
-              width={168}
-              height={48}
+              width={224}
+              height={64}
             />
           </Link>
 
@@ -324,5 +324,6 @@ export default function Navbar() {
     </nav>
   );
 }
+
 
 
