@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -7,9 +8,12 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-blue-600 flex items-center justify-center">
-                <span className="text-white font-bold text-xs">EDC</span>
-              </div>
+              <Image
+                src="/logo.svg"
+                alt="EDC Exchange"
+                width={32}
+                height={32}
+              />
               <span className="font-bold text-lg text-white">
                 EDC Exchange
               </span>
