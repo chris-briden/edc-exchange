@@ -298,19 +298,6 @@ export default function WaitlistPage() {
               </span>
             </div>
 
-            {/* Links */}
-            <nav className="flex gap-8 text-sm">
-              <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
-                About
-              </Link>
-              <Link href="/terms" className="text-gray-400 hover:text-white transition-colors">
-                Terms
-              </Link>
-              <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors">
-                Privacy
-              </Link>
-            </nav>
-
             {/* Social */}
             <div className="flex gap-4">
               <a
