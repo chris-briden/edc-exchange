@@ -9,11 +9,15 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <Image
-                src="/logo-white.png"
+                src="/icon-new-white.png"
                 alt="The Carry Exchange"
-                width={182}
-                height={52}
+                width={568}
+                height={556}
+                className="h-10 w-10"
               />
+              <span className="text-lg font-bold tracking-wide text-white">
+                The Carry Exchange
+              </span>
             </div>
             <p className="text-sm leading-relaxed">
               The community marketplace for everyday carry enthusiasts.

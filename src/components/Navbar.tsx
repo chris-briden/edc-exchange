@@ -96,14 +96,18 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 shrink-0">
+          {/* Logo - New Icon + Text System */}
+          <Link href="/marketplace" className="flex items-center gap-3 shrink-0">
             <Image
-              src="/logo.png"
+              src="/icon-new-dark.png"
               alt="The Carry Exchange"
-              width={224}
-              height={64}
+              width={568}
+              height={556}
+              className="h-10 w-10"
             />
+            <span className="text-xl font-bold tracking-wide text-gray-900 hidden sm:inline">
+              The Carry Exchange
+            </span>
           </Link>
 
           {/* Search bar */}
