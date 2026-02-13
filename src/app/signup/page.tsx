@@ -14,6 +14,7 @@ import {
   X,
   AtSign,
 } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
 
@@ -177,8 +178,8 @@ function SignupForm() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
         <div className="w-full max-w-sm text-center">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500 to-blue-600 flex items-center justify-center mx-auto mb-6">
-            <Check className="w-8 h-8 text-white" />
+          <div className="flex justify-center mb-6">
+            <Image src="/logo.png" alt="The Carry Exchange" width={180} height={48} />
           </div>
           <h1 className="text-2xl font-extrabold mb-2">You&apos;re almost in!</h1>
           <p className="text-gray-500 mb-6">
@@ -212,16 +213,14 @@ function SignupForm() {
       <div className="w-full max-w-sm">
         {/* Logo & Header */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-blue-600 flex items-center justify-center">
-              <span className="text-white font-bold text-lg">EDC</span>
-            </div>
+          <Link href="/">
+            <Image src="/logo.png" alt="The Carry Exchange" width={180} height={48} className="mx-auto" />
           </Link>
           <h1 className="text-2xl font-extrabold mt-4">
             Create your account
           </h1>
           <p className="text-gray-500 text-sm mt-2">
-            Join the EDC community. It only takes a minute.
+            Join The Carry Exchange community. It only takes a minute.
           </p>
         </div>
 

@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
 import { Mail, Loader2, Eye, EyeOff, Lock } from "lucide-react";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase-browser";
 
 function LoginForm() {
@@ -45,13 +46,11 @@ function LoginForm() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-blue-600 flex items-center justify-center">
-              <span className="text-white font-bold text-lg">EDC</span>
-            </div>
+          <Link href="/">
+            <Image src="/logo.png" alt="The Carry Exchange" width={180} height={48} className="mx-auto" />
           </Link>
           <h1 className="text-2xl font-extrabold mt-4">
-            Sign in to EDC Exchange
+            Sign in to The Carry Exchange
           </h1>
           <p className="text-gray-500 text-sm mt-2">
             Welcome back. Pick up where you left off.
@@ -132,7 +131,7 @@ function LoginForm() {
         {/* Create account link */}
         <div className="mt-6 p-4 rounded-xl bg-gray-100 border border-gray-200 text-center">
           <p className="text-sm text-gray-600">
-            New to EDC Exchange?{" "}
+            New to The Carry Exchange?{" "}
             <Link
               href="/signup"
               className="text-orange-600 font-semibold hover:underline"
