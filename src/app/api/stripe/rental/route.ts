@@ -106,11 +106,6 @@ export async function POST(request: NextRequest) {
         amount: depositAmount,
         currency: "cad",
         capture_method: "manual",
-        payment_method_options: {
-          card: {
-            request_extended_authorization: "if_available",
-          },
-        },
         transfer_data: {
           destination: sellerStripeAccountId,
         },
