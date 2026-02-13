@@ -191,7 +191,7 @@ export default function WaitlistPage() {
               </div>
               <h3 className="text-xl font-bold mb-3">Community First</h3>
               <p className="text-gray-400 leading-relaxed">
-                Ratings, reviews, and a growing community of carry enthusiasts.
+                Build your collection and proudly share it with a growing community of carry enthusiasts.
               </p>
             </div>
           </div>
