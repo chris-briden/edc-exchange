@@ -35,27 +35,22 @@ export default function WaitlistPage() {
 
         {/* Content */}
         <div className="relative z-10 max-w-4xl mx-auto px-6 py-20 text-center">
-          {/* Logo: Icon + Text */}
-          <div className="mb-12 flex flex-col items-center gap-6">
-            {/* Icon */}
+          {/* Hero Logo - Icon Only */}
+          <div className="mb-12 flex justify-center">
             <Image
               src="/icon-new-white.png"
-              alt="The Carry Exchange Icon"
+              alt="The Carry Exchange"
               width={568}
               height={556}
-              className="w-48 h-48 md:w-64 md:h-64 opacity-95 drop-shadow-2xl"
+              className="w-56 h-56 md:w-80 md:h-80 opacity-95 drop-shadow-2xl"
               priority
             />
-            {/* Brand Text */}
-            <h1 className="text-4xl md:text-5xl font-bold tracking-wide text-white">
-              The Carry Exchange
-            </h1>
           </div>
 
           {/* Headline */}
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
             Join the Carry Exchange
-          </h2>
+          </h1>
 
           {/* Subheadline */}
           <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
