@@ -1,5 +1,5 @@
 -- Migration: Add Stripe Connect + Transactions for payment system
--- Run this in Supabase SQL Editor: https://supabase.com/dashboard/project/ejuvhhecjckhoorabiiz/sql
+-- Run this in Supabase SQL Editor: https://supabase.com/dashboard/project/tkdgkirxdpdtfwlnmbin/sql
 
 -- 1. Add stripe_account_id to profiles
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS stripe_account_id TEXT;
