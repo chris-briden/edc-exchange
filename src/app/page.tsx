@@ -47,7 +47,7 @@ export default function WaitlistPage() {
               priority
             />
             {/* Brand Text */}
-            <h1 className="text-4xl md:text-5xl font-light tracking-wide text-white">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-wide text-white">
               The Carry Exchange
             </h1>
           </div>
@@ -256,7 +256,7 @@ export default function WaitlistPage() {
                 height={556}
                 className="h-10 w-10"
               />
-              <span className="text-lg font-light tracking-wide text-white">
+              <span className="text-lg font-bold tracking-wide text-white">
                 The Carry Exchange
               </span>
             </div>
