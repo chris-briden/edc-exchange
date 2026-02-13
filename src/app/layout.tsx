@@ -6,6 +6,12 @@ export const metadata: Metadata = {
   title: "The Carry Exchange — Buy, Sell, Trade & Share Everyday Carry",
   description:
     "The community marketplace for everyday carry enthusiasts. Buy, sell, trade, lend, and rent knives, flashlights, pens, multi-tools, and more. Join the carry at The Carry Exchange.",
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '16x16 32x32' },
+      { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
+    ],
+  },
   openGraph: {
     title: "The Carry Exchange — Join the Carry",
     description:

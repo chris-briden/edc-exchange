@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import WaitlistForm from '@/components/WaitlistForm';
+import { PocketKnife, Flashlight, PenTool, Wrench } from 'lucide-react';
 
 export default function WaitlistPage() {
   const [signupCount, setSignupCount] = useState<number | null>(null);
@@ -21,41 +22,34 @@ export default function WaitlistPage() {
     <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Gradient with Texture */}
-        <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 via-black to-zinc-900">
-          <div className="absolute inset-0 bg-[url('/noise-texture.png')] opacity-20" />
-          {/* Subtle light effect */}
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-orange-500/5 blur-[120px]" />
-          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-orange-600/5 blur-[120px]" />
+        {/* Background Gradient with EDC Icons - matching old homepage */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+          {/* EDC Item Hints */}
+          <div className="absolute inset-0 opacity-[0.07]">
+            <PocketKnife className="absolute top-10 left-10 w-24 h-24 text-orange-400" />
+            <Flashlight className="absolute top-20 right-20 w-20 h-20 text-blue-400" />
+            <PenTool className="absolute bottom-10 left-1/3 w-16 h-16 text-orange-300" />
+            <Wrench className="absolute bottom-20 right-10 w-24 h-24 text-blue-300" />
+          </div>
         </div>
-
-        {/* Optional: Background image overlay - uncomment to use stock photo */}
-        {/* <div className="absolute inset-0">
-          <Image
-            src="/hero-edc-bg.jpg"
-            alt=""
-            fill
-            className="object-cover opacity-30"
-            priority
-          />
-        </div> */}
 
         {/* Content */}
         <div className="relative z-10 max-w-4xl mx-auto px-6 py-20 text-center">
-          {/* Logo - adjust path based on your logo location */}
-          <div className="mb-8 flex justify-center">
+          {/* Large White Logo */}
+          <div className="mb-12 flex justify-center">
             <Image
-              src="/logo.svg"
+              src="/icon-white.png"
               alt="The Carry Exchange"
-              width={240}
-              height={60}
-              className="h-12 w-auto md:h-16"
+              width={500}
+              height={500}
+              className="w-64 h-64 md:w-96 md:h-96 opacity-90 drop-shadow-2xl"
+              priority
             />
           </div>
 
           {/* Headline */}
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
-            Join the Carry
+            Join the Carry Exchange
           </h1>
 
           {/* Subheadline */}
@@ -172,9 +166,9 @@ export default function WaitlistPage() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold mb-3">Try Before You Buy</h3>
+              <h3 className="text-xl font-bold mb-3">Rentals</h3>
               <p className="text-gray-400 leading-relaxed">
-                Rent high-end gear before you commit. Something no other marketplace offers.
+                Earn rental income on your valuable items or offer try before you buy arrangements. Something no other marketplace offers.
               </p>
             </div>
 
@@ -293,7 +287,7 @@ export default function WaitlistPage() {
             <p className="mb-2">
               The Carry Exchange — Buy, Sell, Trade & Share Everyday Carry
             </p>
-            <p>© 2025 The Carry Exchange</p>
+            <p>© 2026 The Carry Exchange</p>
           </div>
         </div>
       </footer>
