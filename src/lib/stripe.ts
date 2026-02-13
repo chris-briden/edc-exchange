@@ -20,9 +20,9 @@ export const stripe = new Proxy({} as Stripe, {
   },
 });
 
-// Platform commission rate (8%)
+// Platform commission rate (5%)
 export const PLATFORM_FEE_PERCENT = Number(
-  process.env.PLATFORM_FEE_PERCENT || "8"
+  process.env.PLATFORM_FEE_PERCENT || "5"
 );
 
 // Calculate platform fee in cents
