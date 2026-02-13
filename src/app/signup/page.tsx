@@ -178,8 +178,11 @@ function SignupForm() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
         <div className="w-full max-w-sm text-center">
-          <div className="flex justify-center mb-6">
-            <Image src="/logo.png" alt="The Carry Exchange" width={180} height={48} />
+          <div className="flex justify-center items-center gap-3 mb-6">
+            <Image src="/icon-new-dark.png" alt="The Carry Exchange" width={568} height={556} className="h-12 w-12" />
+            <span className="text-2xl font-bold tracking-wide text-gray-900">
+              The Carry Exchange
+            </span>
           </div>
           <h1 className="text-2xl font-extrabold mb-2">You&apos;re almost in!</h1>
           <p className="text-gray-500 mb-6">
@@ -213,8 +216,11 @@ function SignupForm() {
       <div className="w-full max-w-sm">
         {/* Logo & Header */}
         <div className="text-center mb-8">
-          <Link href="/">
-            <Image src="/logo.png" alt="The Carry Exchange" width={180} height={48} className="mx-auto" />
+          <Link href="/" className="inline-flex items-center gap-3 justify-center">
+            <Image src="/icon-new-dark.png" alt="The Carry Exchange" width={568} height={556} className="h-12 w-12" />
+            <span className="text-2xl font-bold tracking-wide text-gray-900">
+              The Carry Exchange
+            </span>
           </Link>
           <h1 className="text-2xl font-extrabold mt-4">
             Create your account

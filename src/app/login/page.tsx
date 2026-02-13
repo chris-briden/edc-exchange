@@ -46,8 +46,11 @@ function LoginForm() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">
-          <Link href="/">
-            <Image src="/logo.png" alt="The Carry Exchange" width={180} height={48} className="mx-auto" />
+          <Link href="/" className="inline-flex items-center gap-3 justify-center">
+            <Image src="/icon-new-dark.png" alt="The Carry Exchange" width={568} height={556} className="h-12 w-12" />
+            <span className="text-2xl font-bold tracking-wide text-gray-900">
+              The Carry Exchange
+            </span>
           </Link>
           <h1 className="text-2xl font-extrabold mt-4">
             Sign in to The Carry Exchange
