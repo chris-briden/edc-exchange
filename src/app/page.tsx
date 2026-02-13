@@ -168,7 +168,7 @@ export default function WaitlistPage() {
               </div>
               <h3 className="text-xl font-bold mb-3">Rentals</h3>
               <p className="text-gray-400 leading-relaxed mb-2">
-                Earn rental income on your valuable items or offer try before you buy arrangements.
+                Earn rental income on your valuable items or offer try before you buy.
               </p>
               <p className="text-orange-500 text-sm font-semibold">
                 *Not available anywhere else!
