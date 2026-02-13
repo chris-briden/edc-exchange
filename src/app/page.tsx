@@ -167,8 +167,11 @@ export default function WaitlistPage() {
                 </svg>
               </div>
               <h3 className="text-xl font-bold mb-3">Rentals</h3>
-              <p className="text-gray-400 leading-relaxed">
-                Earn rental income on your valuable items or offer try before you buy arrangements. Something no other marketplace offers.
+              <p className="text-gray-400 leading-relaxed mb-2">
+                Earn rental income on your valuable items or offer try before you buy arrangements.
+              </p>
+              <p className="text-orange-500 text-sm font-semibold">
+                *Not available anywhere else!
               </p>
             </div>
 
