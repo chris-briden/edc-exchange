@@ -111,11 +111,11 @@ export default function Home() {
           {/* Icon Emblem */}
           <div className="hidden md:flex flex-1 items-center justify-center">
             <Image
-              src="/icon-white.png"
+              src="/icon-new-white.png"
               alt="The Carry Exchange Emblem"
-              width={400}
-              height={400}
-              className="opacity-50 select-none pointer-events-none drop-shadow-2xl"
+              width={568}
+              height={556}
+              className="opacity-50 select-none pointer-events-none drop-shadow-2xl w-96 h-96"
             />
           </div>
           </div>
