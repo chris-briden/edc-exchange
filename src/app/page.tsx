@@ -35,22 +35,27 @@ export default function WaitlistPage() {
 
         {/* Content */}
         <div className="relative z-10 max-w-4xl mx-auto px-6 py-20 text-center">
-          {/* Large White Logo */}
-          <div className="mb-12 flex justify-center">
+          {/* Logo: Icon + Text */}
+          <div className="mb-12 flex flex-col items-center gap-6">
+            {/* Icon */}
             <Image
-              src="/icon-white.png"
-              alt="The Carry Exchange"
-              width={500}
-              height={500}
-              className="w-64 h-64 md:w-96 md:h-96 opacity-90 drop-shadow-2xl"
+              src="/icon-new-white.png"
+              alt="The Carry Exchange Icon"
+              width={568}
+              height={556}
+              className="w-48 h-48 md:w-64 md:h-64 opacity-95 drop-shadow-2xl"
               priority
             />
+            {/* Brand Text */}
+            <h1 className="text-4xl md:text-5xl font-light tracking-wide text-white">
+              The Carry Exchange
+            </h1>
           </div>
 
           {/* Headline */}
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
             Join the Carry Exchange
-          </h1>
+          </h2>
 
           {/* Subheadline */}
           <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
@@ -242,15 +247,18 @@ export default function WaitlistPage() {
       <footer className="border-t border-zinc-800 py-12 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
-            {/* Logo */}
-            <div className="flex items-center gap-2">
+            {/* Logo: Icon + Text */}
+            <div className="flex items-center gap-3">
               <Image
-                src="/logo.svg"
+                src="/icon-new-white.png"
                 alt="The Carry Exchange"
-                width={160}
-                height={40}
-                className="h-8 w-auto"
+                width={568}
+                height={556}
+                className="h-10 w-10"
               />
+              <span className="text-lg font-light tracking-wide text-white">
+                The Carry Exchange
+              </span>
             </div>
 
             {/* Links */}
