@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://jointhecarry.com",
   },
+    verification: {
+          google: "cDFlPVDQRnk01XtKzS3e5RA2HScHB-HVssCPKx3H-qg",
+    },
 };
 
 export default function RootLayout({
@@ -39,5 +42,6 @@ export default function RootLayout({
     </html>
   );
 }
+
 
 
