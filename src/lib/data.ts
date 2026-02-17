@@ -306,16 +306,16 @@ export const communityPosts: CommunityPost[] = [
   },
 ];
 
-// Color palette for category cards (orange + blue brand palette)
+// Color palette for category cards (dark theme with subtle orange accent)
 export const categoryColors: Record<string, string> = {
-  knives: "from-orange-500 to-orange-600",
-  flashlights: "from-orange-500 to-orange-600",
-  pens: "from-orange-500 to-orange-600",
-  "multi-tools": "from-orange-500 to-orange-600",
-  fidget: "from-orange-500 to-orange-600",
-  wallets: "from-orange-500 to-orange-600",
-  watches: "from-orange-500 to-orange-600",
-  bags: "from-orange-500 to-orange-600",
+  knives: "from-orange-900/80 to-zinc-900",
+  flashlights: "from-orange-900/80 to-zinc-900",
+  pens: "from-orange-900/80 to-zinc-900",
+  "multi-tools": "from-orange-900/80 to-zinc-900",
+  fidget: "from-orange-900/80 to-zinc-900",
+  wallets: "from-orange-900/80 to-zinc-900",
+  watches: "from-orange-900/80 to-zinc-900",
+  bags: "from-orange-900/80 to-zinc-900",
 };
 
 // Listing type colors and labels

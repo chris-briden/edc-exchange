@@ -87,7 +87,7 @@ function CommentItem({
               <button
                 type="submit"
                 disabled={submitting || !replyText.trim()}
-                className="px-3 py-2 rounded-lg bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition disabled:opacity-50"
+                className="px-3 py-2 rounded-lg bg-orange-700 text-white text-sm font-semibold hover:bg-orange-600 shadow-lg shadow-orange-900/50 transition disabled:opacity-50"
               >
                 {submitting ? (
                   <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -295,7 +295,7 @@ export default function CommentSection({
         <button
           type="submit"
           disabled={!userId || submitting || !newComment.trim()}
-          className="px-4 py-2.5 rounded-xl bg-orange-600 text-white font-medium hover:bg-orange-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-4 py-2.5 rounded-xl bg-orange-700 text-white font-semibold hover:bg-orange-600 shadow-lg shadow-orange-900/50 transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {submitting ? (
             <Loader2 className="w-4 h-4 animate-spin" />

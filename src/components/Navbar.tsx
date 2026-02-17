@@ -157,7 +157,7 @@ export default function Navbar() {
               <>
                 <Link
                   href="/items/new"
-                  className="ml-2 flex items-center gap-1.5 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition"
+                  className="ml-2 flex items-center gap-1.5 px-4 py-2 rounded-full bg-orange-700 text-white text-sm font-semibold hover:bg-orange-600 transition shadow-lg shadow-orange-900/50"
                 >
                   <Plus className="w-4 h-4" />
                   List Item
@@ -240,7 +240,7 @@ export default function Navbar() {
                 </Link>
                 <Link
                   href="/signup"
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition"
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-orange-700 text-white text-sm font-semibold hover:bg-orange-600 transition shadow-lg shadow-orange-900/50"
                 >
                   Create Account
                 </Link>
@@ -305,7 +305,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/items/new"
-                className="w-full flex items-center justify-center gap-1.5 mt-2 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium"
+                className="w-full flex items-center justify-center gap-1.5 mt-2 px-4 py-2 rounded-full bg-orange-700 text-white text-sm font-semibold shadow-lg shadow-orange-900/50"
               >
                 <Plus className="w-4 h-4" />
                 List Item
@@ -329,7 +329,7 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/signup"
-                className="w-full flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium"
+                className="w-full flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-orange-700 text-white text-sm font-semibold shadow-lg shadow-orange-900/50"
               >
                 Create Account
               </Link>

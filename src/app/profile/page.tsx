@@ -261,7 +261,7 @@ export default function ProfilePage() {
             <p className="text-gray-400 mt-2">Please log in to view your profile.</p>
             <Link
               href="/login"
-              className="inline-flex mt-4 px-6 py-2.5 rounded-full bg-orange-600 text-white font-medium hover:bg-orange-700 transition"
+              className="inline-flex mt-4 px-6 py-2.5 rounded-full bg-orange-700 text-white font-semibold hover:bg-orange-600 shadow-lg shadow-orange-900/50 transition"
             >
               Sign In
             </Link>

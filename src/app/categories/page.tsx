@@ -216,7 +216,7 @@ function CategoriesContent() {
                 onClick={() => setListingFilter(f)}
                 className={`px-3.5 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition ${
                   listingFilter === f
-                    ? "bg-orange-600 text-white"
+                    ? "bg-orange-700 text-white shadow-lg shadow-orange-900/50"
                     : "bg-zinc-800 text-gray-400 hover:bg-zinc-700 hover:text-white"
                 }`}
               >

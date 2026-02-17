@@ -299,7 +299,7 @@ export default function MyEdcPage() {
                   </p>
                   <Link
                     href="/items/new"
-                    className="inline-flex items-center gap-1.5 mt-3 px-4 py-2 rounded-full bg-orange-600 text-white text-sm font-medium hover:bg-orange-700 transition"
+                    className="inline-flex items-center gap-1.5 mt-3 px-4 py-2 rounded-full bg-orange-700 text-white text-sm font-semibold hover:bg-orange-600 shadow-lg shadow-orange-900/50 transition"
                   >
                     <Plus className="w-4 h-4" /> List Your First Item
                   </Link>

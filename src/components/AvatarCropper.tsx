@@ -146,7 +146,7 @@ export default function AvatarCropper({
             <button
               onClick={handleSave}
               disabled={saving}
-              className="flex-1 py-2.5 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-700 transition disabled:opacity-50"
+              className="flex-1 py-2.5 rounded-xl bg-orange-700 text-white font-semibold hover:bg-orange-600 shadow-lg shadow-orange-900/50 transition disabled:opacity-50"
             >
               {saving ? "Cropping..." : "Save Avatar"}
             </button>

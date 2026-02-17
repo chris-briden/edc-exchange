@@ -278,7 +278,7 @@ export default function PublicProfilePage() {
                 className={`px-5 py-2 rounded-full text-sm font-semibold transition flex items-center gap-1.5 ${
                   isFollowing
                     ? "bg-white/10 text-white hover:bg-white/20"
-                    : "bg-orange-600 text-white hover:bg-orange-700"
+                    : "bg-orange-700 text-white hover:bg-orange-600 shadow-lg shadow-orange-900/50"
                 }`}
               >
                 {isFollowing ? (

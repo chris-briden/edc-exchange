@@ -400,7 +400,7 @@ function MessagesContent() {
                     <button
                       onClick={handleSend}
                       disabled={sending || !newMessage.trim()}
-                      className="px-4 py-2.5 rounded-xl bg-orange-600 text-white font-medium hover:bg-orange-700 transition disabled:opacity-50"
+                      className="px-4 py-2.5 rounded-xl bg-orange-700 text-white font-semibold hover:bg-orange-600 shadow-lg shadow-orange-900/50 transition disabled:opacity-50"
                     >
                       {sending ? (
                         <Loader2 className="w-4 h-4 animate-spin" />
