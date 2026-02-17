@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import WaitlistForm from '@/components/WaitlistForm';
-import { PocketKnife, Flashlight, PenTool, Wrench, ArrowRight, ShieldCheck, RefreshCw, Package } from 'lucide-react';
+import { PocketKnife, Flashlight, PenTool, Wrench, ArrowRight, ShieldCheck, RefreshCw, Package, Search, Trophy, Wallet } from 'lucide-react';
 
 export default function WaitlistPage() {
   const [signupCount, setSignupCount] = useState<number | null>(null);
@@ -266,7 +266,7 @@ export default function WaitlistPage() {
             Three steps. Zero handwritten timestamps.
           </p>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-6 md:gap-4 items-start">
             {/* Step 1 */}
             <div className="text-center">
               <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
@@ -279,13 +279,9 @@ export default function WaitlistPage() {
               </p>
             </div>
 
-            {/* Arrow */}
-            <div className="hidden md:flex items-start justify-center pt-8">
-              <div className="flex items-center gap-4 w-full">
-                <div className="h-px flex-1 bg-gradient-to-r from-transparent to-zinc-700" />
-                <ArrowRight className="w-6 h-6 text-zinc-600 shrink-0" />
-                <div className="h-px flex-1 bg-gradient-to-r from-zinc-700 to-transparent" />
-              </div>
+            {/* Arrow 1→2 */}
+            <div className="hidden md:flex items-center justify-center pt-8">
+              <ArrowRight className="w-6 h-6 text-zinc-600" />
             </div>
 
             {/* Step 2 */}
@@ -299,18 +295,23 @@ export default function WaitlistPage() {
                 Find your next grail or the perfect buyer. Stripe handles the money — no PayPal F&F risk.
               </p>
             </div>
-          </div>
 
-          {/* Step 3 - centered below */}
-          <div className="mt-12 text-center max-w-sm mx-auto">
-            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
-              <RefreshCw className="w-8 h-8 text-orange-500" />
+            {/* Arrow 2→3 */}
+            <div className="hidden md:flex items-center justify-center pt-8">
+              <ArrowRight className="w-6 h-6 text-zinc-600" />
             </div>
-            <div className="text-sm font-bold text-orange-400 mb-2">STEP 3</div>
-            <h3 className="text-xl font-bold mb-3">Ship & Rotate</h3>
-            <p className="text-gray-400 leading-relaxed">
-              Ship your gear, fund your next purchase, and keep your collection fresh.
-            </p>
+
+            {/* Step 3 */}
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
+                <RefreshCw className="w-8 h-8 text-orange-500" />
+              </div>
+              <div className="text-sm font-bold text-orange-400 mb-2">STEP 3</div>
+              <h3 className="text-xl font-bold mb-3">Ship & Rotate</h3>
+              <p className="text-gray-400 leading-relaxed">
+                Ship your gear, fund your next purchase, and keep your collection fresh.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -339,17 +340,23 @@ export default function WaitlistPage() {
 
             <div className="grid sm:grid-cols-3 gap-6 mt-12">
               <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 hover:border-orange-500/50 transition-all">
-                <div className="text-3xl mb-3">🔪</div>
+                <div className="w-12 h-12 mb-4 rounded-lg bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
+                  <Search className="w-6 h-6 text-orange-500" />
+                </div>
                 <h4 className="font-bold mb-2">For Buyers</h4>
                 <p className="text-gray-400 text-sm">Try premium gear risk-free before dropping hundreds</p>
               </div>
               <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 hover:border-orange-500/50 transition-all">
-                <div className="text-3xl mb-3">💰</div>
+                <div className="w-12 h-12 mb-4 rounded-lg bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
+                  <Wallet className="w-6 h-6 text-orange-500" />
+                </div>
                 <h4 className="font-bold mb-2">For Sellers</h4>
                 <p className="text-gray-400 text-sm">Earn rental income on gear that's sitting in a drawer</p>
               </div>
               <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 hover:border-orange-500/50 transition-all">
-                <div className="text-3xl mb-3">🏆</div>
+                <div className="w-12 h-12 mb-4 rounded-lg bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
+                  <Trophy className="w-6 h-6 text-orange-500" />
+                </div>
                 <h4 className="font-bold mb-2">No One Else Has This</h4>
                 <p className="text-gray-400 text-sm">The only EDC marketplace with a rental model. Period.</p>
               </div>
