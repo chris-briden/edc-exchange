@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import WaitlistForm from '@/components/WaitlistForm';
-import { PocketKnife, Flashlight, PenTool, Wrench } from 'lucide-react';
+import { PocketKnife, Flashlight, PenTool, Wrench, ArrowRight, ShieldCheck, RefreshCw, Package } from 'lucide-react';
 
 export default function WaitlistPage() {
   const [signupCount, setSignupCount] = useState<number | null>(null);
@@ -22,7 +22,7 @@ export default function WaitlistPage() {
     <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Gradient with EDC Icons - matching old homepage */}
+        {/* Background Gradient with EDC Icons */}
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
           {/* EDC Item Hints */}
           <div className="absolute inset-0 opacity-[0.07]">
@@ -35,35 +35,48 @@ export default function WaitlistPage() {
 
         {/* Content */}
         <div className="relative z-10 max-w-4xl mx-auto px-6 py-20 text-center">
-          {/* Hero Logo - Icon Only */}
-          <div className="mb-12 flex justify-center">
-            <Image
-              src="/icon-new-white.png"
-              alt="The Carry Exchange"
-              width={568}
-              height={556}
-              className="w-56 h-56 md:w-80 md:h-80 opacity-95 drop-shadow-2xl"
-              priority
-            />
+          {/* Logo - Smaller brand pill */}
+          <div className="mb-8 flex justify-center">
+            <div className="flex items-center gap-3 px-5 py-2.5 rounded-full bg-zinc-900/60 border border-zinc-700 backdrop-blur">
+              <Image
+                src="/icon-new-white.png"
+                alt="The Carry Exchange"
+                width={568}
+                height={556}
+                className="w-10 h-10 opacity-95"
+                priority
+              />
+              <span className="text-lg font-bold tracking-wide text-white">
+                The Carry Exchange
+              </span>
+            </div>
           </div>
 
-          {/* Headline */}
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
-            Join the Carry Exchange
+          {/* Benefit-driven Headline */}
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent leading-tight">
+            Stop Selling Your Grails to People Who Don't Get It
           </h1>
 
           {/* Subheadline */}
-          <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
-            A marketplace built by the community, for the community. Buy, sell,
-            trade, and rent the gear you carry every day.
+          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+            The first marketplace built exclusively for EDC enthusiasts. Buy, sell,
+            trade, and <span className="text-orange-400 font-semibold">rent</span> the gear you carry every day.
           </p>
+
+          {/* Social proof - moved above form */}
+          {signupCount !== null && signupCount > 0 && (
+            <p className="mb-6 text-lg text-orange-400 font-semibold">
+              {signupCount.toLocaleString()} {signupCount === 1 ? 'person has' : 'people have'} joined the waitlist
+            </p>
+          )}
 
           {/* Email Form */}
           <WaitlistForm
             signupType="general"
             source="homepage-hero"
-            className="max-w-xl mx-auto mb-6"
+            className="max-w-xl mx-auto mb-4"
             variant="hero"
+            buttonText="Get Early Access"
           />
 
           {/* Fine print */}
@@ -84,13 +97,6 @@ export default function WaitlistPage() {
               </svg>
             </Link>
           </div>
-
-          {/* Live counter */}
-          {signupCount !== null && signupCount > 0 && (
-            <p className="mt-6 text-lg text-orange-400 font-semibold">
-              {signupCount.toLocaleString()} {signupCount === 1 ? 'person has' : 'people have'} joined
-            </p>
-          )}
 
           {/* Social Links */}
           <div className="mt-8 flex justify-center items-center gap-6">
@@ -145,6 +151,210 @@ export default function WaitlistPage() {
           >
             <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
+        </div>
+      </section>
+
+      {/* The Old Way vs. The Carry Way */}
+      <section className="relative py-24 px-6 bg-gradient-to-b from-black to-zinc-900">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+            There Has to Be a Better Way
+          </h2>
+          <p className="text-gray-400 text-center mb-16 max-w-2xl mx-auto text-lg">
+            Sound familiar? We built The Carry Exchange because we were tired of it too.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* The Old Way */}
+            <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-2xl p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
+                  <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-red-400">The Old Way</h3>
+              </div>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-red-400/60 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                  </svg>
+                  <span className="text-gray-300">Handwritten timestamps on Reddit posts</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-red-400/60 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                  </svg>
+                  <span className="text-gray-300">PayPal F&F with zero buyer protection</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-red-400/60 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                  </svg>
+                  <span className="text-gray-300">eBay fees eating into every sale</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-red-400/60 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                  </svg>
+                  <span className="text-gray-300">Spending $300 on a knife you've never held</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-red-400/60 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                  </svg>
+                  <span className="text-gray-300">Explaining to non-EDC buyers why your knife is worth it</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* The Carry Way */}
+            <div className="bg-zinc-900/50 backdrop-blur border border-orange-500/30 rounded-2xl p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center">
+                  <svg className="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-orange-400">The Carry Way</h3>
+              </div>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-orange-400/60 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-gray-300">Purpose-built marketplace for EDC gear</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-orange-400/60 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-gray-300">Stripe-powered secure payments built in</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-orange-400/60 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-gray-300">Starting at just 3% — the lowest fees around</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-orange-400/60 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-gray-300">Rent gear to try before you commit</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-orange-400/60 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-gray-300">A community that gets why a Sebenza is worth every penny</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="relative py-24 px-6 bg-zinc-900">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+            How It Works
+          </h2>
+          <p className="text-gray-400 text-center mb-16 text-lg">
+            Three steps. Zero handwritten timestamps.
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Step 1 */}
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
+                <Package className="w-8 h-8 text-orange-500" />
+              </div>
+              <div className="text-sm font-bold text-orange-400 mb-2">STEP 1</div>
+              <h3 className="text-xl font-bold mb-3">List Your Gear</h3>
+              <p className="text-gray-400 leading-relaxed">
+                Snap a photo, set your price, and choose to sell, trade, or rent. Takes less than a minute.
+              </p>
+            </div>
+
+            {/* Arrow */}
+            <div className="hidden md:flex items-start justify-center pt-8">
+              <div className="flex items-center gap-4 w-full">
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent to-zinc-700" />
+                <ArrowRight className="w-6 h-6 text-zinc-600 shrink-0" />
+                <div className="h-px flex-1 bg-gradient-to-r from-zinc-700 to-transparent" />
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
+                <ShieldCheck className="w-8 h-8 text-orange-500" />
+              </div>
+              <div className="text-sm font-bold text-orange-400 mb-2">STEP 2</div>
+              <h3 className="text-xl font-bold mb-3">Connect & Pay Securely</h3>
+              <p className="text-gray-400 leading-relaxed">
+                Find your next grail or the perfect buyer. Stripe handles the money — no PayPal F&F risk.
+              </p>
+            </div>
+          </div>
+
+          {/* Step 3 - centered below */}
+          <div className="mt-12 text-center max-w-sm mx-auto">
+            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
+              <RefreshCw className="w-8 h-8 text-orange-500" />
+            </div>
+            <div className="text-sm font-bold text-orange-400 mb-2">STEP 3</div>
+            <h3 className="text-xl font-bold mb-3">Ship & Rotate</h3>
+            <p className="text-gray-400 leading-relaxed">
+              Ship your gear, fund your next purchase, and keep your collection fresh.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Try Before You Buy — Dedicated Section */}
+      <section className="relative py-24 px-6 bg-gradient-to-b from-zinc-900 to-black overflow-hidden">
+        {/* Background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl" />
+
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="text-center">
+            <div className="inline-block px-4 py-2 bg-orange-500/20 border border-orange-500/50 rounded-full mb-6">
+              <span className="text-orange-400 font-semibold text-sm">
+                ONLY ON THE CARRY EXCHANGE
+              </span>
+            </div>
+
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">
+              Try Before You Buy
+            </h2>
+
+            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+              Curious about that $400 Sebenza? Rent it for a week before you commit.
+              Sellers earn rental income. Buyers try with confidence. Everyone wins.
+            </p>
+
+            <div className="grid sm:grid-cols-3 gap-6 mt-12">
+              <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 hover:border-orange-500/50 transition-all">
+                <div className="text-3xl mb-3">🔪</div>
+                <h4 className="font-bold mb-2">For Buyers</h4>
+                <p className="text-gray-400 text-sm">Try premium gear risk-free before dropping hundreds</p>
+              </div>
+              <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 hover:border-orange-500/50 transition-all">
+                <div className="text-3xl mb-3">💰</div>
+                <h4 className="font-bold mb-2">For Sellers</h4>
+                <p className="text-gray-400 text-sm">Earn rental income on gear that's sitting in a drawer</p>
+              </div>
+              <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 hover:border-orange-500/50 transition-all">
+                <div className="text-3xl mb-3">🏆</div>
+                <h4 className="font-bold mb-2">No One Else Has This</h4>
+                <p className="text-gray-400 text-sm">The only EDC marketplace with a rental model. Period.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -339,7 +549,7 @@ export default function WaitlistPage() {
             <p className="mb-2">
               The Carry Exchange — Buy, Sell, Trade & Share Everyday Carry
             </p>
-            <p>© 2026 The Carry Exchange</p>
+            <p>&copy; 2026 The Carry Exchange</p>
           </div>
         </div>
       </footer>
