@@ -46,9 +46,17 @@ export async function POST(request: NextRequest) {
         source,
       });
 
-    // If duplicate email, still return success (don't reveal it exists)
-    // Only throw error if it's NOT a duplicate key violation
-    if (insertError && !insertError.message.includes('duplicate')) {
+    // If duplicate email and this is a founding_seller signup, upgrade the existing record
+    if (insertError && insertError.message.includes('duplicate')) {
+      if (signup_type === 'founding_seller') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await (supabase
+          .from('waitlist_signups') as any)
+          .update({ signup_type: 'founding_seller', source })
+          .eq('email', normalizedEmail);
+      }
+      // Either way, return success (don't reveal the email already exists)
+    } else if (insertError) {
       console.error('Waitlist insert error:', insertError);
       return NextResponse.json(
         { error: 'Failed to join waitlist' },
