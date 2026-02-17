@@ -298,8 +298,14 @@ export default function WaitlistPage() {
               </span>
             </div>
 
-            {/* Social */}
-            <div className="flex gap-4">
+            {/* Nav Links */}
+            <div className="flex items-center gap-6">
+              <Link
+                href="/blog"
+                className="text-gray-400 hover:text-orange-400 transition-colors font-medium"
+              >
+                Blog
+              </Link>
               <a
                 href="https://instagram.com/jointhecarry"
                 target="_blank"
