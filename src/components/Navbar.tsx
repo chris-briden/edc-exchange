@@ -93,19 +93,19 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+    <nav className="sticky top-0 z-50 bg-black/95 backdrop-blur border-b border-zinc-800 shadow-lg shadow-black/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo - New Icon + Text System */}
           <Link href="/marketplace" className="flex items-center gap-4 shrink-0">
             <Image
-              src="/icon-new-dark.png"
+              src="/icon-new-white.png"
               alt="The Carry Exchange"
               width={568}
               height={556}
               className="h-16 w-16"
             />
-            <span className="text-xl font-bold tracking-wide text-gray-900 hidden sm:inline">
+            <span className="text-xl font-bold tracking-wide text-white hidden sm:inline">
               The Carry Exchange
             </span>
           </Link>
@@ -115,15 +115,15 @@ export default function Navbar() {
             <div
               className={`relative flex items-center rounded-full border transition-all ${
                 searchFocused
-                  ? "border-orange-400 ring-2 ring-orange-100"
-                  : "border-gray-300"
-              } bg-gray-50`}
+                  ? "border-orange-500/50 ring-2 ring-orange-500/20"
+                  : "border-zinc-700"
+              } bg-zinc-900/50`}
             >
-              <Search className="absolute left-3 w-4 h-4 text-gray-400" />
+              <Search className="absolute left-3 w-4 h-4 text-gray-500" />
               <input
                 type="text"
                 placeholder="Search knives, flashlights, pens..."
-                className="w-full pl-10 pr-4 py-2 bg-transparent text-sm rounded-full focus:outline-none"
+                className="w-full pl-10 pr-4 py-2 bg-transparent text-sm rounded-full focus:outline-none text-white placeholder-gray-500"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setSearchFocused(true)}
@@ -136,15 +136,21 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-1">
             <Link
               href="/community"
-              className="px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition"
+              className="px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-zinc-800 transition"
             >
               Community
             </Link>
             <Link
               href="/categories"
-              className="px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition"
+              className="px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-zinc-800 transition"
             >
               Browse
+            </Link>
+            <Link
+              href="/blog"
+              className="px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-zinc-800 transition"
+            >
+              Blog
             </Link>
 
             {user ? (
@@ -157,12 +163,12 @@ export default function Navbar() {
                   List Item
                 </Link>
                 <div className="flex items-center gap-1 ml-2">
-                  <button className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition relative">
+                  <button className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-zinc-800 transition relative">
                     <Bell className="w-5 h-5" />
                   </button>
                   <Link
                     href="/messages"
-                    className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition"
+                    className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-zinc-800 transition"
                   >
                     <MessageSquare className="w-5 h-5" />
                   </Link>
@@ -171,7 +177,7 @@ export default function Navbar() {
                   <div className="relative" ref={dropdownRef}>
                     <button
                       onClick={() => setDropdownOpen(!dropdownOpen)}
-                      className="p-1 rounded-lg hover:bg-gray-100 transition"
+                      className="p-1 rounded-lg hover:bg-zinc-800 transition"
                     >
                       {profile?.avatar_url ? (
                         <Image
@@ -189,32 +195,32 @@ export default function Navbar() {
                     </button>
 
                     {dropdownOpen && (
-                      <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl border border-gray-200 shadow-xl py-2 z-50">
-                        <div className="px-4 py-2 border-b border-gray-100">
-                          <p className="font-semibold text-sm">
+                      <div className="absolute right-0 mt-2 w-56 bg-zinc-900 rounded-xl border border-zinc-700 shadow-xl shadow-black/40 py-2 z-50">
+                        <div className="px-4 py-2 border-b border-zinc-800">
+                          <p className="font-semibold text-sm text-white">
                             {profile?.username || "User"}
                           </p>
-                          <p className="text-xs text-gray-400 truncate">
+                          <p className="text-xs text-gray-500 truncate">
                             {user.email}
                           </p>
                         </div>
                         <Link
                           href="/profile"
                           onClick={() => setDropdownOpen(false)}
-                          className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition"
+                          className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-zinc-800 hover:text-white transition"
                         >
                           <UserIcon className="w-4 h-4" /> My Profile
                         </Link>
                         <Link
                           href="/profile/edit"
                           onClick={() => setDropdownOpen(false)}
-                          className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition"
+                          className="flex items-center gap-2 px-4 py-2 text-sm text-gray-300 hover:bg-zinc-800 hover:text-white transition"
                         >
                           <Settings className="w-4 h-4" /> Edit Profile
                         </Link>
                         <button
                           onClick={handleSignOut}
-                          className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition"
+                          className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition"
                         >
                           <LogOut className="w-4 h-4" /> Sign Out
                         </button>
@@ -227,7 +233,7 @@ export default function Navbar() {
               <div className="flex items-center gap-2 ml-2">
                 <Link
                   href="/login"
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-gray-300 text-gray-700 text-sm font-medium hover:bg-gray-50 transition"
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-zinc-700 text-gray-300 text-sm font-medium hover:bg-zinc-800 hover:text-white transition"
                 >
                   <LogIn className="w-4 h-4" />
                   Sign In
@@ -244,7 +250,7 @@ export default function Navbar() {
 
           {/* Mobile menu toggle */}
           <button
-            className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100"
+            className="md:hidden p-2 rounded-lg text-gray-400 hover:bg-zinc-800"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? (
@@ -258,36 +264,42 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-gray-200 bg-white px-4 py-3 space-y-1">
+        <div className="md:hidden border-t border-zinc-800 bg-black/95 backdrop-blur px-4 py-3 space-y-1">
           <Link
             href="/community"
-            className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100"
+            className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
           >
             Community
           </Link>
           <Link
             href="/categories"
-            className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100"
+            className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
           >
             Browse
+          </Link>
+          <Link
+            href="/blog"
+            className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
+          >
+            Blog
           </Link>
           {user ? (
             <>
               <Link
                 href="/profile"
-                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100"
+                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
               >
                 Profile
               </Link>
               <Link
                 href="/messages"
-                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100"
+                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
               >
                 Messages
               </Link>
               <Link
                 href="/profile/edit"
-                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100"
+                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
               >
                 Edit Profile
               </Link>
@@ -300,7 +312,7 @@ export default function Navbar() {
               </Link>
               <button
                 onClick={handleSignOut}
-                className="w-full flex items-center justify-center gap-1.5 mt-2 px-4 py-2 rounded-full border border-red-300 text-red-600 text-sm font-medium"
+                className="w-full flex items-center justify-center gap-1.5 mt-2 px-4 py-2 rounded-full border border-red-500/30 text-red-400 text-sm font-medium"
               >
                 <LogOut className="w-4 h-4" />
                 Sign Out
@@ -310,7 +322,7 @@ export default function Navbar() {
             <div className="space-y-2 mt-2">
               <Link
                 href="/login"
-                className="w-full flex items-center justify-center gap-1.5 px-4 py-2 rounded-full border border-gray-300 text-gray-700 text-sm font-medium"
+                className="w-full flex items-center justify-center gap-1.5 px-4 py-2 rounded-full border border-zinc-700 text-gray-300 text-sm font-medium"
               >
                 <LogIn className="w-4 h-4" />
                 Sign In
@@ -328,7 +340,3 @@ export default function Navbar() {
     </nav>
   );
 }
-
-
-
-

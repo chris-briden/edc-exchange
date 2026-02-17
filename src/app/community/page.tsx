@@ -35,10 +35,10 @@ const sortOptions = [
 ];
 
 const typeStyles: Record<string, { badge: string; bg: string }> = {
-  collection: { badge: "Collection", bg: "bg-purple-100 text-purple-700" },
-  review: { badge: "Review", bg: "bg-blue-100 text-blue-700" },
-  discussion: { badge: "Discussion", bg: "bg-green-100 text-green-700" },
-  photo: { badge: "Photo", bg: "bg-amber-100 text-amber-700" },
+  collection: { badge: "Collection", bg: "bg-purple-500/20 text-purple-300" },
+  review: { badge: "Review", bg: "bg-blue-500/20 text-blue-300" },
+  discussion: { badge: "Discussion", bg: "bg-green-500/20 text-green-300" },
+  photo: { badge: "Photo", bg: "bg-amber-500/20 text-amber-300" },
 };
 
 function DbPostCard({
@@ -91,7 +91,7 @@ function DbPostCard({
   };
 
   return (
-    <article className="bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-md transition">
+    <article className="bg-zinc-900/50 backdrop-blur rounded-2xl border border-zinc-800 p-5 hover:border-orange-500/50 transition">
       {/* Author row */}
       <div className="flex items-center gap-3 mb-3">
         {post.profiles?.avatar_url ? (
@@ -110,7 +110,7 @@ function DbPostCard({
         <div className="flex-1 min-w-0">
           <Link
             href={`/profile/${post.user_id}`}
-            className="font-semibold text-sm hover:text-orange-600 transition"
+            className="font-semibold text-sm text-white hover:text-orange-400 transition"
           >
             {post.profiles?.username || "Unknown"}
           </Link>
@@ -126,10 +126,10 @@ function DbPostCard({
       </div>
 
       <Link href={`/community/${post.id}`} className="block">
-        <h3 className="font-bold text-lg leading-snug mb-2 hover:text-orange-600 transition">
+        <h3 className="font-bold text-lg leading-snug mb-2 text-white hover:text-orange-400 transition">
           {post.title}
         </h3>
-        <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
+        <p className="text-gray-400 text-sm leading-relaxed line-clamp-3">
           {post.content}
         </p>
 
@@ -150,7 +150,7 @@ function DbPostCard({
       {post.tags && post.tags.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mt-3">
           {post.tags.map((tag) => (
-            <span key={tag} className="text-xs text-orange-600 font-medium">
+            <span key={tag} className="text-xs text-orange-400 font-medium">
               #{tag}
             </span>
           ))}
@@ -158,7 +158,7 @@ function DbPostCard({
       )}
 
       {/* Actions */}
-      <div className="flex items-center gap-6 mt-4 pt-4 border-t border-gray-100 text-gray-500 text-sm">
+      <div className="flex items-center gap-6 mt-4 pt-4 border-t border-zinc-800 text-gray-500 text-sm">
         <button
           onClick={toggleLike}
           className={`flex items-center gap-1.5 transition ${
@@ -255,12 +255,13 @@ function CommunityPageInner() {
     <>
       <Navbar />
 
+      <div className="min-h-screen bg-black text-white">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-extrabold">Community</h1>
-            <p className="text-gray-500 mt-1">
+            <h1 className="text-3xl font-extrabold text-white">Community</h1>
+            <p className="text-gray-400 mt-1">
               Share your carry, read reviews, and join the conversation.
             </p>
           </div>
@@ -284,7 +285,7 @@ function CommunityPageInner() {
                 className={`px-3.5 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition ${
                   active === f
                     ? "bg-orange-600 text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    : "bg-zinc-800 text-gray-400 hover:bg-zinc-700 hover:text-white"
                 }`}
               >
                 {f}
@@ -297,7 +298,7 @@ function CommunityPageInner() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="text-sm border border-zinc-700 rounded-lg px-3 py-1.5 bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               {sortOptions.map((opt) => (
                 <option key={opt.value} value={opt.value}>
@@ -325,13 +326,14 @@ function CommunityPageInner() {
 
         {loaded &&
           (hasDbData ? filteredDb : filteredMock).length === 0 && (
-            <div className="text-center py-16 text-gray-400">
+            <div className="text-center py-16 text-gray-500">
               <p className="text-lg font-medium">
                 No posts yet in this category
               </p>
               <p className="text-sm mt-1">Be the first to share!</p>
             </div>
           )}
+      </div>
       </div>
 
       <Footer />

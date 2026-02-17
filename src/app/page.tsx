@@ -71,6 +71,20 @@ export default function WaitlistPage() {
             Be first in line when we launch. No spam, ever.
           </p>
 
+          {/* Blog callout */}
+          <div className="mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-full bg-zinc-900/60 border border-zinc-700 backdrop-blur hover:border-orange-500/50 transition-all group">
+            <span className="text-sm text-gray-400">New on the blog</span>
+            <Link
+              href="/blog"
+              className="text-sm font-semibold text-orange-400 group-hover:text-orange-300 transition flex items-center gap-1.5"
+            >
+              Read our EDC guides & tips
+              <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+
           {/* Live counter */}
           {signupCount !== null && signupCount > 0 && (
             <p className="mt-6 text-lg text-orange-400 font-semibold">

@@ -4,10 +4,10 @@ import type { CommunityPost } from "@/lib/data";
 import type { Post } from "@/lib/types";
 
 const typeStyles: Record<string, { badge: string; bg: string }> = {
-  collection: { badge: "Collection", bg: "bg-purple-100 text-purple-700" },
-  review: { badge: "Review", bg: "bg-blue-100 text-blue-700" },
-  discussion: { badge: "Discussion", bg: "bg-green-100 text-green-700" },
-  photo: { badge: "Photo", bg: "bg-amber-100 text-amber-700" },
+  collection: { badge: "Collection", bg: "bg-purple-500/20 text-purple-300" },
+  review: { badge: "Review", bg: "bg-blue-500/20 text-blue-300" },
+  discussion: { badge: "Discussion", bg: "bg-green-500/20 text-green-300" },
+  photo: { badge: "Photo", bg: "bg-amber-500/20 text-amber-300" },
 };
 
 function isDbPost(post: CommunityPost | Post): post is Post {
@@ -28,15 +28,15 @@ export default function CommunityPostCard({
     return (
       <Link
         href={`/community/${post.id}`}
-        className="bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-md transition block"
+        className="bg-zinc-900/50 backdrop-blur rounded-2xl border border-zinc-800 p-5 hover:border-orange-500/50 transition block"
       >
         <div className="flex items-center gap-3 mb-3">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
             {username.charAt(0).toUpperCase()}
           </div>
           <div className="flex-1 min-w-0">
-            <span className="font-semibold text-sm">{username}</span>
-            <p className="text-xs text-gray-400">
+            <span className="font-semibold text-sm text-white">{username}</span>
+            <p className="text-xs text-gray-500">
               {new Date(post.created_at).toLocaleDateString()}
             </p>
           </div>
@@ -46,20 +46,20 @@ export default function CommunityPostCard({
             {style.badge}
           </span>
         </div>
-        <h3 className="font-bold text-lg leading-snug mb-2">{post.title}</h3>
-        <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
+        <h3 className="font-bold text-lg leading-snug mb-2 text-white">{post.title}</h3>
+        <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">
           {post.content}
         </p>
         {post.tags.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mt-3">
             {post.tags.map((tag) => (
-              <span key={tag} className="text-xs text-orange-600 font-medium">
+              <span key={tag} className="text-xs text-orange-400 font-medium">
                 #{tag}
               </span>
             ))}
           </div>
         )}
-        <div className="flex items-center gap-6 mt-4 pt-4 border-t border-gray-100 text-gray-500 text-sm">
+        <div className="flex items-center gap-6 mt-4 pt-4 border-t border-zinc-800 text-gray-500 text-sm">
           <span className="flex items-center gap-1.5">
             <Heart className="w-4 h-4" />
             {likesCount}
@@ -77,7 +77,7 @@ export default function CommunityPostCard({
   const style = typeStyles[post.type] || typeStyles.discussion;
 
   return (
-    <article className="bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-md transition">
+    <article className="bg-zinc-900/50 backdrop-blur rounded-2xl border border-zinc-800 p-5 hover:border-orange-500/50 transition">
       <div className="flex items-center gap-3 mb-3">
         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
           {post.author.username.charAt(0)}
@@ -85,11 +85,11 @@ export default function CommunityPostCard({
         <div className="flex-1 min-w-0">
           <Link
             href={`/profile/${post.author.id}`}
-            className="font-semibold text-sm hover:text-orange-600 transition"
+            className="font-semibold text-sm text-white hover:text-orange-400 transition"
           >
             {post.author.username}
           </Link>
-          <p className="text-xs text-gray-400">{post.createdAt}</p>
+          <p className="text-xs text-gray-500">{post.createdAt}</p>
         </div>
         <span
           className={`px-2.5 py-1 rounded-full text-xs font-semibold ${style.bg}`}
@@ -97,14 +97,14 @@ export default function CommunityPostCard({
           {style.badge}
         </span>
       </div>
-      <h3 className="font-bold text-lg leading-snug mb-2">{post.title}</h3>
-      <p className="text-gray-600 text-sm leading-relaxed">{post.content}</p>
+      <h3 className="font-bold text-lg leading-snug mb-2 text-white">{post.title}</h3>
+      <p className="text-gray-400 text-sm leading-relaxed">{post.content}</p>
       {post.items.length > 0 && (
         <div className="flex flex-wrap gap-2 mt-3">
           {post.items.map((item) => (
             <span
               key={item}
-              className="px-2.5 py-1 rounded-lg bg-gray-100 text-gray-600 text-xs font-medium"
+              className="px-2.5 py-1 rounded-lg bg-zinc-800 text-gray-300 text-xs font-medium"
             >
               {item}
             </span>
@@ -113,21 +113,21 @@ export default function CommunityPostCard({
       )}
       <div className="flex flex-wrap gap-1.5 mt-3">
         {post.tags.map((tag) => (
-          <span key={tag} className="text-xs text-orange-600 font-medium">
+          <span key={tag} className="text-xs text-orange-400 font-medium">
             #{tag}
           </span>
         ))}
       </div>
-      <div className="flex items-center gap-6 mt-4 pt-4 border-t border-gray-100 text-gray-500 text-sm">
-        <button className="flex items-center gap-1.5 hover:text-red-500 transition">
+      <div className="flex items-center gap-6 mt-4 pt-4 border-t border-zinc-800 text-gray-500 text-sm">
+        <button className="flex items-center gap-1.5 hover:text-red-400 transition">
           <Heart className="w-4 h-4" />
           <span>{post.likes}</span>
         </button>
-        <button className="flex items-center gap-1.5 hover:text-blue-500 transition">
+        <button className="flex items-center gap-1.5 hover:text-blue-400 transition">
           <MessageCircle className="w-4 h-4" />
           <span>{post.comments}</span>
         </button>
-        <button className="flex items-center gap-1.5 hover:text-green-500 transition ml-auto">
+        <button className="flex items-center gap-1.5 hover:text-green-400 transition ml-auto">
           <Share2 className="w-4 h-4" />
           <span>Share</span>
         </button>

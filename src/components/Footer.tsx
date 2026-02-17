@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-400 mt-16">
+    <footer className="bg-black border-t border-zinc-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
@@ -19,10 +19,10 @@ export default function Footer() {
                 The Carry Exchange
               </span>
             </div>
-            <p className="text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed text-gray-400">
               The community marketplace for everyday carry enthusiasts.
             </p>
-            <p className="text-xs text-gray-500 mt-2 font-medium">
+            <p className="text-xs text-gray-600 mt-2 font-medium">
               jointhecarry.com
             </p>
           </div>
@@ -31,11 +31,11 @@ export default function Footer() {
               Marketplace
             </h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/categories" className="hover:text-white transition">Browse All</Link></li>
-              <li><Link href="/categories?category=knives" className="hover:text-white transition">Knives</Link></li>
-              <li><Link href="/categories?category=flashlights" className="hover:text-white transition">Flashlights</Link></li>
-              <li><Link href="/categories?category=pens" className="hover:text-white transition">Pens</Link></li>
-              <li><Link href="/categories?category=multi-tools" className="hover:text-white transition">Multi-Tools</Link></li>
+              <li><Link href="/categories" className="text-gray-400 hover:text-orange-400 transition">Browse All</Link></li>
+              <li><Link href="/categories?category=knives" className="text-gray-400 hover:text-orange-400 transition">Knives</Link></li>
+              <li><Link href="/categories?category=flashlights" className="text-gray-400 hover:text-orange-400 transition">Flashlights</Link></li>
+              <li><Link href="/categories?category=pens" className="text-gray-400 hover:text-orange-400 transition">Pens</Link></li>
+              <li><Link href="/categories?category=multi-tools" className="text-gray-400 hover:text-orange-400 transition">Multi-Tools</Link></li>
             </ul>
           </div>
           <div>
@@ -43,10 +43,11 @@ export default function Footer() {
               Community
             </h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/community" className="hover:text-white transition">Feed</Link></li>
-              <li><Link href="/community?filter=collection" className="hover:text-white transition">Collections</Link></li>
-              <li><Link href="/community?filter=review" className="hover:text-white transition">Reviews</Link></li>
-              <li><Link href="/community?filter=discussion" className="hover:text-white transition">Discussions</Link></li>
+              <li><Link href="/community" className="text-gray-400 hover:text-orange-400 transition">Feed</Link></li>
+              <li><Link href="/community?filter=collection" className="text-gray-400 hover:text-orange-400 transition">Collections</Link></li>
+              <li><Link href="/blog" className="text-gray-400 hover:text-orange-400 transition">Blog</Link></li>
+              <li><Link href="/community?filter=review" className="text-gray-400 hover:text-orange-400 transition">Reviews</Link></li>
+              <li><Link href="/community?filter=discussion" className="text-gray-400 hover:text-orange-400 transition">Discussions</Link></li>
             </ul>
           </div>
           <div>
@@ -54,18 +55,17 @@ export default function Footer() {
               Company
             </h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/about" className="hover:text-white transition">About</Link></li>
-              <li><Link href="/trust-safety" className="hover:text-white transition">Trust & Safety</Link></li>
-              <li><Link href="/terms" className="hover:text-white transition">Terms of Service</Link></li>
-              <li><Link href="/privacy" className="hover:text-white transition">Privacy Policy</Link></li>
+              <li><Link href="/about" className="text-gray-400 hover:text-orange-400 transition">About</Link></li>
+              <li><Link href="/trust-safety" className="text-gray-400 hover:text-orange-400 transition">Trust & Safety</Link></li>
+              <li><Link href="/terms" className="text-gray-400 hover:text-orange-400 transition">Terms of Service</Link></li>
+              <li><Link href="/privacy" className="text-gray-400 hover:text-orange-400 transition">Privacy Policy</Link></li>
             </ul>
           </div>
         </div>
-        <div className="border-t border-gray-800 mt-10 pt-6 text-center text-sm">
+        <div className="border-t border-zinc-800 mt-10 pt-6 text-center text-sm text-gray-500">
           &copy; 2026 The Carry Exchange. All rights reserved.
         </div>
       </div>
     </footer>
   );
 }
-

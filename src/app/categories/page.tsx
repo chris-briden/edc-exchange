@@ -158,22 +158,23 @@ function CategoriesContent() {
     <>
       <Navbar />
 
+      <div className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <h1 className="text-3xl font-extrabold mb-2">Browse Marketplace</h1>
-        <p className="text-gray-500 mb-4">
+        <h1 className="text-3xl font-extrabold mb-2 text-white">Browse Marketplace</h1>
+        <p className="text-gray-400 mb-4">
           Find your next EDC grail. Buy, sell, trade, lend, or rent.
         </p>
 
         {/* Search banner */}
         {searchQuery && (
           <div className="flex items-center gap-2 mb-6">
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-gray-400">
               Showing results for &ldquo;
-              <strong>{searchQuery}</strong>&rdquo;
+              <strong className="text-white">{searchQuery}</strong>&rdquo;
             </span>
             <button
               onClick={() => setSearchQuery("")}
-              className="p-1 rounded-full hover:bg-gray-100 transition"
+              className="p-1 rounded-full hover:bg-zinc-800 transition"
             >
               <X className="w-4 h-4 text-gray-400" />
             </button>
@@ -192,13 +193,13 @@ function CategoriesContent() {
               }
               className={`text-left rounded-xl p-4 border-2 transition flex items-center gap-3 ${
                 selectedCategory === cat.slug
-                  ? "border-orange-500 bg-orange-50"
-                  : "border-gray-200 bg-white hover:border-gray-300"
+                  ? "border-orange-500 bg-orange-500/10"
+                  : "border-zinc-800 bg-zinc-900/50 hover:border-zinc-600"
               }`}
             >
               <CategoryIcon slug={cat.slug} size="sm" />
               <div>
-                <p className="font-semibold text-sm">{cat.name}</p>
+                <p className="font-semibold text-sm text-white">{cat.name}</p>
               </div>
             </button>
           ))}
@@ -216,7 +217,7 @@ function CategoriesContent() {
                 className={`px-3.5 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition ${
                   listingFilter === f
                     ? "bg-orange-600 text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    : "bg-zinc-800 text-gray-400 hover:bg-zinc-700 hover:text-white"
                 }`}
               >
                 {f}
@@ -230,7 +231,7 @@ function CategoriesContent() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="text-sm border border-zinc-700 rounded-lg px-3 py-1.5 bg-zinc-900 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               {sortOptions.map((opt) => (
                 <option key={opt.value} value={opt.value}>
@@ -260,7 +261,7 @@ function CategoriesContent() {
                 <button
                   onClick={loadMore}
                   disabled={loadingMore}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 transition disabled:opacity-50"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-zinc-800 text-gray-300 font-medium hover:bg-zinc-700 transition disabled:opacity-50"
                 >
                   {loadingMore && (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -272,10 +273,10 @@ function CategoriesContent() {
           </>
         ) : (
           <div className="text-center py-16">
-            <p className="text-lg font-medium text-gray-500">
+            <p className="text-lg font-medium text-gray-400">
               No listings yet
             </p>
-            <p className="text-sm text-gray-400 mt-1">
+            <p className="text-sm text-gray-500 mt-1">
               Be the first to list your EDC gear!
             </p>
             <Link
@@ -287,6 +288,7 @@ function CategoriesContent() {
             </Link>
           </div>
         )}
+      </div>
       </div>
 
       <Footer />
