@@ -99,7 +99,7 @@ export default function BlogIndex() {
           </p>
           <Link
             href="/"
-            className="inline-block px-8 py-4 rounded-lg font-semibold bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white transition-all"
+            className="inline-block px-8 py-4 rounded-full font-semibold bg-orange-700 text-white hover:bg-orange-600 transition shadow-lg shadow-orange-900/50"
           >
             Join the Waitlist
           </Link>

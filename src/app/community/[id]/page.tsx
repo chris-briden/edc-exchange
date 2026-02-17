@@ -18,10 +18,10 @@ import { createClient } from "@/lib/supabase-browser";
 import type { Post } from "@/lib/types";
 
 const typeStyles: Record<string, { badge: string; bg: string }> = {
-  collection: { badge: "Collection", bg: "bg-purple-100 text-purple-700" },
-  review: { badge: "Review", bg: "bg-blue-100 text-blue-700" },
-  discussion: { badge: "Discussion", bg: "bg-green-100 text-green-700" },
-  photo: { badge: "Photo", bg: "bg-amber-100 text-amber-700" },
+  collection: { badge: "Collection", bg: "bg-purple-500/20 text-purple-300" },
+  review: { badge: "Review", bg: "bg-blue-500/20 text-blue-300" },
+  discussion: { badge: "Discussion", bg: "bg-green-500/20 text-green-300" },
+  photo: { badge: "Photo", bg: "bg-amber-500/20 text-amber-300" },
 };
 
 export default function PostDetailPage() {
@@ -159,16 +159,17 @@ export default function PostDetailPage() {
     <>
       <Navbar />
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
-        <Link
-          href="/community"
-          className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 mb-6"
-        >
+      <div className="min-h-screen bg-black text-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
+          <Link
+            href="/community"
+            className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-200 mb-6"
+          >
           <ArrowLeft className="w-4 h-4" /> Back to community
         </Link>
 
-        {/* Post card */}
-        <article className="bg-white rounded-2xl border border-gray-200 p-6">
+          {/* Post card */}
+          <article className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-2xl p-6">
           {/* Author */}
           <div className="flex items-center gap-3 mb-4">
             <Link href={`/profile/${post.user_id}`}>
@@ -208,17 +209,17 @@ export default function PostDetailPage() {
             </span>
           </div>
 
-          {/* Title & content */}
-          <h1 className="text-2xl font-extrabold leading-tight mb-3">
-            {post.title}
-          </h1>
-          <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-            {post.content}
-          </p>
+            {/* Title & content */}
+            <h1 className="text-2xl font-extrabold leading-tight mb-3">
+              {post.title}
+            </h1>
+            <p className="text-gray-300 leading-relaxed whitespace-pre-line">
+              {post.content}
+            </p>
 
-          {/* Images */}
-          {images.length > 0 && (
-            <div className={`mt-4 gap-2 ${images.length === 1 ? "" : "grid grid-cols-2"}`}>
+            {/* Images */}
+            {images.length > 0 && (
+              <div className={`mt-4 gap-2 ${images.length === 1 ? "" : "grid grid-cols-2"}`}>
               {images.map((img) => (
                 <div
                   key={img.id}
@@ -231,27 +232,27 @@ export default function PostDetailPage() {
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
-                </div>
-              ))}
-            </div>
-          )}
+                  </div>
+                ))}
+              </div>
+            )}
 
-          {/* Tags */}
-          {post.tags && post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-4">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-sm text-orange-600 font-medium"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          )}
+            {/* Tags */}
+            {post.tags && post.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-4">
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-sm text-orange-400 font-medium"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            )}
 
-          {/* Actions */}
-          <div className="flex items-center gap-6 mt-6 pt-5 border-t border-gray-100 text-gray-500 text-sm">
+            {/* Actions */}
+            <div className="flex items-center gap-6 mt-6 pt-5 border-t border-zinc-800 text-gray-400 text-sm">
             <button
               onClick={handleLike}
               className={`flex items-center gap-1.5 transition ${
@@ -271,12 +272,13 @@ export default function PostDetailPage() {
               className="flex items-center gap-1.5 hover:text-green-500 transition ml-auto"
             >
               <Share2 className="w-5 h-5" /> Share
-            </button>
-          </div>
-        </article>
+              </button>
+            </div>
+          </article>
 
-        {/* Comments */}
-        <CommentSection postId={postId} />
+          {/* Comments */}
+          <CommentSection postId={postId} />
+        </div>
       </div>
 
       <Footer />

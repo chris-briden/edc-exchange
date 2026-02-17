@@ -181,7 +181,7 @@ export default function PublicProfilePage() {
     return (
       <>
         <Navbar />
-        <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="flex items-center justify-center min-h-[60vh] bg-black">
           <Loader2 className="w-8 h-8 animate-spin text-orange-600" />
         </div>
       </>
@@ -192,17 +192,19 @@ export default function PublicProfilePage() {
     return (
       <>
         <Navbar />
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16 text-center">
-          <h1 className="text-2xl font-bold">User not found</h1>
-          <p className="text-gray-500 mt-2">
-            This profile doesn&apos;t exist or has been removed.
-          </p>
-          <Link
-            href="/"
-            className="inline-flex mt-4 text-orange-600 hover:underline"
-          >
-            &larr; Back to home
-          </Link>
+        <div className="min-h-screen bg-black text-white">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16 text-center">
+            <h1 className="text-2xl font-bold">User not found</h1>
+            <p className="text-gray-400 mt-2">
+              This profile doesn&apos;t exist or has been removed.
+            </p>
+            <Link
+              href="/"
+              className="inline-flex mt-4 text-gray-400 hover:text-gray-200"
+            >
+              &larr; Back to home
+            </Link>
+          </div>
         </div>
         <Footer />
       </>
@@ -215,8 +217,9 @@ export default function PublicProfilePage() {
     <>
       <Navbar />
 
-      {/* Profile header */}
-      <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+      <div className="min-h-screen bg-black text-white">
+        {/* Profile header */}
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
           <div className="flex flex-col sm:flex-row items-start gap-6">
             {profile.avatar_url ? (
@@ -305,16 +308,16 @@ export default function PublicProfilePage() {
         </div>
       </div>
 
-      {/* EDC Loadout */}
-      {loadout && loadoutItems.length > 0 && (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-          <div className="bg-gradient-to-r from-blue-50 to-orange-50 rounded-2xl p-6 border border-blue-100">
+        {/* EDC Loadout */}
+        {loadout && loadoutItems.length > 0 && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-2xl p-6 hover:border-orange-500/50 transition">
             <div className="flex items-center gap-2 mb-4">
               <Crosshair className="w-5 h-5 text-orange-600" />
               <h3 className="font-bold text-lg">{loadout.name}</h3>
             </div>
             {loadout.description && (
-              <p className="text-gray-600 text-sm mb-4">
+              <p className="text-gray-400 text-sm mb-4">
                 {loadout.description}
               </p>
             )}
@@ -328,7 +331,7 @@ export default function PublicProfilePage() {
                     href={`/item/${item.id}`}
                     className="group"
                   >
-                    <div className="aspect-square rounded-xl bg-white border border-gray-200 overflow-hidden shadow-sm group-hover:shadow-md group-hover:-translate-y-0.5 transition-all">
+                    <div className="aspect-square rounded-xl bg-zinc-800 border border-zinc-700 overflow-hidden shadow-sm group-hover:shadow-md group-hover:-translate-y-0.5 transition-all">
                       {firstImage ? (
                         <Image
                           src={firstImage}
@@ -343,28 +346,28 @@ export default function PublicProfilePage() {
                         </div>
                       )}
                     </div>
-                    <p className="text-xs text-gray-600 font-medium mt-1.5 text-center line-clamp-1">
+                    <p className="text-xs text-gray-400 font-medium mt-1.5 text-center line-clamp-1">
                       {item.name}
                     </p>
                   </Link>
                 );
               })}
             </div>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Tabs */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        <div className="flex gap-1 border-b border-gray-200 mb-6">
+        {/* Tabs */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <div className="flex gap-1 border-b border-zinc-800 mb-6">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`px-4 py-3 text-sm font-medium border-b-2 transition ${
                 activeTab === tab
-                  ? "border-orange-600 text-orange-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700"
+                  ? "border-orange-500 text-orange-400"
+                  : "border-transparent text-gray-400 hover:text-gray-200"
               }`}
             >
               {tab}
@@ -377,11 +380,11 @@ export default function PublicProfilePage() {
               </span>
             </button>
           ))}
+          </div>
         </div>
-      </div>
 
-      {/* Tab content */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-8">
+        {/* Tab content */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-8">
         {activeTab === "Listings" && (
           <>
             <h3 className="font-bold text-lg mb-4">
@@ -438,6 +441,7 @@ export default function PublicProfilePage() {
             )}
           </>
         )}
+        </div>
       </div>
 
       <Footer />

@@ -281,7 +281,7 @@ function CategoriesContent() {
             </p>
             <Link
               href="/items/new"
-              className="inline-flex items-center gap-2 mt-4 px-6 py-2.5 rounded-full bg-orange-600 text-white font-medium hover:bg-orange-700 transition"
+              className="inline-flex items-center gap-2 mt-4 px-6 py-2.5 rounded-full bg-orange-700 text-white font-semibold hover:bg-orange-600 transition shadow-lg shadow-orange-900/50"
             >
               <Plus className="w-4 h-4" />
               List an Item

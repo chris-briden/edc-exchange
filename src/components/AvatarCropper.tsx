@@ -97,15 +97,15 @@ export default function AvatarCropper({
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden">
+      <div className="bg-zinc-900 rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-          <h2 className="text-lg font-bold">Crop Your Avatar</h2>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800">
+          <h2 className="text-lg font-bold text-white">Crop Your Avatar</h2>
           <button
             onClick={onCancel}
-            className="p-1.5 hover:bg-gray-100 rounded-lg transition"
+            className="p-1.5 hover:bg-zinc-800 rounded-lg transition"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5 text-gray-300" />
           </button>
         </div>
 
@@ -125,7 +125,7 @@ export default function AvatarCropper({
         </div>
 
         {/* Controls */}
-        <div className="px-6 py-4 space-y-4">
+        <div className="px-6 py-4 space-y-4 bg-zinc-900">
           <div className="flex items-center gap-3">
             <ZoomIn className="w-4 h-4 text-gray-400 shrink-0" />
             <input
@@ -152,7 +152,7 @@ export default function AvatarCropper({
             </button>
             <button
               onClick={onCancel}
-              className="px-6 py-2.5 rounded-xl border border-gray-300 text-gray-600 font-medium hover:bg-gray-50 transition"
+              className="px-6 py-2.5 rounded-xl border border-zinc-700 text-gray-300 font-medium hover:bg-zinc-800 transition"
             >
               Cancel
             </button>

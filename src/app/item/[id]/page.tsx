@@ -32,15 +32,15 @@ const listingConfig: Record<
   string,
   { color: string; label: string; bg: string }
 > = {
-  sell: { color: "text-green-700", label: "For Sale", bg: "bg-green-100" },
-  trade: { color: "text-blue-700", label: "For Trade", bg: "bg-blue-100" },
+  sell: { color: "text-green-300", label: "For Sale", bg: "bg-green-500/20" },
+  trade: { color: "text-blue-300", label: "For Trade", bg: "bg-blue-500/20" },
   lend: {
-    color: "text-purple-700",
+    color: "text-purple-300",
     label: "Available to Lend",
-    bg: "bg-purple-100",
+    bg: "bg-purple-500/20",
   },
-  rent: { color: "text-amber-700", label: "For Rent", bg: "bg-amber-100" },
-  showcase: { color: "text-gray-700", label: "Showcase", bg: "bg-gray-100" },
+  rent: { color: "text-amber-300", label: "For Rent", bg: "bg-amber-500/20" },
+  showcase: { color: "text-gray-300", label: "Showcase", bg: "bg-zinc-700" },
 };
 
 const boxDocsLabels: Record<string, string> = {
@@ -213,17 +213,19 @@ export default function ItemPage() {
     return (
       <>
         <Navbar />
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16 text-center">
-          <h1 className="text-2xl font-bold">Item not found</h1>
-          <p className="text-gray-500 mt-2">
-            This item may have been removed or doesn&apos;t exist.
-          </p>
-          <Link
-            href="/categories"
-            className="inline-flex items-center gap-1.5 mt-4 text-orange-600 hover:underline"
-          >
-            <ArrowLeft className="w-4 h-4" /> Browse listings
-          </Link>
+        <div className="min-h-screen bg-black text-white">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16 text-center">
+            <h1 className="text-2xl font-bold">Item not found</h1>
+            <p className="text-gray-400 mt-2">
+              This item may have been removed or doesn&apos;t exist.
+            </p>
+            <Link
+              href="/categories"
+              className="inline-flex items-center gap-1.5 mt-4 text-gray-400 hover:text-gray-200 transition"
+            >
+              <ArrowLeft className="w-4 h-4" /> Browse listings
+            </Link>
+          </div>
         </div>
         <Footer />
       </>
@@ -242,18 +244,19 @@ export default function ItemPage() {
     <>
       <Navbar />
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-        <Link
-          href="/categories"
-          className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 mb-6"
-        >
-          <ArrowLeft className="w-4 h-4" /> Back to listings
-        </Link>
+      <div className="min-h-screen bg-black text-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+          <Link
+            href="/categories"
+            className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-200 mb-6 transition"
+          >
+            <ArrowLeft className="w-4 h-4" /> Back to listings
+          </Link>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Images */}
-          <div>
-            <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl overflow-hidden relative">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Images */}
+            <div>
+              <div className="aspect-square bg-gradient-to-br from-zinc-800 to-zinc-900 rounded-2xl overflow-hidden relative">
               {images.length > 0 ? (
                 <Image
                   src={images[selectedImage]?.url || images[0].url}
@@ -268,22 +271,22 @@ export default function ItemPage() {
                     <div className="flex justify-center mb-3">
                       <CategoryIcon slug={categorySlug} size="xl" />
                     </div>
-                    <p className="text-gray-400 text-sm">No images</p>
+                    <p className="text-gray-500 text-sm">No images</p>
                   </div>
                 </div>
               )}
             </div>
-            {images.length > 1 && (
-              <div className="flex gap-2 mt-3">
-                {images.map((img, i) => (
-                  <button
-                    key={img.id}
-                    onClick={() => setSelectedImage(i)}
-                    className={`relative w-16 h-16 rounded-lg overflow-hidden border-2 transition ${
-                      selectedImage === i
-                        ? "border-orange-500"
-                        : "border-gray-200"
-                    }`}
+              {images.length > 1 && (
+                <div className="flex gap-2 mt-3">
+                  {images.map((img, i) => (
+                    <button
+                      key={img.id}
+                      onClick={() => setSelectedImage(i)}
+                      className={`relative w-16 h-16 rounded-lg overflow-hidden border-2 transition ${
+                        selectedImage === i
+                          ? "border-orange-500"
+                          : "border-zinc-700"
+                      }`}
                   >
                     <Image
                       src={img.url}
@@ -292,14 +295,14 @@ export default function ItemPage() {
                       className="object-cover"
                       sizes="64px"
                     />
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
-          {/* Details */}
-          <div>
+            {/* Details */}
+            <div>
             <div className="flex items-start justify-between">
               <span
                 className={`inline-flex px-3 py-1 rounded-full text-sm font-semibold ${listing.bg} ${listing.color}`}
@@ -310,7 +313,7 @@ export default function ItemPage() {
                 <div className="flex gap-1">
                   <Link
                     href={`/items/${id}/edit`}
-                    className="p-2 rounded-lg text-gray-400 hover:text-orange-600 hover:bg-orange-50 transition"
+                    className="p-2 rounded-lg text-gray-400 hover:text-orange-400 hover:bg-orange-500/10 transition"
                     title="Edit listing"
                   >
                     <Pencil className="w-4 h-4" />
@@ -318,7 +321,7 @@ export default function ItemPage() {
                   <button
                     onClick={handleDelete}
                     disabled={deleting}
-                    className="p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition"
+                    className="p-2 rounded-lg text-gray-400 hover:text-red-400 hover:bg-red-500/10 transition"
                     title="Delete item"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -326,152 +329,152 @@ export default function ItemPage() {
                 </div>
               )}
             </div>
-            <h1 className="text-2xl md:text-3xl font-extrabold mt-3">
-              {dbItem.name}
-            </h1>
-            <p className="text-gray-500 mt-1">
-              {dbItem.brand} &middot; Condition: {dbItem.condition}
-            </p>
+              <h1 className="text-2xl md:text-3xl font-extrabold mt-3">
+                {dbItem.name}
+              </h1>
+              <p className="text-gray-400 mt-1">
+                {dbItem.brand} &middot; Condition: {dbItem.condition}
+              </p>
 
-            {dbItem.price && (
-              <p className="text-3xl font-extrabold text-green-700 mt-4">
-                ${Number(dbItem.price).toFixed(0)}
-              </p>
-            )}
-            {dbItem.rent_price && (
-              <p className="text-3xl font-extrabold text-amber-700 mt-4">
-                {dbItem.rent_price}
-                {dbItem.rental_period && (
-                  <span className="text-base font-medium text-gray-500">
-                    {" "}
-                    / {dbItem.rental_period}
-                  </span>
-                )}
-              </p>
-            )}
-            {!dbItem.price && !dbItem.rent_price && (
-              <p className="text-xl font-bold text-blue-600 mt-4">
-                Open to trade offers
-              </p>
-            )}
-
-            {/* Item details badges */}
-            <div className="flex flex-wrap gap-3 mt-4">
-              {dbItem.box_and_docs && dbItem.box_and_docs !== "none" && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 text-gray-700 text-xs font-medium">
-                  <Package className="w-3.5 h-3.5" />
-                  {boxDocsLabels[dbItem.box_and_docs] || dbItem.box_and_docs}
-                </span>
+              {dbItem.price && (
+                <p className="text-3xl font-extrabold text-green-400 mt-4">
+                  ${Number(dbItem.price).toFixed(0)}
+                </p>
               )}
-              {(dbItem.listing_type === "sell" || dbItem.listing_type === "rent") && (
-                <>
-                  {dbItem.shipping_cost ? (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 text-gray-700 text-xs font-medium">
-                      <Truck className="w-3.5 h-3.5" />
-                      Shipping: ${Number(dbItem.shipping_cost).toFixed(0)}
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-50 text-green-700 text-xs font-medium">
-                      <Truck className="w-3.5 h-3.5" />
-                      Free Shipping
+              {dbItem.rent_price && (
+                <p className="text-3xl font-extrabold text-amber-400 mt-4">
+                  {dbItem.rent_price}
+                  {dbItem.rental_period && (
+                    <span className="text-base font-medium text-gray-400">
+                      {" "}
+                      / {dbItem.rental_period}
                     </span>
                   )}
-                  {dbItem.accepts_returns && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 text-xs font-medium">
-                      <RotateCcw className="w-3.5 h-3.5" />
-                      Returns Accepted
-                    </span>
-                  )}
-                </>
+                </p>
               )}
-              {dbItem.rental_deposit && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50 text-amber-700 text-xs font-medium">
-                  <Shield className="w-3.5 h-3.5" />
-                  ${Number(dbItem.rental_deposit).toFixed(0)} deposit
-                </span>
+              {!dbItem.price && !dbItem.rent_price && (
+                <p className="text-xl font-bold text-blue-400 mt-4">
+                  Open to trade offers
+                </p>
               )}
-            </div>
 
-            <p className="text-gray-600 mt-4 leading-relaxed">
-              {dbItem.description}
-            </p>
-
-            {dbItem.tags && dbItem.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-4">
-                {dbItem.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2.5 py-1 rounded-lg bg-gray-100 text-gray-600 text-xs font-medium"
-                  >
-                    #{tag}
+              {/* Item details badges */}
+              <div className="flex flex-wrap gap-3 mt-4">
+                {dbItem.box_and_docs && dbItem.box_and_docs !== "none" && (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800 text-gray-300 text-xs font-medium">
+                    <Package className="w-3.5 h-3.5" />
+                    {boxDocsLabels[dbItem.box_and_docs] || dbItem.box_and_docs}
                   </span>
-                ))}
-              </div>
-            )}
-
-            {/* Action buttons */}
-            {!isOwner && (
-              <div className="flex flex-wrap gap-3 mt-6">
-                {dbItem.listing_type === "sell" && dbItem.price && (
-                  <button
-                    onClick={() => {
-                      if (!currentUserId) {
-                        router.push("/login");
-                        return;
-                      }
-                      setShowBuyForm(true);
-                    }}
-                    className="flex-1 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition"
-                  >
-                    Buy Now &mdash; ${Number(dbItem.price).toFixed(0)}
-                  </button>
                 )}
-                {dbItem.listing_type === "trade" && (
-                  <button
-                    onClick={handleAction}
-                    className="flex-1 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
-                  >
-                    Make Trade Offer
-                  </button>
-                )}
-                {dbItem.listing_type === "lend" && (
-                  <button
-                    onClick={handleAction}
-                    className="flex-1 py-3 rounded-xl bg-purple-600 text-white font-semibold hover:bg-purple-700 transition"
-                  >
-                    Request to Borrow
-                  </button>
-                )}
-                {dbItem.listing_type === "rent" && (
-                  <button
-                    onClick={() => {
-                      if (!currentUserId) {
-                        router.push("/login");
-                        return;
-                      }
-                      setShowRentalForm(true);
-                    }}
-                    className="flex-1 py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition"
-                  >
-                    Rent &mdash; {dbItem.rent_price}
-                    {dbItem.rental_period && (
-                      <span className="text-amber-200 text-sm font-normal">
-                        {" "}/ {dbItem.rental_period}
+                {(dbItem.listing_type === "sell" || dbItem.listing_type === "rent") && (
+                  <>
+                    {dbItem.shipping_cost ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800 text-gray-300 text-xs font-medium">
+                        <Truck className="w-3.5 h-3.5" />
+                        Shipping: ${Number(dbItem.shipping_cost).toFixed(0)}
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-500/20 text-green-300 text-xs font-medium">
+                        <Truck className="w-3.5 h-3.5" />
+                        Free Shipping
                       </span>
                     )}
-                  </button>
+                    {dbItem.accepts_returns && (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-500/20 text-blue-300 text-xs font-medium">
+                        <RotateCcw className="w-3.5 h-3.5" />
+                        Returns Accepted
+                      </span>
+                    )}
+                  </>
                 )}
-                <button
-                  onClick={handleAction}
-                  className="py-3 px-4 rounded-xl border border-gray-300 text-gray-600 hover:bg-gray-50 transition"
-                >
-                  Message Seller
-                </button>
+                {dbItem.rental_deposit && (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-medium">
+                    <Shield className="w-3.5 h-3.5" />
+                    ${Number(dbItem.rental_deposit).toFixed(0)} deposit
+                  </span>
+                )}
               </div>
-            )}
 
-            {/* Engagement + stats */}
-            <div className="flex items-center gap-5 mt-6 pt-5 border-t border-gray-200 text-gray-500 text-sm">
+              <p className="text-gray-300 mt-4 leading-relaxed">
+                {dbItem.description}
+              </p>
+
+              {dbItem.tags && dbItem.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {dbItem.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2.5 py-1 rounded-lg bg-zinc-800 text-gray-400 text-xs font-medium"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {/* Action buttons */}
+              {!isOwner && (
+                <div className="flex flex-wrap gap-3 mt-6">
+                  {dbItem.listing_type === "sell" && dbItem.price && (
+                    <button
+                      onClick={() => {
+                        if (!currentUserId) {
+                          router.push("/login");
+                          return;
+                        }
+                        setShowBuyForm(true);
+                      }}
+                      className="flex-1 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition"
+                    >
+                      Buy Now &mdash; ${Number(dbItem.price).toFixed(0)}
+                    </button>
+                  )}
+                  {dbItem.listing_type === "trade" && (
+                    <button
+                      onClick={handleAction}
+                      className="flex-1 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+                    >
+                      Make Trade Offer
+                    </button>
+                  )}
+                  {dbItem.listing_type === "lend" && (
+                    <button
+                      onClick={handleAction}
+                      className="flex-1 py-3 rounded-xl bg-purple-600 text-white font-semibold hover:bg-purple-700 transition"
+                    >
+                      Request to Borrow
+                    </button>
+                  )}
+                  {dbItem.listing_type === "rent" && (
+                    <button
+                      onClick={() => {
+                        if (!currentUserId) {
+                          router.push("/login");
+                          return;
+                        }
+                        setShowRentalForm(true);
+                      }}
+                      className="flex-1 py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition"
+                    >
+                      Rent &mdash; {dbItem.rent_price}
+                      {dbItem.rental_period && (
+                        <span className="text-amber-200 text-sm font-normal">
+                          {" "}/ {dbItem.rental_period}
+                        </span>
+                      )}
+                    </button>
+                  )}
+                  <button
+                    onClick={handleAction}
+                    className="py-3 px-4 rounded-xl border border-zinc-700 text-gray-300 hover:bg-zinc-800 transition"
+                  >
+                    Message Seller
+                  </button>
+                </div>
+              )}
+
+              {/* Engagement + stats */}
+              <div className="flex items-center gap-5 mt-6 pt-5 border-t border-zinc-800 text-gray-400 text-sm">
               <button
                 onClick={handleLike}
                 className={`flex items-center gap-1.5 transition ${
@@ -487,19 +490,19 @@ export default function ItemPage() {
                 <Eye className="w-4 h-4" />
                 {viewsCount} {viewsCount === 1 ? "view" : "views"}
               </span>
-              <button
-                onClick={handleShare}
-                className="flex items-center gap-1.5 hover:text-green-500 transition ml-auto"
-              >
-                <Share2 className="w-5 h-5" /> Share
-              </button>
-              <button className="flex items-center gap-1.5 hover:text-red-400 transition">
-                <Flag className="w-4 h-4" />
-              </button>
-            </div>
+                <button
+                  onClick={handleShare}
+                  className="flex items-center gap-1.5 hover:text-green-400 transition ml-auto"
+                >
+                  <Share2 className="w-5 h-5" /> Share
+                </button>
+                <button className="flex items-center gap-1.5 hover:text-red-400 transition">
+                  <Flag className="w-4 h-4" />
+                </button>
+              </div>
 
-            {/* Seller info */}
-            <div className="mt-6 p-4 rounded-xl bg-gray-50 border border-gray-200">
+              {/* Seller info */}
+              <div className="mt-6 p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
               <div className="flex items-center gap-3">
                 <Link href={`/profile/${dbItem.user_id}`}>
                   {ownerAvatar ? (
@@ -519,13 +522,13 @@ export default function ItemPage() {
                 <div className="flex-1">
                   <Link
                     href={`/profile/${dbItem.user_id}`}
-                    className="font-semibold hover:text-orange-600 transition"
+                    className="font-semibold hover:text-orange-400 transition"
                   >
                     {ownerUsername}
                   </Link>
-                  <div className="flex items-center gap-3 text-xs text-gray-500 mt-0.5">
+                  <div className="flex items-center gap-3 text-xs text-gray-400 mt-0.5">
                     <span className="flex items-center gap-1">
-                      <Shield className="w-3.5 h-3.5 text-green-500" />{" "}
+                      <Shield className="w-3.5 h-3.5 text-green-400" />{" "}
                       Member
                     </span>
                     {dbItem.ships_from_country && (
@@ -535,29 +538,30 @@ export default function ItemPage() {
                 </div>
                 <Link
                   href={`/profile/${dbItem.user_id}`}
-                  className="px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium hover:bg-gray-100 transition"
+                  className="px-4 py-2 rounded-lg border border-zinc-700 text-sm font-medium text-gray-300 hover:bg-zinc-800 transition"
                 >
                   View Profile
                 </Link>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Comments Section */}
-        <CommentSection itemId={id} />
-
-        {/* Similar Items */}
-        {similarItems.length > 0 && (
-          <div className="mt-12 pt-8 border-t border-gray-200">
-            <h2 className="text-xl font-bold mb-4">Similar Items</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {similarItems.map((item) => (
-                <DbItemCard key={item.id} item={item} />
-              ))}
             </div>
           </div>
-        )}
+
+          {/* Comments Section */}
+          <CommentSection itemId={id} />
+
+          {/* Similar Items */}
+          {similarItems.length > 0 && (
+            <div className="mt-12 pt-8 border-t border-zinc-800">
+              <h2 className="text-xl font-bold mb-4">Similar Items</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {similarItems.map((item) => (
+                  <DbItemCard key={item.id} item={item} />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       <Footer />

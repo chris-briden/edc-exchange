@@ -267,7 +267,7 @@ function CommunityPageInner() {
           </div>
           <Link
             href="/posts/new"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-orange-600 text-white text-sm font-semibold hover:bg-orange-700 transition"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-orange-700 text-white text-sm font-semibold hover:bg-orange-600 transition shadow-lg shadow-orange-900/50"
           >
             <PenSquare className="w-4 h-4" />
             New Post

@@ -110,14 +110,13 @@ export default function WaitlistForm({
           type="submit"
           disabled={state === 'loading' || !email}
           className={`
-            px-8 py-4 rounded-lg font-semibold
-            bg-gradient-to-r from-orange-500 to-orange-600
-            hover:from-orange-600 hover:to-orange-700
+            px-8 py-4 rounded-full font-semibold
+            bg-orange-700 hover:bg-orange-600
             text-white
             disabled:opacity-50 disabled:cursor-not-allowed
             transition-all transform hover:scale-[1.02]
             active:scale-[0.98]
-            shadow-lg hover:shadow-xl
+            shadow-lg shadow-orange-900/50 hover:shadow-xl
             ${variant === 'hero' ? 'text-lg' : 'text-base'}
           `}
         >

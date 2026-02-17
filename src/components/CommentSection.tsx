@@ -51,7 +51,7 @@ function CommentItem({
           )}
         </Link>
         <div className="flex-1">
-          <div className="bg-gray-50 rounded-xl px-4 py-3">
+          <div className="bg-zinc-800 rounded-xl px-4 py-3">
             <div className="flex items-baseline gap-2">
               <Link
                 href={`/profile/${comment.user_id}`}
@@ -63,7 +63,7 @@ function CommentItem({
                 {new Date(comment.created_at).toLocaleDateString()}
               </span>
             </div>
-            <p className="text-sm text-gray-700 mt-1">{comment.content}</p>
+            <p className="text-sm text-gray-300 mt-1">{comment.content}</p>
           </div>
           {userId && (
             <button
@@ -81,7 +81,7 @@ function CommentItem({
                 value={replyText}
                 onChange={(e) => setReplyText(e.target.value)}
                 placeholder="Write a reply..."
-                className="flex-1 px-3 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="flex-1 px-3 py-2 rounded-lg bg-zinc-900/50 border border-zinc-700 text-white placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 autoFocus
               />
               <button
@@ -102,7 +102,7 @@ function CommentItem({
 
       {/* Replies */}
       {replies.length > 0 && (
-        <div className="ml-12 mt-3 space-y-3 border-l-2 border-gray-100 pl-4">
+        <div className="ml-12 mt-3 space-y-3 border-l-2 border-zinc-700 pl-4">
           {replies.map((reply) => (
             <div key={reply.id} className="flex gap-3">
               <Link href={`/profile/${reply.user_id}`} className="shrink-0">
@@ -120,7 +120,7 @@ function CommentItem({
                   </div>
                 )}
               </Link>
-              <div className="flex-1 bg-gray-50 rounded-xl px-3 py-2">
+              <div className="flex-1 bg-zinc-800 rounded-xl px-3 py-2">
                 <div className="flex items-baseline gap-2">
                   <Link
                     href={`/profile/${reply.user_id}`}
@@ -132,7 +132,7 @@ function CommentItem({
                     {new Date(reply.created_at).toLocaleDateString()}
                   </span>
                 </div>
-                <p className="text-xs text-gray-700 mt-0.5">{reply.content}</p>
+                <p className="text-xs text-gray-300 mt-0.5">{reply.content}</p>
               </div>
             </div>
           ))}
@@ -290,7 +290,7 @@ export default function CommentSection({
           onChange={(e) => setNewComment(e.target.value)}
           placeholder={userId ? "Write a comment..." : "Sign in to comment"}
           disabled={!userId}
-          className="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+          className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-900/50 border border-zinc-700 text-white placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:bg-zinc-800 disabled:cursor-not-allowed"
         />
         <button
           type="submit"

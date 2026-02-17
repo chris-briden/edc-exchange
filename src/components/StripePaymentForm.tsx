@@ -68,7 +68,7 @@ function CheckoutForm({
         }}
       />
       {error && (
-        <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm flex items-center gap-2">
+        <div className="p-3 rounded-lg bg-red-900/50 border border-red-500 text-red-300 text-sm flex items-center gap-2">
           <AlertTriangle className="w-4 h-4 shrink-0" />
           {error}
         </div>
@@ -90,7 +90,7 @@ function CheckoutForm({
           type="button"
           onClick={onCancel}
           disabled={processing}
-          className="px-4 py-3 rounded-xl border border-gray-300 text-gray-600 hover:bg-gray-50 transition disabled:opacity-50"
+          className="px-4 py-3 rounded-xl border border-zinc-700 text-gray-300 hover:bg-zinc-800 transition disabled:opacity-50"
         >
           Cancel
         </button>
@@ -152,24 +152,24 @@ export function BuyNowForm({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-zinc-900 rounded-2xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold">Complete Purchase</h2>
+            <h2 className="text-lg font-bold text-white">Complete Purchase</h2>
             <button
               onClick={onClose}
-              className="p-1 rounded-lg hover:bg-gray-100 transition"
+              className="p-1 rounded-lg hover:bg-zinc-800 transition"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5 text-gray-300" />
             </button>
           </div>
 
           {/* Order summary */}
-          <div className="p-4 rounded-xl bg-gray-50 mb-6">
-            <h3 className="font-semibold text-sm mb-3">{itemName}</h3>
+          <div className="p-4 rounded-xl bg-zinc-800 mb-6">
+            <h3 className="font-semibold text-sm mb-3 text-white">{itemName}</h3>
             <div className="space-y-1.5 text-sm">
-              <div className="flex justify-between">
-                <span className="text-gray-500">Item price</span>
+              <div className="flex justify-between text-gray-300">
+                <span>Item price</span>
                 <span>${price.toFixed(2)} CAD</span>
               </div>
               {platformFee > 0 && (
@@ -178,9 +178,9 @@ export function BuyNowForm({
                   <span>${(platformFee / 100).toFixed(2)}</span>
                 </div>
               )}
-              <div className="flex justify-between font-bold pt-1.5 border-t border-gray-200">
+              <div className="flex justify-between font-bold pt-1.5 border-t border-zinc-700 text-gray-300">
                 <span>Total</span>
-                <span className="text-green-700">${price.toFixed(2)} CAD</span>
+                <span className="text-green-400">${price.toFixed(2)} CAD</span>
               </div>
             </div>
           </div>
@@ -192,7 +192,7 @@ export function BuyNowForm({
           )}
 
           {error && (
-            <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm mb-4">
+            <div className="p-3 rounded-lg bg-red-900/50 border border-red-500 text-red-300 text-sm mb-4">
               {error}
             </div>
           )}
@@ -219,7 +219,7 @@ export function BuyNowForm({
             </Elements>
           )}
 
-          <div className="flex items-center gap-2 mt-4 text-xs text-gray-400">
+          <div className="flex items-center gap-2 mt-4 text-xs text-gray-500">
             <ShieldCheck className="w-4 h-4" />
             Payments secured by Stripe. Your card details are never stored on our
             servers.
@@ -408,9 +408,9 @@ export function RentalPaymentForm({
                     type="checkbox"
                     checked={acknowledged}
                     onChange={(e) => setAcknowledged(e.target.checked)}
-                    className="mt-0.5 w-4 h-4 rounded border-gray-300 text-orange-600 focus:ring-orange-500"
+                    className="mt-0.5 w-4 h-4 rounded border-gray-600 text-orange-600 focus:ring-orange-500 bg-zinc-800"
                   />
-                  <span className="text-sm text-gray-700">
+                  <span className="text-sm text-gray-300">
                     I understand that a{" "}
                     <strong>${Number(depositAmount).toFixed(2)} CAD</strong> hold
                     will be placed on my card as a security deposit, in addition
@@ -431,7 +431,7 @@ export function RentalPaymentForm({
           {/* Step 2: Pay rental fee */}
           {step === "rental_payment" && rentalClientSecret && (
             <div>
-              <p className="text-sm font-medium text-gray-700 mb-3">
+              <p className="text-sm font-medium text-gray-300 mb-3">
                 Step 1: Pay Rental Fee (${(rentalAmountCents / 100).toFixed(2)}{" "}
                 CAD)
               </p>
@@ -460,10 +460,10 @@ export function RentalPaymentForm({
           {/* Step 3: Authorize security deposit */}
           {step === "deposit_payment" && depositClientSecret && (
             <div>
-              <div className="p-3 rounded-lg bg-green-50 border border-green-200 text-green-700 text-sm mb-4">
+              <div className="p-3 rounded-lg bg-green-900/50 border border-green-500 text-green-300 text-sm mb-4">
                 Rental fee paid successfully!
               </div>
-              <p className="text-sm font-medium text-gray-700 mb-3">
+              <p className="text-sm font-medium text-gray-300 mb-3">
                 Step 2: Authorize Security Deposit Hold ($
                 {(depositAmountCents / 100).toFixed(2)} CAD)
               </p>
@@ -489,7 +489,7 @@ export function RentalPaymentForm({
             </div>
           )}
 
-          <div className="flex items-center gap-2 mt-4 text-xs text-gray-400">
+          <div className="flex items-center gap-2 mt-4 text-xs text-gray-500">
             <ShieldCheck className="w-4 h-4" />
             Payments secured by Stripe. Your card details are never stored on our
             servers.

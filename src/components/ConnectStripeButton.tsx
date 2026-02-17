@@ -52,10 +52,10 @@ export default function ConnectStripeButton() {
 
   if (loading) {
     return (
-      <div className="p-4 rounded-xl border border-gray-200 bg-gray-50">
+      <div className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/50">
         <div className="flex items-center gap-3">
           <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
-          <span className="text-sm text-gray-500">Checking Stripe status...</span>
+          <span className="text-sm text-gray-400">Checking Stripe status...</span>
         </div>
       </div>
     );
@@ -64,14 +64,14 @@ export default function ConnectStripeButton() {
   // Fully connected and active
   if (status?.connected && status?.charges_enabled && status?.payouts_enabled) {
     return (
-      <div className="p-4 rounded-xl border border-green-200 bg-green-50">
+      <div className="p-4 rounded-xl border border-green-500/50 bg-green-500/10">
         <div className="flex items-center gap-3">
-          <CheckCircle2 className="w-5 h-5 text-green-600" />
+          <CheckCircle2 className="w-5 h-5 text-green-400" />
           <div>
-            <p className="text-sm font-semibold text-green-800">
+            <p className="text-sm font-semibold text-green-300">
               Stripe Connected
             </p>
-            <p className="text-xs text-green-600 mt-0.5">
+            <p className="text-xs text-green-400 mt-0.5">
               You can receive payments from sales and rentals
             </p>
           </div>
@@ -83,15 +83,15 @@ export default function ConnectStripeButton() {
   // Connected but onboarding incomplete
   if (status?.connected && !status?.charges_enabled) {
     return (
-      <div className="p-4 rounded-xl border border-amber-200 bg-amber-50">
+      <div className="p-4 rounded-xl border border-amber-500/50 bg-amber-500/10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <AlertCircle className="w-5 h-5 text-amber-600" />
+            <AlertCircle className="w-5 h-5 text-amber-400" />
             <div>
-              <p className="text-sm font-semibold text-amber-800">
+              <p className="text-sm font-semibold text-amber-300">
                 Stripe Setup Incomplete
               </p>
-              <p className="text-xs text-amber-600 mt-0.5">
+              <p className="text-xs text-amber-400 mt-0.5">
                 Complete onboarding to start receiving payments
               </p>
             </div>
@@ -115,13 +115,13 @@ export default function ConnectStripeButton() {
 
   // Not connected
   return (
-    <div className="p-4 rounded-xl border border-gray-200 bg-gradient-to-r from-purple-50 to-blue-50">
+    <div className="p-4 rounded-xl border border-zinc-800 bg-gradient-to-r from-purple-500/10 to-blue-500/10">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-semibold text-gray-800">
+          <p className="text-sm font-semibold text-white">
             Connect Stripe to Sell & Rent
           </p>
-          <p className="text-xs text-gray-500 mt-0.5">
+          <p className="text-xs text-gray-400 mt-0.5">
             Set up payouts to list items for sale or rent on The Carry Exchange
           </p>
         </div>

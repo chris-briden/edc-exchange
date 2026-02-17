@@ -96,13 +96,13 @@ export default function Home() {
             <div className="flex flex-wrap gap-3 mt-8">
               <Link
                 href="/community"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-orange-600 text-white font-semibold hover:bg-orange-700 transition shadow-lg shadow-orange-600/25"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-orange-700 text-white font-semibold hover:bg-orange-600 transition shadow-lg shadow-orange-900/50"
               >
                 Join the Carry <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/categories"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 text-white font-semibold hover:bg-white/20 transition backdrop-blur border border-zinc-700"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-800/80 text-white font-semibold hover:border-orange-500/50 hover:bg-zinc-700/80 transition border border-zinc-600"
               >
                 Browse Marketplace
               </Link>

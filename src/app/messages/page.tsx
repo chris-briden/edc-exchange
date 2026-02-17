@@ -221,30 +221,31 @@ function MessagesContent() {
     <>
       <Navbar />
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6">
-        <h1 className="text-2xl font-extrabold mb-6">Messages</h1>
+      <div className="min-h-screen bg-black text-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6">
+          <h1 className="text-2xl font-extrabold mb-6">Messages</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 min-h-[60vh]">
-          {/* Conversations list */}
-          <div className="md:col-span-1 border border-gray-200 rounded-2xl overflow-hidden bg-white">
-            <div className="p-3 border-b border-gray-100 font-semibold text-sm text-gray-500">
-              Conversations
-            </div>
-            <div className="divide-y divide-gray-100 max-h-[60vh] overflow-y-auto">
-              {conversations.length === 0 && !toParam && (
-                <div className="p-6 text-center text-gray-400 text-sm">
-                  <MessageSquare className="w-8 h-8 mx-auto mb-2" />
-                  No conversations yet
-                </div>
-              )}
-              {conversations.map((convo) => (
-                <button
-                  key={convo.userId}
-                  onClick={() => selectConvo(convo.userId, convo.profile)}
-                  className={`w-full text-left p-3 hover:bg-gray-50 transition flex items-center gap-3 ${
-                    activeConvo === convo.userId ? "bg-orange-50" : ""
-                  }`}
-                >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 min-h-[60vh]">
+            {/* Conversations list */}
+            <div className="md:col-span-1 border border-zinc-800 rounded-2xl overflow-hidden bg-zinc-900/50">
+              <div className="p-3 border-b border-zinc-800 font-semibold text-sm text-gray-400">
+                Conversations
+              </div>
+              <div className="divide-y divide-zinc-800 max-h-[60vh] overflow-y-auto">
+                {conversations.length === 0 && !toParam && (
+                  <div className="p-6 text-center text-gray-400 text-sm">
+                    <MessageSquare className="w-8 h-8 mx-auto mb-2" />
+                    No conversations yet
+                  </div>
+                )}
+                {conversations.map((convo) => (
+                  <button
+                    key={convo.userId}
+                    onClick={() => selectConvo(convo.userId, convo.profile)}
+                    className={`w-full text-left p-3 transition flex items-center gap-3 ${
+                      activeConvo === convo.userId ? "bg-zinc-800" : "hover:bg-zinc-800"
+                    }`}
+                  >
                   {convo.profile.avatar_url ? (
                     <Image
                       src={convo.profile.avatar_url}
@@ -258,31 +259,31 @@ function MessagesContent() {
                       {convo.profile.username?.charAt(0)?.toUpperCase() || "U"}
                     </div>
                   )}
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-sm truncate">
-                      {convo.profile.username}
-                    </p>
-                    <p className="text-xs text-gray-400 truncate">
-                      {convo.lastMessage}
-                    </p>
-                  </div>
-                  {convo.unread > 0 && (
-                    <span className="w-5 h-5 bg-orange-600 rounded-full text-white text-xs flex items-center justify-center">
-                      {convo.unread}
-                    </span>
-                  )}
-                </button>
-              ))}
-              {/* Show toParam user even if no messages yet */}
-              {toParam &&
-                activeProfile &&
-                !conversations.find((c) => c.userId === toParam) && (
-                  <button
-                    onClick={() => selectConvo(toParam, activeProfile)}
-                    className={`w-full text-left p-3 hover:bg-gray-50 transition flex items-center gap-3 ${
-                      activeConvo === toParam ? "bg-orange-50" : ""
-                    }`}
-                  >
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-sm truncate text-gray-200">
+                        {convo.profile.username}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">
+                        {convo.lastMessage}
+                      </p>
+                    </div>
+                    {convo.unread > 0 && (
+                      <span className="w-5 h-5 bg-orange-600 rounded-full text-white text-xs flex items-center justify-center">
+                        {convo.unread}
+                      </span>
+                    )}
+                  </button>
+                ))}
+                {/* Show toParam user even if no messages yet */}
+                {toParam &&
+                  activeProfile &&
+                  !conversations.find((c) => c.userId === toParam) && (
+                    <button
+                      onClick={() => selectConvo(toParam, activeProfile)}
+                      className={`w-full text-left p-3 transition flex items-center gap-3 ${
+                        activeConvo === toParam ? "bg-zinc-800" : "hover:bg-zinc-800"
+                      }`}
+                    >
                     {activeProfile.avatar_url ? (
                       <Image
                         src={activeProfile.avatar_url}
@@ -297,23 +298,23 @@ function MessagesContent() {
                           "U"}
                       </div>
                     )}
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-sm">
-                        {activeProfile.username}
-                      </p>
-                      <p className="text-xs text-gray-400">New conversation</p>
-                    </div>
-                  </button>
-                )}
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-sm text-gray-200">
+                          {activeProfile.username}
+                        </p>
+                        <p className="text-xs text-gray-500">New conversation</p>
+                      </div>
+                    </button>
+                  )}
+              </div>
             </div>
-          </div>
 
-          {/* Message thread */}
-          <div className="md:col-span-2 border border-gray-200 rounded-2xl overflow-hidden bg-white flex flex-col">
-            {activeConvo && activeProfile ? (
-              <>
-                {/* Thread header */}
-                <div className="p-4 border-b border-gray-100 flex items-center gap-3">
+            {/* Message thread */}
+            <div className="md:col-span-2 border border-zinc-800 rounded-2xl overflow-hidden bg-zinc-900/50 flex flex-col">
+              {activeConvo && activeProfile ? (
+                <>
+                  {/* Thread header */}
+                  <div className="p-4 border-b border-zinc-800 flex items-center gap-3">
                   <button
                     className="md:hidden"
                     onClick={() => setActiveConvo(null)}
@@ -338,64 +339,64 @@ function MessagesContent() {
                           "U"}
                       </div>
                     )}
-                    <span className="font-semibold text-sm">
+                    <span className="font-semibold text-sm text-gray-200">
                       {activeProfile.username}
                     </span>
                   </Link>
-                </div>
+                  </div>
 
-                {/* Messages */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-[300px] max-h-[50vh]">
-                  {messages.length === 0 && (
-                    <p className="text-center text-gray-400 text-sm py-8">
-                      Start the conversation!
-                    </p>
-                  )}
-                  {messages.map((msg) => {
-                    const isMine = msg.sender_id === currentUserId;
-                    return (
-                      <div
-                        key={msg.id}
-                        className={`flex ${isMine ? "justify-end" : "justify-start"}`}
-                      >
+                  {/* Messages */}
+                  <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-[300px] max-h-[50vh]">
+                    {messages.length === 0 && (
+                      <p className="text-center text-gray-400 text-sm py-8">
+                        Start the conversation!
+                      </p>
+                    )}
+                    {messages.map((msg) => {
+                      const isMine = msg.sender_id === currentUserId;
+                      return (
                         <div
-                          className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm ${
-                            isMine
-                              ? "bg-orange-600 text-white rounded-br-md"
-                              : "bg-gray-100 text-gray-800 rounded-bl-md"
-                          }`}
+                          key={msg.id}
+                          className={`flex ${isMine ? "justify-end" : "justify-start"}`}
                         >
-                          <p>{msg.content}</p>
-                          <p
-                            className={`text-[10px] mt-1 ${
-                              isMine ? "text-orange-200" : "text-gray-400"
+                          <div
+                            className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm ${
+                              isMine
+                                ? "bg-orange-600 text-white rounded-br-md"
+                                : "bg-zinc-800 text-gray-300 rounded-bl-md"
                             }`}
                           >
-                            {new Date(msg.created_at).toLocaleTimeString([], {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </p>
+                            <p>{msg.content}</p>
+                            <p
+                              className={`text-[10px] mt-1 ${
+                                isMine ? "text-orange-200" : "text-gray-500"
+                              }`}
+                            >
+                              {new Date(msg.created_at).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                  <div ref={messagesEndRef} />
-                </div>
+                      );
+                    })}
+                    <div ref={messagesEndRef} />
+                  </div>
 
-                {/* Input */}
-                <div className="p-3 border-t border-gray-100">
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      onKeyDown={(e) =>
-                        e.key === "Enter" && !e.shiftKey && handleSend()
-                      }
-                      placeholder="Type a message..."
-                      className="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                    />
+                  {/* Input */}
+                  <div className="p-3 border-t border-zinc-800">
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        onKeyDown={(e) =>
+                          e.key === "Enter" && !e.shiftKey && handleSend()
+                        }
+                        placeholder="Type a message..."
+                        className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-900/50 border border-zinc-700 text-white placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      />
                     <button
                       onClick={handleSend}
                       disabled={sending || !newMessage.trim()}
@@ -405,22 +406,23 @@ function MessagesContent() {
                         <Loader2 className="w-4 h-4 animate-spin" />
                       ) : (
                         <Send className="w-4 h-4" />
-                      )}
-                    </button>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="flex-1 flex items-center justify-center text-gray-400">
+                  <div className="text-center">
+                    <MessageSquare className="w-12 h-12 mx-auto mb-3" />
+                    <p className="font-medium">Select a conversation</p>
+                    <p className="text-sm mt-1">
+                      Or start one from a seller's profile
+                    </p>
                   </div>
                 </div>
-              </>
-            ) : (
-              <div className="flex-1 flex items-center justify-center text-gray-400">
-                <div className="text-center">
-                  <MessageSquare className="w-12 h-12 mx-auto mb-3" />
-                  <p className="font-medium">Select a conversation</p>
-                  <p className="text-sm mt-1">
-                    Or start one from a seller&apos;s profile
-                  </p>
-                </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>

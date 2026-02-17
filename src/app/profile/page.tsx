@@ -244,7 +244,7 @@ export default function ProfilePage() {
     return (
       <>
         <Navbar />
-        <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="flex items-center justify-center min-h-[60vh] bg-black">
           <Loader2 className="w-8 h-8 animate-spin text-orange-600" />
         </div>
       </>
@@ -255,15 +255,17 @@ export default function ProfilePage() {
     return (
       <>
         <Navbar />
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16 text-center">
-          <h1 className="text-2xl font-bold">Profile not found</h1>
-          <p className="text-gray-500 mt-2">Please log in to view your profile.</p>
-          <Link
-            href="/login"
-            className="inline-flex mt-4 px-6 py-2.5 rounded-full bg-orange-600 text-white font-medium hover:bg-orange-700 transition"
-          >
-            Sign In
-          </Link>
+        <div className="min-h-screen bg-black text-white">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16 text-center">
+            <h1 className="text-2xl font-bold">Profile not found</h1>
+            <p className="text-gray-400 mt-2">Please log in to view your profile.</p>
+            <Link
+              href="/login"
+              className="inline-flex mt-4 px-6 py-2.5 rounded-full bg-orange-600 text-white font-medium hover:bg-orange-700 transition"
+            >
+              Sign In
+            </Link>
+          </div>
         </div>
         <Footer />
       </>
@@ -276,8 +278,9 @@ export default function ProfilePage() {
     <>
       <Navbar />
 
-      {/* Profile header */}
-      <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+      <div className="min-h-screen bg-black text-white">
+        {/* Profile header */}
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 text-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
           <div className="flex flex-col sm:flex-row items-start gap-6">
             {profile.avatar_url ? (
@@ -347,14 +350,14 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Stripe Connect Section */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-8">
-        <ConnectStripeButton />
-      </div>
+        {/* Stripe Connect Section */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-8">
+          <ConnectStripeButton />
+        </div>
 
-      {/* My EDC Section */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-        <div className="bg-gradient-to-r from-blue-50 to-orange-50 rounded-2xl p-6 border border-blue-100">
+        {/* My EDC Section */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+          <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-2xl p-6 hover:border-orange-500/50 transition">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Crosshair className="w-5 h-5 text-orange-600" />
@@ -369,7 +372,7 @@ export default function ProfilePage() {
             </div>
             <Link
               href="/profile/my-edc"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-800 border border-zinc-700 text-sm font-medium text-gray-300 hover:bg-zinc-700 transition"
             >
               <PenLine className="w-3.5 h-3.5" />
               {loadout ? "Edit" : "Set Up"}
@@ -379,7 +382,7 @@ export default function ProfilePage() {
           {edcItems.length > 0 ? (
             <>
               {loadout?.description && (
-                <p className="text-gray-600 text-sm mb-4">
+                <p className="text-gray-400 text-sm mb-4">
                   {loadout.description}
                 </p>
               )}
@@ -390,7 +393,7 @@ export default function ProfilePage() {
                   return (
                     <div key={item.id} className="group relative">
                       <Link href={`/item/${item.id}`}>
-                        <div className="aspect-square rounded-xl bg-white border border-gray-200 overflow-hidden shadow-sm group-hover:shadow-md group-hover:-translate-y-0.5 transition-all">
+                        <div className="aspect-square rounded-xl bg-zinc-800 border border-zinc-700 overflow-hidden shadow-sm group-hover:shadow-md group-hover:-translate-y-0.5 transition-all">
                           {firstImage ? (
                             <Image
                               src={firstImage}
@@ -406,7 +409,7 @@ export default function ProfilePage() {
                           )}
                         </div>
                       </Link>
-                      <p className="text-xs text-gray-600 font-medium mt-1.5 text-center line-clamp-1">
+                      <p className="text-xs text-gray-400 font-medium mt-1.5 text-center line-clamp-1">
                         {item.name}
                       </p>
                       {/* Remove from EDC button on hover */}
@@ -437,20 +440,20 @@ export default function ProfilePage() {
               </Link>
             </div>
           )}
+          </div>
         </div>
-      </div>
 
-      {/* Tabs */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        <div className="flex gap-1 border-b border-gray-200 mb-6">
+        {/* Tabs */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <div className="flex gap-1 border-b border-zinc-800 mb-6">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`px-4 py-3 text-sm font-medium border-b-2 transition ${
                 activeTab === tab
-                  ? "border-orange-600 text-orange-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700"
+                  ? "border-orange-500 text-orange-400"
+                  : "border-transparent text-gray-400 hover:text-gray-200"
               }`}
             >
               {tab}
@@ -464,10 +467,10 @@ export default function ProfilePage() {
             </button>
           ))}
         </div>
-      </div>
+        </div>
 
-      {/* Tab content */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-8">
+        {/* Tab content */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-8">
         {activeTab === "Listings" && (
           <>
             <div className="flex items-center justify-between mb-6">
@@ -524,7 +527,7 @@ export default function ProfilePage() {
                   className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition ${
                     selectedCategory === null
                       ? "bg-orange-600 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                      : "bg-zinc-800 text-gray-400 hover:bg-zinc-700"
                   }`}
                 >
                   All
@@ -540,7 +543,7 @@ export default function ProfilePage() {
                       className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition ${
                         selectedCategory === cat.id
                           ? "bg-orange-600 text-white"
-                          : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                          : "bg-zinc-800 text-gray-400 hover:bg-zinc-700"
                       }`}
                     >
                       {cat.name}
@@ -560,9 +563,9 @@ export default function ProfilePage() {
                     <div key={item.id} className="group relative">
                       <Link
                         href={`/item/${item.id}`}
-                        className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all hover:-translate-y-0.5 block"
+                        className="bg-zinc-900/50 rounded-2xl border border-zinc-800 overflow-hidden hover:shadow-lg transition-all hover:-translate-y-0.5 block hover:border-orange-500/50"
                       >
-                        <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
+                        <div className="aspect-square bg-gradient-to-br from-zinc-800 to-zinc-900 relative overflow-hidden">
                           {firstImage ? (
                             <Image
                               src={firstImage}
@@ -576,18 +579,18 @@ export default function ProfilePage() {
                               <CategoryIcon slug={categorySlug} size="xl" />
                             </div>
                           )}
-                          <div className="absolute top-3 left-3 bg-gray-100 text-gray-700 px-2.5 py-1 rounded-full text-xs font-semibold">
+                          <div className="absolute top-3 left-3 bg-zinc-700 text-gray-300 px-2.5 py-1 rounded-full text-xs font-semibold">
                             Showcase
                           </div>
                         </div>
                         <div className="p-4">
-                          <h3 className="font-semibold text-sm group-hover:text-orange-600 transition line-clamp-1">
+                          <h3 className="font-semibold text-sm group-hover:text-orange-400 transition line-clamp-1 text-white">
                             {item.name}
                           </h3>
-                          <p className="text-gray-500 text-xs mt-1">
+                          <p className="text-gray-400 text-xs mt-1">
                             {item.brand} &middot; {item.condition}
                           </p>
-                          <div className="flex items-center mt-3 pt-3 border-t border-gray-100">
+                          <div className="flex items-center mt-3 pt-3 border-t border-zinc-800">
                             <div className="flex items-center gap-1">
                               {ownerAvatar ? (
                                 <Image
@@ -600,7 +603,7 @@ export default function ProfilePage() {
                               ) : (
                                 <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-blue-500" />
                               )}
-                              <span className="text-xs text-gray-500">{ownerUsername}</span>
+                              <span className="text-xs text-gray-400">{ownerUsername}</span>
                             </div>
                           </div>
                         </div>
@@ -672,6 +675,7 @@ export default function ProfilePage() {
             )}
           </>
         )}
+        </div>
       </div>
 
       <Footer />
