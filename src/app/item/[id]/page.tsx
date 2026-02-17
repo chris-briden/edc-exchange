@@ -26,7 +26,7 @@ import CategoryIcon from "@/components/CategoryIcon";
 import DbItemCard from "@/components/DbItemCard";
 import { BuyNowForm, RentalPaymentForm } from "@/components/StripePaymentForm";
 import { createClient } from "@/lib/supabase-browser";
-import type { Item } from "@/lib/types";
+import type { Item, ShippingAddress } from "@/lib/types";
 
 const listingConfig: Record<
   string,
@@ -66,6 +66,7 @@ export default function ItemPage() {
   const [similarItems, setSimilarItems] = useState<Item[]>([]);
   const [showBuyForm, setShowBuyForm] = useState(false);
   const [showRentalForm, setShowRentalForm] = useState(false);
+  const [sellerAddress, setSellerAddress] = useState<ShippingAddress | null>(null);
 
   useEffect(() => {
     const supabase = createClient();
@@ -93,6 +94,25 @@ export default function ItemPage() {
       const item = data as Item;
       setDbItem(item);
       setIsOwner(user?.id === item.user_id);
+
+      // Extract seller's shipping address from profile
+      const profile = item.profiles;
+      if (
+        profile?.shipping_street1 &&
+        profile?.shipping_city &&
+        profile?.shipping_state &&
+        profile?.shipping_zip
+      ) {
+        setSellerAddress({
+          name: profile.shipping_name || profile.full_name || profile.username,
+          street1: profile.shipping_street1,
+          street2: profile.shipping_street2 || "",
+          city: profile.shipping_city,
+          state: profile.shipping_state,
+          zip: profile.shipping_zip,
+          country: profile.shipping_country || "CA",
+        });
+      }
 
       // Get like count
       const { count } = await supabase
@@ -368,15 +388,20 @@ export default function ItemPage() {
                 )}
                 {(dbItem.listing_type === "sell" || dbItem.listing_type === "rent") && (
                   <>
-                    {dbItem.shipping_cost ? (
+                    {sellerAddress ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800 text-gray-300 text-xs font-medium">
+                        <Truck className="w-3.5 h-3.5" />
+                        Shipping calculated at checkout
+                      </span>
+                    ) : dbItem.shipping_cost ? (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800 text-gray-300 text-xs font-medium">
                         <Truck className="w-3.5 h-3.5" />
                         Shipping: ${Number(dbItem.shipping_cost).toFixed(0)}
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-500/20 text-green-300 text-xs font-medium">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800 text-gray-300 text-xs font-medium">
                         <Truck className="w-3.5 h-3.5" />
-                        Free Shipping
+                        Arrange shipping with seller
                       </span>
                     )}
                     {dbItem.accepts_returns && (
@@ -572,6 +597,7 @@ export default function ItemPage() {
           listingId={dbItem.id}
           itemName={dbItem.name}
           price={Number(dbItem.price)}
+          sellerAddress={sellerAddress}
           onClose={() => setShowBuyForm(false)}
         />
       )}
@@ -583,6 +609,7 @@ export default function ItemPage() {
           rentPrice={dbItem.rent_price}
           rentalPeriod={dbItem.rental_period}
           depositAmount={dbItem.rental_deposit}
+          sellerAddress={sellerAddress}
           onClose={() => setShowRentalForm(false)}
         />
       )}

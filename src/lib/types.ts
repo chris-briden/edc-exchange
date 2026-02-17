@@ -9,8 +9,46 @@ export type Profile = {
   website: string | null;
   location: string | null;
   stripe_account_id: string | null;
+  // Shipping address fields
+  shipping_name: string | null;
+  shipping_street1: string | null;
+  shipping_street2: string | null;
+  shipping_city: string | null;
+  shipping_state: string | null;
+  shipping_zip: string | null;
+  shipping_country: string | null;
   created_at: string;
   updated_at: string;
+};
+
+/** Structured shipping address (used by Shippo & checkout) */
+export type ShippingAddress = {
+  name: string;
+  street1: string;
+  street2?: string;
+  city: string;
+  state: string;
+  zip: string;
+  country: string;
+  email?: string;
+  phone?: string;
+};
+
+/** A shipping rate option returned from /api/shipping/rates */
+export type ShippingRate = {
+  rateId: string;
+  carrier: string;
+  serviceName: string;
+  serviceToken: string;
+  buyerPrice: number;
+  currency: string;
+  estimatedDays: number | null;
+  _internal: {
+    carrierRate: number;
+    revenue: number;
+    markupRate: number;
+    shippoShipmentId: string;
+  };
 };
 
 export type Category = {

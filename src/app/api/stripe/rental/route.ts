@@ -13,7 +13,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { listing_id } = await request.json();
+    const { listing_id, shipping_rate, buyer_address, seller_address } =
+      await request.json();
 
     if (!listing_id) {
       return NextResponse.json(
@@ -78,25 +79,53 @@ export async function POST(request: NextRequest) {
     }
 
     const rentalFeeInCents = dollarsToCents(rentalFeeNum);
+
+    // Add outbound shipping cost (buyer pays)
+    const shippingAmountInCents = shipping_rate
+      ? dollarsToCents(shipping_rate.buyerRate)
+      : 0;
+
+    const totalRentalInCents = rentalFeeInCents + shippingAmountInCents;
+
+    // Platform fee on rental fee only (not shipping)
     const platformFee = calculatePlatformFee(rentalFeeInCents);
     const depositAmount = listing.rental_deposit
       ? dollarsToCents(Number(listing.rental_deposit))
       : 0;
 
-    // 1. Create PaymentIntent for the rental fee (captured immediately)
+    // Build metadata
+    const metadata: Record<string, string> = {
+      listing_id: listing.id,
+      buyer_id: user.id,
+      seller_id: listing.user_id,
+      type: "rental",
+    };
+
+    // Store shipping info for webhook to create labels
+    if (shipping_rate) {
+      metadata.shipping_rate_id = shipping_rate.rateId;
+      metadata.shipping_carrier_rate = String(shipping_rate.carrierRate);
+      metadata.shipping_buyer_rate = String(shipping_rate.buyerRate);
+      metadata.shipping_shipment_id = shipping_rate.shipmentId;
+      metadata.shipping_carrier = shipping_rate.carrier || "";
+      metadata.shipping_service = shipping_rate.serviceName || "";
+    }
+    if (buyer_address) {
+      metadata.buyer_address = JSON.stringify(buyer_address);
+    }
+    if (seller_address) {
+      metadata.seller_address = JSON.stringify(seller_address);
+    }
+
+    // 1. Create PaymentIntent for the rental fee + shipping (captured immediately)
     const rentalPayment = await stripe.paymentIntents.create({
-      amount: rentalFeeInCents,
+      amount: totalRentalInCents,
       currency: "cad",
       transfer_data: {
         destination: sellerStripeAccountId,
       },
       application_fee_amount: platformFee,
-      metadata: {
-        listing_id: listing.id,
-        buyer_id: user.id,
-        seller_id: listing.user_id,
-        type: "rental",
-      },
+      metadata,
     });
 
     // 2. Create PaymentIntent for security deposit (manual capture — hold only)
@@ -132,7 +161,7 @@ export async function POST(request: NextRequest) {
       rental_payment_intent_id: rentalPayment.id,
       deposit_client_secret: securityDeposit?.client_secret || null,
       deposit_payment_intent_id: securityDeposit?.id || null,
-      rental_amount: rentalFeeInCents,
+      rental_amount: totalRentalInCents,
       deposit_amount: depositAmount,
       platform_fee: platformFee,
     });

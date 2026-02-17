@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { createServerClient } from "@supabase/ssr";
 import Stripe from "stripe";
+import {
+  applyShippingMarkup,
+  getShippingRevenue,
+  SHIPPING_MARKUP_RATE,
+  DEFAULT_CURRENCY,
+  DEFAULT_PARCEL,
+} from "@/lib/marketplace-config";
+import { getShippo } from "@/lib/shippo";
 
 // Use service role key for webhook operations (bypasses RLS)
 function createServiceClient() {
@@ -17,6 +25,221 @@ function createServiceClient() {
       },
     }
   );
+}
+
+/**
+ * Create a shipping label via our internal shipping labels API logic.
+ * Called after a successful payment to auto-generate labels.
+ */
+async function createShippingLabel(params: {
+  transactionType: "sale" | "rental_outbound";
+  rateId: string;
+  shipmentId: string;
+  carrierRate: number;
+  sellerId: string;
+  buyerId: string;
+  listingId: string;
+  orderId?: string;
+  rentalId?: string;
+  addressFrom: Record<string, string>;
+  addressTo: Record<string, string>;
+  generateReturnLabel: boolean;
+}) {
+  try {
+    const shippo = getShippo();
+    const supabase = createServiceClient();
+
+    // Purchase the outbound label from Shippo
+    const transaction = await shippo.transactions.create({
+      rate: params.rateId,
+      async: false,
+      labelFileType: "PDF" as "PDF",
+    });
+
+    if (transaction.status !== "SUCCESS") {
+      console.error("Shippo label creation failed:", transaction.messages);
+      return null;
+    }
+
+    // Calculate pricing
+    const buyerRate = applyShippingMarkup(params.carrierRate);
+    const revenue = getShippingRevenue(params.carrierRate);
+    const paidBy =
+      params.transactionType === "sale" ||
+      params.transactionType === "rental_outbound"
+        ? "buyer"
+        : "seller";
+
+    // Record outbound shipment
+    const { data: outboundShipment, error: dbError } = await supabase
+      .from("shipments")
+      .insert({
+        transaction_type: params.transactionType,
+        listing_id: params.listingId,
+        order_id: params.orderId || null,
+        rental_id: params.rentalId || null,
+        seller_id: params.sellerId,
+        buyer_id: params.buyerId,
+        shippo_shipment_id: params.shipmentId,
+        shippo_rate_id: params.rateId,
+        shippo_transaction_id: transaction.objectId,
+        tracking_number: transaction.trackingNumber || null,
+        tracking_url: transaction.trackingUrlProvider || null,
+        label_url: transaction.labelUrl || null,
+        address_from: params.addressFrom,
+        address_to: params.addressTo,
+        parcel: DEFAULT_PARCEL,
+        carrier_rate: params.carrierRate,
+        buyer_rate: buyerRate,
+        shipping_revenue: revenue,
+        markup_rate: SHIPPING_MARKUP_RATE,
+        currency: DEFAULT_CURRENCY,
+        paid_by: paidBy,
+        carrier:
+          typeof transaction.rate === "object"
+            ? transaction.rate?.provider
+            : null,
+        service_level:
+          typeof transaction.rate === "object"
+            ? transaction.rate?.servicelevelToken
+            : null,
+        estimated_days: null,
+        status: "label_created",
+      })
+      .select()
+      .single();
+
+    if (dbError) {
+      console.error("DB insert error for outbound shipment:", dbError);
+      return null;
+    }
+
+    // For rentals: generate return label (seller pays)
+    let returnShipment = null;
+    if (params.generateReturnLabel) {
+      try {
+        // Create return shipment (swap from/to)
+        const returnShippoShipment = await shippo.shipments.create({
+          addressFrom: {
+            name: params.addressTo.name,
+            street1: params.addressTo.street1,
+            street2: params.addressTo.street2 || "",
+            city: params.addressTo.city,
+            state: params.addressTo.state,
+            zip: params.addressTo.zip,
+            country: params.addressTo.country || "CA",
+            email: params.addressTo.email || "",
+            phone: params.addressTo.phone || "",
+          },
+          addressTo: {
+            name: params.addressFrom.name,
+            street1: params.addressFrom.street1,
+            street2: params.addressFrom.street2 || "",
+            city: params.addressFrom.city,
+            state: params.addressFrom.state,
+            zip: params.addressFrom.zip,
+            country: params.addressFrom.country || "CA",
+            email: params.addressFrom.email || "",
+            phone: params.addressFrom.phone || "",
+          },
+          parcels: [
+            {
+              length: String(DEFAULT_PARCEL.length),
+              width: String(DEFAULT_PARCEL.width),
+              height: String(DEFAULT_PARCEL.height),
+              weight: String(DEFAULT_PARCEL.weight),
+              distanceUnit: DEFAULT_PARCEL.distance_unit,
+              massUnit: DEFAULT_PARCEL.mass_unit,
+            },
+          ],
+          extra: { isReturn: true },
+          async: false,
+        });
+
+        const returnRates = returnShippoShipment.rates || [];
+        if (returnRates.length > 0) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const cheapestReturn = returnRates.reduce((min: any, rate: any) =>
+            parseFloat(rate.amount) < parseFloat(min.amount) ? rate : min
+          );
+          const returnCarrierRate = parseFloat(cheapestReturn.amount);
+
+          const returnTx = await shippo.transactions.create({
+            rate: cheapestReturn.objectId!,
+            async: false,
+            labelFileType: "PDF" as "PDF",
+          });
+
+          if (returnTx.status === "SUCCESS") {
+            const returnBuyerRate = applyShippingMarkup(returnCarrierRate);
+            const returnRevenue = getShippingRevenue(returnCarrierRate);
+
+            const { data: returnData } = await supabase
+              .from("shipments")
+              .insert({
+                transaction_type: "rental_return",
+                listing_id: params.listingId,
+                order_id: params.orderId || null,
+                rental_id: params.rentalId || null,
+                seller_id: params.sellerId,
+                buyer_id: params.buyerId,
+                shippo_shipment_id: returnShippoShipment.objectId,
+                shippo_rate_id: cheapestReturn.objectId,
+                shippo_transaction_id: returnTx.objectId,
+                tracking_number: returnTx.trackingNumber || null,
+                tracking_url: returnTx.trackingUrlProvider || null,
+                label_url: returnTx.labelUrl || null,
+                address_from: params.addressTo,
+                address_to: params.addressFrom,
+                parcel: DEFAULT_PARCEL,
+                carrier_rate: returnCarrierRate,
+                buyer_rate: returnBuyerRate,
+                shipping_revenue: returnRevenue,
+                markup_rate: SHIPPING_MARKUP_RATE,
+                currency: DEFAULT_CURRENCY,
+                paid_by: "seller",
+                carrier:
+                  typeof returnTx.rate === "object"
+                    ? returnTx.rate?.provider
+                    : null,
+                service_level:
+                  typeof returnTx.rate === "object"
+                    ? returnTx.rate?.servicelevelToken
+                    : null,
+                estimated_days: null,
+                status: "label_created",
+                return_shipment_id: null,
+              })
+              .select()
+              .single();
+
+            returnShipment = returnData;
+
+            // Link outbound to return
+            if (returnData) {
+              await supabase
+                .from("shipments")
+                .update({ return_shipment_id: returnData.id })
+                .eq("id", outboundShipment.id);
+            }
+          }
+        }
+      } catch (returnError) {
+        console.error("Return label creation error:", returnError);
+        // Continue — outbound label was still created successfully
+      }
+    }
+
+    return {
+      outbound: outboundShipment,
+      return: returnShipment,
+      labelUrl: transaction.labelUrl,
+      trackingNumber: transaction.trackingNumber,
+    };
+  } catch (error) {
+    console.error("Shipping label creation error:", error);
+    return null;
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -60,6 +283,15 @@ export async function POST(request: NextRequest) {
           break;
         }
 
+        // Parse shipping info from metadata
+        const hasShipping = !!metadata.shipping_rate_id;
+        const buyerAddress = metadata.buyer_address
+          ? JSON.parse(metadata.buyer_address)
+          : null;
+        const sellerAddress = metadata.seller_address
+          ? JSON.parse(metadata.seller_address)
+          : null;
+
         if (metadata.type === "sale") {
           // Create transaction record
           await supabase.from("transactions").insert({
@@ -79,12 +311,33 @@ export async function POST(request: NextRequest) {
             .update({ status: "sold" })
             .eq("id", metadata.listing_id);
 
-          // Create notification for seller
+          // Auto-create shipping label if shipping was selected
+          let labelInfo = null;
+          if (hasShipping && buyerAddress && sellerAddress) {
+            labelInfo = await createShippingLabel({
+              transactionType: "sale",
+              rateId: metadata.shipping_rate_id,
+              shipmentId: metadata.shipping_shipment_id,
+              carrierRate: parseFloat(metadata.shipping_carrier_rate),
+              sellerId: metadata.seller_id,
+              buyerId: metadata.buyer_id,
+              listingId: metadata.listing_id,
+              addressFrom: sellerAddress,
+              addressTo: buyerAddress,
+              generateReturnLabel: false,
+            });
+          }
+
+          // Notify seller with shipping label info
+          const labelMessage = labelInfo?.labelUrl
+            ? ` Your shipping label is ready — check your dashboard to print it. Tracking: ${labelInfo.trackingNumber || "pending"}.`
+            : " Please arrange shipping with the buyer.";
+
           await supabase.from("messages").insert({
             sender_id: metadata.buyer_id,
             receiver_id: metadata.seller_id,
             item_id: metadata.listing_id,
-            content: `Your item has been sold! Payment of $${(paymentIntent.amount / 100).toFixed(2)} CAD has been processed. Please arrange shipping.`,
+            content: `Your item has been sold! Payment of $${(paymentIntent.amount / 100).toFixed(2)} CAD has been processed.${labelMessage}`,
             is_read: false,
           });
         }
@@ -106,12 +359,33 @@ export async function POST(request: NextRequest) {
             rental_start_date: new Date().toISOString(),
           });
 
+          // Auto-create shipping labels (outbound + return) for rentals
+          let labelInfo = null;
+          if (hasShipping && buyerAddress && sellerAddress) {
+            labelInfo = await createShippingLabel({
+              transactionType: "rental_outbound",
+              rateId: metadata.shipping_rate_id,
+              shipmentId: metadata.shipping_shipment_id,
+              carrierRate: parseFloat(metadata.shipping_carrier_rate),
+              sellerId: metadata.seller_id,
+              buyerId: metadata.buyer_id,
+              listingId: metadata.listing_id,
+              addressFrom: sellerAddress,
+              addressTo: buyerAddress,
+              generateReturnLabel: true, // Always generate return label for rentals
+            });
+          }
+
           // Notify the seller/lender
+          const labelMessage = labelInfo?.labelUrl
+            ? ` Your shipping label is ready — check your dashboard to print it. A prepaid return label has also been created. Tracking: ${labelInfo.trackingNumber || "pending"}.`
+            : " Please arrange handoff with the renter.";
+
           await supabase.from("messages").insert({
             sender_id: metadata.buyer_id,
             receiver_id: metadata.seller_id,
             item_id: metadata.listing_id,
-            content: `Your item has been rented! Rental fee of $${(paymentIntent.amount / 100).toFixed(2)} CAD has been paid. A security deposit hold has also been placed. Please arrange handoff.`,
+            content: `Your item has been rented! Rental fee of $${(paymentIntent.amount / 100).toFixed(2)} CAD has been paid. A security deposit hold has also been placed.${labelMessage}`,
             is_read: false,
           });
         }
