@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "The Carry Exchange — Buy, Sell, Trade & Share Everyday Carry",
+    default: "The Carry Exchange — Buy, Sell, Trade & Rent Everyday Carry",
     template: "%s | The Carry Exchange",
   },
   description:
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "The Carry Exchange — Buy, Sell, Trade & Share Everyday Carry",
+    title: "The Carry Exchange — Buy, Sell, Trade & Rent Everyday Carry",
     description:
       "The community marketplace for EDC gear. Buy, sell, trade, lend, and rent everyday carry. Join the carry.",
     url: "https://jointhecarry.com",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "The Carry Exchange — Buy, Sell, Trade & Share Everyday Carry",
+    title: "The Carry Exchange — Buy, Sell, Trade & Rent Everyday Carry",
     description:
       "The community marketplace for EDC gear. Buy, sell, trade, lend, and rent everyday carry. Join the carry.",
     images: ["https://jointhecarry.com/og-image.png"],

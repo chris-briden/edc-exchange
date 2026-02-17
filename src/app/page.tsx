@@ -554,7 +554,7 @@ export default function WaitlistPage() {
           {/* Bottom bar */}
           <div className="text-center text-sm text-gray-500">
             <p className="mb-2">
-              The Carry Exchange — Buy, Sell, Trade & Share Everyday Carry
+              The Carry Exchange — Buy, Sell, Trade & Rent Everyday Carry
             </p>
             <p>&copy; 2026 The Carry Exchange</p>
           </div>
