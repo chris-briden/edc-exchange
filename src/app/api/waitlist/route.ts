@@ -37,8 +37,9 @@ export async function POST(request: NextRequest) {
     const normalizedEmail = email.toLowerCase().trim();
 
     // Insert into database (will fail silently if duplicate due to UNIQUE constraint)
-    const { error: insertError } = await supabase
-      .from('waitlist_signups')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: insertError } = await (supabase
+      .from('waitlist_signups') as any)
       .insert({
         email: normalizedEmail,
         signup_type,
@@ -56,8 +57,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Get total count
-    const { count } = await supabase
-      .from('waitlist_signups')
+    const { count } = await (supabase
+      .from('waitlist_signups') as any)
       .select('*', { count: 'exact', head: true });
 
     return NextResponse.json({
@@ -77,8 +78,8 @@ export async function GET() {
   try {
     const supabase = getSupabase();
     // Get total count for public display
-    const { count, error } = await supabase
-      .from('waitlist_signups')
+    const { count, error } = await (supabase
+      .from('waitlist_signups') as any)
       .select('*', { count: 'exact', head: true });
 
     if (error) {
