@@ -37,16 +37,16 @@ export default function WaitlistPage() {
         <div className="relative z-10 max-w-4xl mx-auto px-6 py-20 text-center">
           {/* Logo - Smaller brand pill */}
           <div className="mb-8 flex justify-center">
-            <div className="flex items-center gap-3 px-5 py-2.5 rounded-full bg-zinc-900/60 border border-zinc-700 backdrop-blur">
+            <div className="flex items-center gap-4 px-6 py-3 rounded-full bg-zinc-900/60 border border-zinc-700 backdrop-blur">
               <Image
                 src="/icon-new-white.png"
                 alt="The Carry Exchange"
                 width={568}
                 height={556}
-                className="w-10 h-10 opacity-95"
+                className="w-[50px] h-[50px] opacity-95"
                 priority
               />
-              <span className="text-lg font-bold tracking-wide text-white">
+              <span className="text-xl font-bold tracking-wide text-white">
                 The Carry Exchange
               </span>
             </div>
@@ -329,7 +329,7 @@ export default function WaitlistPage() {
               </span>
             </div>
 
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
               Try Before You Buy
             </h2>
 
