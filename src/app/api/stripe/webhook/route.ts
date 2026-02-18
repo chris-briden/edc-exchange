@@ -13,11 +13,9 @@ import { getShippo } from "@/lib/shippo";
 
 // Use service role key for webhook operations (bypasses RLS)
 function createServiceClient() {
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-  console.log("Service role key starts with:", key?.substring(0, 20), "length:", key?.length);
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    key,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
     {
       auth: {
         autoRefreshToken: false,
