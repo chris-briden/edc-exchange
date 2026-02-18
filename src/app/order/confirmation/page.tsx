@@ -95,13 +95,12 @@ function OrderConfirmationContent() {
   const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
-    if (!paymentIntentId) return;
+    if (!paymentIntentId && !listingId) return;
 
     const fetchOrder = async () => {
       try {
-        const params = new URLSearchParams({
-          payment_intent: paymentIntentId,
-        });
+        const params = new URLSearchParams();
+        if (paymentIntentId) params.set("payment_intent", paymentIntentId);
         if (listingId) params.set("listing_id", listingId);
 
         const res = await fetch(`/api/order?${params.toString()}`);

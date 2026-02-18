@@ -13,30 +13,30 @@ export async function GET(request: NextRequest) {
     }
 
     const paymentIntentId = request.nextUrl.searchParams.get("payment_intent");
-    if (!paymentIntentId) {
-      return NextResponse.json(
-        { error: "Missing payment_intent parameter" },
-        { status: 400 }
-      );
+    const listingIdParam = request.nextUrl.searchParams.get("listing_id");
+
+    // Fetch transaction (by payment_intent if available)
+    let transaction = null;
+    if (paymentIntentId) {
+      const { data } = await supabase
+        .from("transactions")
+        .select("*")
+        .eq("stripe_payment_intent_id", paymentIntentId)
+        .single();
+      transaction = data;
     }
 
-    // Fetch transaction
-    const { data: transaction } = await supabase
-      .from("transactions")
-      .select("*")
-      .eq("stripe_payment_intent_id", paymentIntentId)
-      .single();
+    // Determine listing ID from transaction or query param
+    const listingId = transaction?.listing_id || listingIdParam;
 
     // Fetch the listing info
     let listing = null;
-    const listingId =
-      transaction?.listing_id ||
-      request.nextUrl.searchParams.get("listing_id");
-
     if (listingId) {
       const { data } = await supabase
         .from("items")
-        .select("id, name, price, listing_type, images, brand, rent_price, rental_period")
+        .select(
+          "id, name, price, listing_type, images, brand, rent_price, rental_period"
+        )
         .eq("id", listingId)
         .single();
       listing = data;

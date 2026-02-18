@@ -194,13 +194,12 @@ export function BuyNowForm({
   };
 
   const handleSuccess = (paymentIntentId?: string) => {
-    toast.success("Payment successful! The seller has been notified.");
-    onClose();
     const params = new URLSearchParams({
       type: "sale",
       listing_id: listingId,
     });
     if (paymentIntentId) params.set("payment_intent", paymentIntentId);
+    // Navigate to confirmation page immediately — don't close modal first
     window.location.href = `/order/confirmation?${params.toString()}`;
   };
 
@@ -415,8 +414,6 @@ export function RentalPaymentForm({
     if (depositClientSecret) {
       setStep("deposit_payment");
     } else {
-      toast.success("Rental confirmed! The lender has been notified.");
-      onClose();
       const params = new URLSearchParams({
         type: "rental",
         listing_id: listingId,
@@ -427,10 +424,6 @@ export function RentalPaymentForm({
   };
 
   const handleDepositSuccess = (paymentIntentId?: string) => {
-    toast.success(
-      "Rental confirmed! Rental fee charged and security deposit hold placed."
-    );
-    onClose();
     const params = new URLSearchParams({
       type: "rental",
       listing_id: listingId,
