@@ -52,6 +52,7 @@ function CategoriesContent() {
   const [listingFilter, setListingFilter] = useState("All Types");
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [sortBy, setSortBy] = useState("newest");
+  const [showSold, setShowSold] = useState(false);
   const [dbItems, setDbItems] = useState<Item[]>([]);
   const [dbCategories, setDbCategories] = useState<Category[]>([]);
   const [loaded, setLoaded] = useState(false);
@@ -67,8 +68,14 @@ function CategoriesContent() {
         .from("items")
         .select(
           "*, profiles(*), categories(*), item_images(*), likes(count), comments(count)"
-        )
-        .eq("status", "active");
+        );
+
+      // Status filter — show active + sold, or just active
+      if (showSold) {
+        query = query.in("status", ["active", "sold"]);
+      } else {
+        query = query.eq("status", "active");
+      }
 
       // Category filter
       if (selectedCategory) {
@@ -123,7 +130,7 @@ function CategoriesContent() {
       setHasMore(items.length === PAGE_SIZE);
       return items;
     },
-    [selectedCategory, listingFilter, searchQuery, sortBy, dbCategories]
+    [selectedCategory, listingFilter, searchQuery, sortBy, showSold, dbCategories]
   );
 
   // Initial load — categories + first page
@@ -144,7 +151,7 @@ function CategoriesContent() {
     setPage(0);
     setLoaded(false);
     fetchItems(0, false).then(() => setLoaded(true));
-  }, [selectedCategory, listingFilter, searchQuery, sortBy, dbCategories, fetchItems]);
+  }, [selectedCategory, listingFilter, searchQuery, sortBy, showSold, dbCategories, fetchItems]);
 
   const loadMore = async () => {
     const nextPage = page + 1;
@@ -224,6 +231,18 @@ function CategoriesContent() {
               </button>
             ))}
           </div>
+
+          {/* Show Sold toggle */}
+          <button
+            onClick={() => setShowSold(!showSold)}
+            className={`px-3.5 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition ${
+              showSold
+                ? "bg-red-600/80 text-white shadow-lg shadow-red-900/40"
+                : "bg-zinc-800 text-gray-400 hover:bg-zinc-700 hover:text-white"
+            }`}
+          >
+            {showSold ? "Showing Sold" : "Include Sold"}
+          </button>
 
           {/* Sort dropdown */}
           <div className="ml-auto flex items-center gap-2">

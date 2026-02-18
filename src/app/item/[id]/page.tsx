@@ -259,6 +259,7 @@ export default function ItemPage() {
   const ownerUsername = dbItem.profiles?.username || "Unknown";
   const ownerAvatar = dbItem.profiles?.avatar_url;
   const viewsCount = dbItem.views_count || 0;
+  const isSold = dbItem.status === "sold";
 
   return (
     <>
@@ -278,13 +279,22 @@ export default function ItemPage() {
             <div>
               <div className="aspect-square bg-gradient-to-br from-zinc-800 to-zinc-900 rounded-2xl overflow-hidden relative">
               {images.length > 0 ? (
-                <Image
-                  src={images[selectedImage]?.url || images[0].url}
-                  alt={dbItem.name}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
+                <>
+                  <Image
+                    src={images[selectedImage]?.url || images[0].url}
+                    alt={dbItem.name}
+                    fill
+                    className={`object-cover ${isSold ? "grayscale-[30%]" : ""}`}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  {isSold && (
+                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center z-10">
+                      <span className="text-white/70 text-4xl font-extrabold tracking-widest rotate-[-15deg]">
+                        SOLD
+                      </span>
+                    </div>
+                  )}
+                </>
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center">
@@ -324,11 +334,18 @@ export default function ItemPage() {
             {/* Details */}
             <div>
             <div className="flex items-start justify-between">
-              <span
-                className={`inline-flex px-3 py-1 rounded-full text-sm font-semibold ${listing.bg} ${listing.color}`}
-              >
-                {listing.label}
-              </span>
+              <div className="flex items-center gap-2">
+                <span
+                  className={`inline-flex px-3 py-1 rounded-full text-sm font-semibold ${listing.bg} ${listing.color}`}
+                >
+                  {listing.label}
+                </span>
+                {isSold && (
+                  <span className="inline-flex px-3 py-1 rounded-full text-sm font-bold bg-red-500/90 text-white">
+                    SOLD
+                  </span>
+                )}
+              </div>
               {isOwner && (
                 <div className="flex gap-1">
                   <Link
@@ -438,7 +455,12 @@ export default function ItemPage() {
               )}
 
               {/* Action buttons */}
-              {!isOwner && (
+              {isSold ? (
+                <div className="mt-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-center">
+                  <p className="text-red-400 font-semibold">This item has been sold</p>
+                  <p className="text-gray-500 text-sm mt-1">Browse similar items below or check back for new listings.</p>
+                </div>
+              ) : !isOwner ? (
                 <div className="flex flex-wrap gap-3 mt-6">
                   {dbItem.listing_type === "sell" && dbItem.price && (
                     <button
@@ -496,7 +518,7 @@ export default function ItemPage() {
                     Message Seller
                   </button>
                 </div>
-              )}
+              ) : null}
 
               {/* Engagement + stats */}
               <div className="flex items-center gap-5 mt-6 pt-5 border-t border-zinc-800 text-gray-400 text-sm">

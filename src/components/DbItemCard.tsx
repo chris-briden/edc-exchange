@@ -30,11 +30,16 @@ export default function DbItemCard({ item }: { item: Item }) {
   const ownerAvatar = item.profiles?.avatar_url;
   const likesCount = item.likes?.[0]?.count ?? 0;
   const commentsCount = item.comments?.[0]?.count ?? 0;
+  const isSold = item.status === "sold";
 
   return (
     <Link
       href={`/item/${item.id}`}
-      className="group bg-zinc-900/50 backdrop-blur rounded-2xl border border-zinc-800 overflow-hidden hover:border-orange-500/50 transition-all hover:-translate-y-0.5"
+      className={`group bg-zinc-900/50 backdrop-blur rounded-2xl border border-zinc-800 overflow-hidden transition-all ${
+        isSold
+          ? "opacity-75 hover:opacity-90"
+          : "hover:border-orange-500/50 hover:-translate-y-0.5"
+      }`}
     >
       {/* Image */}
       <div className="aspect-square bg-gradient-to-br from-zinc-800 to-zinc-900 relative overflow-hidden">
@@ -43,7 +48,7 @@ export default function DbItemCard({ item }: { item: Item }) {
             src={firstImage}
             alt={item.name}
             fill
-            className="object-cover group-hover:scale-105 transition-transform"
+            className={`object-cover transition-transform ${isSold ? "grayscale-[40%]" : "group-hover:scale-105"}`}
             sizes="(max-width: 768px) 50vw, 25vw"
           />
         ) : (
@@ -56,11 +61,24 @@ export default function DbItemCard({ item }: { item: Item }) {
             </div>
           </div>
         )}
-        <div
-          className={`absolute top-3 left-3 ${listing.bg} ${listing.color} px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur`}
-        >
-          {listing.label}
-        </div>
+        {isSold ? (
+          <div className="absolute top-3 left-3 bg-red-500/90 text-white px-2.5 py-1 rounded-full text-xs font-bold backdrop-blur">
+            SOLD
+          </div>
+        ) : (
+          <div
+            className={`absolute top-3 left-3 ${listing.bg} ${listing.color} px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur`}
+          >
+            {listing.label}
+          </div>
+        )}
+        {isSold && (
+          <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+            <span className="text-white/80 text-2xl font-extrabold tracking-wider rotate-[-15deg]">
+              SOLD
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Content */}
@@ -72,20 +90,28 @@ export default function DbItemCard({ item }: { item: Item }) {
           {item.brand} &middot; {item.condition}
         </p>
 
-        {item.price && (
-          <p className="text-lg font-bold text-green-400 mt-2">
-            ${Number(item.price).toFixed(0)}
+        {isSold ? (
+          <p className="text-sm font-semibold text-red-400 mt-2">
+            Sold{item.price ? ` — $${Number(item.price).toFixed(0)}` : ""}
           </p>
-        )}
-        {item.rent_price && (
-          <p className="text-lg font-bold text-amber-400 mt-2">
-            {item.rent_price}
-          </p>
-        )}
-        {!item.price && !item.rent_price && (
-          <p className="text-sm font-semibold text-blue-400 mt-2">
-            Open to offers
-          </p>
+        ) : (
+          <>
+            {item.price && (
+              <p className="text-lg font-bold text-green-400 mt-2">
+                ${Number(item.price).toFixed(0)}
+              </p>
+            )}
+            {item.rent_price && (
+              <p className="text-lg font-bold text-amber-400 mt-2">
+                {item.rent_price}
+              </p>
+            )}
+            {!item.price && !item.rent_price && (
+              <p className="text-sm font-semibold text-blue-400 mt-2">
+                Open to offers
+              </p>
+            )}
+          </>
         )}
 
         <div className="flex items-center justify-between mt-3 pt-3 border-t border-zinc-800">
