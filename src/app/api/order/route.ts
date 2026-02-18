@@ -29,13 +29,13 @@ export async function GET(request: NextRequest) {
     // Determine listing ID from transaction or query param
     const listingId = transaction?.listing_id || listingIdParam;
 
-    // Fetch the listing info
+    // Fetch listing with images, category, and seller profile
     let listing = null;
     if (listingId) {
       const { data } = await supabase
         .from("items")
         .select(
-          "id, name, price, listing_type, images, brand, rent_price, rental_period"
+          "id, name, price, listing_type, brand, description, condition, rent_price, rental_period, rental_deposit, box_and_docs, item_images(url, position), categories(name, slug), profiles!items_user_id_fkey(username, name)"
         )
         .eq("id", listingId)
         .single();
