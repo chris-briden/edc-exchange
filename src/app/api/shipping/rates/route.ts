@@ -36,6 +36,8 @@ export async function POST(request: NextRequest) {
 
     const shippo = getShippo();
 
+    console.log("Shipping rates request:", JSON.stringify({ addressFrom, addressTo }));
+
     // Create a shipment to get rates
     const shipment = await shippo.shipments.create({
       addressFrom: {
@@ -72,6 +74,8 @@ export async function POST(request: NextRequest) {
       ],
       async: false,
     });
+
+    console.log("Shippo response - status:", shipment.status, "rates:", (shipment.rates || []).length, "messages:", JSON.stringify(shipment.messages || []));
 
     // Transform rates with our markup applied
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
