@@ -294,22 +294,44 @@ export async function POST(request: NextRequest) {
 
         if (metadata.type === "sale") {
           // Create transaction record
-          await supabase.from("transactions").insert({
-            listing_id: metadata.listing_id,
-            buyer_id: metadata.buyer_id,
-            seller_id: metadata.seller_id,
-            amount: paymentIntent.amount,
-            platform_fee: paymentIntent.application_fee_amount || 0,
-            stripe_payment_intent_id: paymentIntent.id,
-            type: "sale",
-            status: "completed",
-          });
+          const { error: txError } = await supabase
+            .from("transactions")
+            .insert({
+              listing_id: metadata.listing_id,
+              buyer_id: metadata.buyer_id,
+              seller_id: metadata.seller_id,
+              amount: paymentIntent.amount,
+              platform_fee: paymentIntent.application_fee_amount || 0,
+              stripe_payment_intent_id: paymentIntent.id,
+              type: "sale",
+              status: "completed",
+            });
+
+          if (txError) {
+            console.error(
+              "Failed to create sale transaction:",
+              txError,
+              "PI:",
+              paymentIntent.id,
+              "Metadata:",
+              JSON.stringify(metadata)
+            );
+          }
 
           // Mark listing as sold
-          await supabase
+          const { error: itemError } = await supabase
             .from("items")
             .update({ status: "sold" })
             .eq("id", metadata.listing_id);
+
+          if (itemError) {
+            console.error(
+              "Failed to mark item as sold:",
+              itemError,
+              "listing_id:",
+              metadata.listing_id
+            );
+          }
 
           // Auto-create shipping label if shipping was selected
           let labelInfo = null;
@@ -344,20 +366,33 @@ export async function POST(request: NextRequest) {
 
         if (metadata.type === "rental") {
           // Create/update rental transaction
-          await supabase.from("transactions").insert({
-            listing_id: metadata.listing_id,
-            buyer_id: metadata.buyer_id,
-            seller_id: metadata.seller_id,
-            amount: paymentIntent.amount,
-            platform_fee: paymentIntent.application_fee_amount || 0,
-            stripe_payment_intent_id: paymentIntent.id,
-            security_deposit_payment_intent_id:
-              metadata.security_deposit_pi || null,
-            type: "rental",
-            status: "completed",
-            rental_status: "active",
-            rental_start_date: new Date().toISOString(),
-          });
+          const { error: rentalTxError } = await supabase
+            .from("transactions")
+            .insert({
+              listing_id: metadata.listing_id,
+              buyer_id: metadata.buyer_id,
+              seller_id: metadata.seller_id,
+              amount: paymentIntent.amount,
+              platform_fee: paymentIntent.application_fee_amount || 0,
+              stripe_payment_intent_id: paymentIntent.id,
+              security_deposit_payment_intent_id:
+                metadata.security_deposit_pi || null,
+              type: "rental",
+              status: "completed",
+              rental_status: "active",
+              rental_start_date: new Date().toISOString(),
+            });
+
+          if (rentalTxError) {
+            console.error(
+              "Failed to create rental transaction:",
+              rentalTxError,
+              "PI:",
+              paymentIntent.id,
+              "Metadata:",
+              JSON.stringify(metadata)
+            );
+          }
 
           // Auto-create shipping labels (outbound + return) for rentals
           let labelInfo = null;

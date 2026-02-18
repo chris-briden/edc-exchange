@@ -29,10 +29,12 @@ function CheckoutForm({
   onSuccess,
   onCancel,
   type,
+  listingId,
 }: {
-  onSuccess: () => void;
+  onSuccess: (paymentIntentId?: string) => void;
   onCancel: () => void;
   type: "sale" | "rental";
+  listingId?: string;
 }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -47,10 +49,15 @@ function CheckoutForm({
     setProcessing(true);
     setError(null);
 
-    const { error: submitError } = await stripe.confirmPayment({
+    const returnParams = new URLSearchParams({
+      type,
+      ...(listingId ? { listing_id: listingId } : {}),
+    });
+
+    const { error: submitError, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/profile?payment=${type === "sale" ? "success" : "rental_success"}`,
+        return_url: `${window.location.origin}/order/confirmation?${returnParams.toString()}`,
       },
       redirect: "if_required",
     });
@@ -59,7 +66,7 @@ function CheckoutForm({
       setError(submitError.message || "Payment failed");
       setProcessing(false);
     } else {
-      onSuccess();
+      onSuccess(paymentIntent?.id);
     }
   };
 
@@ -186,10 +193,15 @@ export function BuyNowForm({
     }
   };
 
-  const handleSuccess = () => {
+  const handleSuccess = (paymentIntentId?: string) => {
     toast.success("Payment successful! The seller has been notified.");
     onClose();
-    window.location.reload();
+    const params = new URLSearchParams({
+      type: "sale",
+      listing_id: listingId,
+    });
+    if (paymentIntentId) params.set("payment_intent", paymentIntentId);
+    window.location.href = `/order/confirmation?${params.toString()}`;
   };
 
   return (
@@ -283,6 +295,7 @@ export function BuyNowForm({
                     onSuccess={handleSuccess}
                     onCancel={onClose}
                     type="sale"
+                    listingId={listingId}
                   />
                 </Elements>
               )}
@@ -398,22 +411,32 @@ export function RentalPaymentForm({
     }
   };
 
-  const handleRentalSuccess = () => {
+  const handleRentalSuccess = (paymentIntentId?: string) => {
     if (depositClientSecret) {
       setStep("deposit_payment");
     } else {
       toast.success("Rental confirmed! The lender has been notified.");
       onClose();
-      window.location.reload();
+      const params = new URLSearchParams({
+        type: "rental",
+        listing_id: listingId,
+      });
+      if (paymentIntentId) params.set("payment_intent", paymentIntentId);
+      window.location.href = `/order/confirmation?${params.toString()}`;
     }
   };
 
-  const handleDepositSuccess = () => {
+  const handleDepositSuccess = (paymentIntentId?: string) => {
     toast.success(
       "Rental confirmed! Rental fee charged and security deposit hold placed."
     );
     onClose();
-    window.location.reload();
+    const params = new URLSearchParams({
+      type: "rental",
+      listing_id: listingId,
+    });
+    if (paymentIntentId) params.set("payment_intent", paymentIntentId);
+    window.location.href = `/order/confirmation?${params.toString()}`;
   };
 
   return (
@@ -574,6 +597,7 @@ export function RentalPaymentForm({
                   onSuccess={handleRentalSuccess}
                   onCancel={onClose}
                   type="rental"
+                  listingId={listingId}
                 />
               </Elements>
             </div>
@@ -606,6 +630,7 @@ export function RentalPaymentForm({
                   onSuccess={handleDepositSuccess}
                   onCancel={onClose}
                   type="rental"
+                  listingId={listingId}
                 />
               </Elements>
             </div>
