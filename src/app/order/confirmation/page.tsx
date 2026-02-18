@@ -53,7 +53,7 @@ interface OrderData {
     box_and_docs: string;
     item_images: ItemImage[];
     categories: { name: string; slug: string } | null;
-    profiles: { username: string; name: string } | null;
+    profiles: { username: string; full_name: string } | null;
   } | null;
   shipment: {
     id: string;
@@ -161,7 +161,7 @@ function OrderConfirmationContent() {
   );
   const primaryImage = sortedImages[0]?.url;
   const sellerName =
-    listing?.profiles?.name || listing?.profiles?.username || "Seller";
+    listing?.profiles?.full_name || listing?.profiles?.username || "Seller";
   const categoryName = listing?.categories?.name || "";
   const itemPrice = parseFloat(listing?.price || "0");
   const shippingPrice = shipment

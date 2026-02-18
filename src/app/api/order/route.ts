@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
       const { data } = await supabase
         .from("items")
         .select(
-          "id, name, price, listing_type, brand, description, condition, rent_price, rental_period, rental_deposit, box_and_docs, item_images(url, position), categories(name, slug), profiles!items_user_id_fkey(username, name)"
+          "id, name, price, listing_type, brand, description, condition, rent_price, rental_period, rental_deposit, box_and_docs, item_images(url, position), categories(name, slug), profiles!items_user_id_fkey(username, full_name)"
         )
         .eq("id", listingId)
         .single();
