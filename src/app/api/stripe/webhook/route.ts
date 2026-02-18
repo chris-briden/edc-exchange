@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
-import { createServerClient } from "@supabase/ssr";
+import { createClient } from "@supabase/supabase-js";
 import Stripe from "stripe";
 import {
   applyShippingMarkup,
@@ -13,17 +13,9 @@ import { getShippo } from "@/lib/shippo";
 
 // Use service role key for webhook operations (bypasses RLS)
 function createServiceClient() {
-  return createServerClient(
+  return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return [];
-        },
-        setAll() {},
-      },
-    }
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 }
 
@@ -278,8 +270,11 @@ export async function POST(request: NextRequest) {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
         const metadata = paymentIntent.metadata;
 
+        console.log("Webhook payment_intent.succeeded:", paymentIntent.id, "metadata:", JSON.stringify(metadata));
+
         // Skip security deposit completions (they are manual capture)
         if (metadata.type === "security_deposit") {
+          console.log("Skipping security deposit event");
           break;
         }
 
@@ -310,12 +305,14 @@ export async function POST(request: NextRequest) {
           if (txError) {
             console.error(
               "Failed to create sale transaction:",
-              txError,
+              JSON.stringify(txError),
               "PI:",
               paymentIntent.id,
               "Metadata:",
               JSON.stringify(metadata)
             );
+          } else {
+            console.log("Sale transaction created successfully for PI:", paymentIntent.id);
           }
 
           // Mark listing as sold
