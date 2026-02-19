@@ -196,8 +196,10 @@ export async function sendRentalNotificationSeller(params: {
 }
 
 // ─── HTML Email Templates ────────────────────────────────────────────────────
-// Using inline HTML instead of React Email rendering to keep things simple
-// and avoid SSR complexity. These are clean, responsive email templates.
+// Dark premium theme matching the site's branding: black backgrounds,
+// orange (#b45309 / #f97316) accents, zinc cards, system sans-serif.
+
+const LOGO_URL = `${SITE_URL}/icon-new-white.png`;
 
 function emailWrapper(content: string): string {
   return `
@@ -208,15 +210,24 @@ function emailWrapper(content: string): string {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Carry Exchange</title>
 </head>
-<body style="margin: 0; padding: 0; background-color: #f4f4f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f5; padding: 40px 20px;">
+<body style="margin: 0; padding: 0; background-color: #000000; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #000000; padding: 40px 20px;">
     <tr>
       <td align="center">
-        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-          <!-- Header -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color: #18181b; border-radius: 12px; overflow: hidden; border: 1px solid #27272a;">
+          <!-- Header with logo -->
           <tr>
-            <td style="background-color: #18181b; padding: 24px 32px; text-align: center;">
-              <h1 style="margin: 0; color: #ffffff; font-size: 20px; font-weight: 600; letter-spacing: 0.5px;">THE CARRY EXCHANGE</h1>
+            <td style="background-color: #000000; padding: 32px 32px 24px 32px; text-align: center; border-bottom: 1px solid #27272a;">
+              <table role="presentation" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+                <tr>
+                  <td style="vertical-align: middle; padding-right: 12px;">
+                    <img src="${LOGO_URL}" alt="The Carry Exchange" width="40" height="40" style="display: block; border-radius: 50%; border: 2px solid #27272a;" />
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <span style="color: #ffffff; font-size: 18px; font-weight: 700; letter-spacing: 0.5px;">The Carry Exchange</span>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
           <!-- Content -->
@@ -227,10 +238,20 @@ function emailWrapper(content: string): string {
           </tr>
           <!-- Footer -->
           <tr>
-            <td style="padding: 24px 32px; background-color: #fafafa; border-top: 1px solid #e4e4e7; text-align: center;">
-              <p style="margin: 0; color: #a1a1aa; font-size: 12px; line-height: 1.5;">
-                The Carry Exchange — Buy, Sell, Rent & Try EDC Gear<br>
-                <a href="${SITE_URL}" style="color: #a1a1aa;">jointhecarry.com</a>
+            <td style="padding: 24px 32px; background-color: #09090b; border-top: 1px solid #27272a; text-align: center;">
+              <p style="margin: 0 0 8px 0; color: #71717a; font-size: 12px; line-height: 1.5;">
+                Buy, Sell, Rent & Try — The EDC Marketplace
+              </p>
+              <a href="${SITE_URL}" style="color: #f97316; font-size: 12px; text-decoration: none; font-weight: 600;">jointhecarry.com</a>
+            </td>
+          </tr>
+        </table>
+        <!-- Unsubscribe / muted text below card -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="padding: 16px 32px; text-align: center;">
+              <p style="margin: 0; color: #3f3f46; font-size: 11px;">
+                You're receiving this because you signed up at The Carry Exchange.
               </p>
             </td>
           </tr>
@@ -251,30 +272,46 @@ function buildWaitlistEmail(params: {
 
   const foundingSellerBlock = isFoundingSeller
     ? `
-      <div style="background-color: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 16px; margin: 20px 0;">
-        <p style="margin: 0 0 8px 0; font-weight: 600; color: #92400e; font-size: 14px;">Founding Seller Benefits</p>
-        <ul style="margin: 0; padding-left: 20px; color: #92400e; font-size: 14px; line-height: 1.6;">
-          <li>Permanently locked at the lowest commission rate</li>
-          <li>Priority listing placement at launch</li>
-          <li>Early access to all new features</li>
-        </ul>
+      <div style="background: linear-gradient(135deg, rgba(180,83,9,0.2), rgba(249,115,22,0.1)); border: 1px solid rgba(249,115,22,0.3); border-radius: 8px; padding: 20px; margin: 24px 0;">
+        <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+          <td style="vertical-align: top; padding-right: 12px; font-size: 20px;">&#9733;</td>
+          <td>
+            <p style="margin: 0 0 10px 0; font-weight: 700; color: #f97316; font-size: 15px; letter-spacing: 0.3px;">FOUNDING SELLER</p>
+            <p style="margin: 0 0 4px 0; color: #d4d4d8; font-size: 14px; line-height: 1.7;">&#10003;&nbsp; Permanently locked at the lowest commission rate</p>
+            <p style="margin: 0 0 4px 0; color: #d4d4d8; font-size: 14px; line-height: 1.7;">&#10003;&nbsp; Priority listing placement at launch</p>
+            <p style="margin: 0; color: #d4d4d8; font-size: 14px; line-height: 1.7;">&#10003;&nbsp; Early access to all new features</p>
+          </td>
+        </tr></table>
       </div>`
     : "";
 
   return emailWrapper(`
-    <h2 style="margin: 0 0 8px 0; color: #18181b; font-size: 24px;">You're in!</h2>
-    <p style="margin: 0 0 20px 0; color: #71717a; font-size: 16px;">
-      You're <strong style="color: #18181b;">#${params.position}</strong> on the waitlist for The Carry Exchange.
+    <!-- Position badge -->
+    <div style="text-align: center; margin-bottom: 24px;">
+      <span style="display: inline-block; background: linear-gradient(135deg, #b45309, #ea580c); color: #ffffff; font-size: 13px; font-weight: 700; padding: 6px 16px; border-radius: 50px; letter-spacing: 0.5px;">#${params.position} ON THE WAITLIST</span>
+    </div>
+
+    <h2 style="margin: 0 0 12px 0; color: #ffffff; font-size: 26px; font-weight: 700; text-align: center;">You're in.</h2>
+    <p style="margin: 0 0 24px 0; color: #a1a1aa; font-size: 16px; text-align: center; line-height: 1.6;">
+      Welcome to The Carry Exchange — the first marketplace built exclusively for the EDC community.
     </p>
+
     ${foundingSellerBlock}
-    <p style="margin: 0 0 12px 0; color: #3f3f46; font-size: 15px; line-height: 1.6;">
-      We're building the first marketplace dedicated to the EDC community in Canada and the US. Buy, sell, rent, and try before you buy — all in one place.
+
+    <!-- What we're building -->
+    <div style="background-color: #27272a; border-radius: 8px; padding: 20px; margin: 24px 0; border: 1px solid #3f3f46;">
+      <p style="margin: 0 0 12px 0; color: #f97316; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">What's coming</p>
+      <p style="margin: 0; color: #d4d4d8; font-size: 14px; line-height: 1.7;">
+        Buy, sell, trade, and <span style="color: #f97316; font-weight: 600;">rent</span> EDC gear — knives, lights, pens, watches, and more. Try before you buy. Ship with built-in protection. All in one place.
+      </p>
+    </div>
+
+    <p style="margin: 0 0 28px 0; color: #71717a; font-size: 14px; text-align: center; line-height: 1.6;">
+      We'll email you as soon as we're ready to open the doors. Spread the word — every signup gets us closer to launch.
     </p>
-    <p style="margin: 0 0 24px 0; color: #3f3f46; font-size: 15px; line-height: 1.6;">
-      We'll email you as soon as we're ready to open the doors. In the meantime, spread the word — every signup gets us closer to launch.
-    </p>
-    <div style="text-align: center; margin: 24px 0;">
-      <a href="${SITE_URL}" style="display: inline-block; background-color: #18181b; color: #ffffff; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px;">Visit The Carry Exchange</a>
+
+    <div style="text-align: center; margin: 0 0 8px 0;">
+      <a href="${SITE_URL}" style="display: inline-block; background: linear-gradient(135deg, #b45309, #ea580c); color: #ffffff; padding: 14px 36px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 15px;">Visit The Carry Exchange</a>
     </div>
   `);
 }
@@ -284,38 +321,69 @@ function buildWelcomeEmail(params: {
   username: string;
 }): string {
   return emailWrapper(`
-    <h2 style="margin: 0 0 8px 0; color: #18181b; font-size: 24px;">Welcome, ${params.username}!</h2>
-    <p style="margin: 0 0 20px 0; color: #71717a; font-size: 16px;">
-      Your account is ready. Here's what you can do:
+    <h2 style="margin: 0 0 12px 0; color: #ffffff; font-size: 26px; font-weight: 700; text-align: center;">Welcome, ${params.username}.</h2>
+    <p style="margin: 0 0 28px 0; color: #a1a1aa; font-size: 16px; text-align: center; line-height: 1.6;">
+      Your account is live. Here's what you can do on The Carry Exchange.
     </p>
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin: 20px 0;">
+
+    <!-- Feature grid -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 24px 0;">
       <tr>
-        <td style="padding: 12px 0; border-bottom: 1px solid #f4f4f5;">
-          <strong style="color: #18181b;">Browse & Buy</strong>
-          <p style="margin: 4px 0 0 0; color: #71717a; font-size: 14px;">Discover EDC gear from the community</p>
+        <td style="padding: 16px; background-color: #27272a; border-radius: 8px 8px 0 0; border: 1px solid #3f3f46; border-bottom: none;">
+          <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+            <td style="vertical-align: top; padding-right: 14px;">
+              <div style="width: 36px; height: 36px; background: linear-gradient(135deg, rgba(249,115,22,0.2), rgba(234,88,12,0.1)); border-radius: 8px; text-align: center; line-height: 36px; font-size: 16px;">&#128269;</div>
+            </td>
+            <td>
+              <p style="margin: 0 0 2px 0; color: #ffffff; font-weight: 600; font-size: 15px;">Browse & Buy</p>
+              <p style="margin: 0; color: #a1a1aa; font-size: 13px;">Discover EDC gear from the community</p>
+            </td>
+          </tr></table>
         </td>
       </tr>
       <tr>
-        <td style="padding: 12px 0; border-bottom: 1px solid #f4f4f5;">
-          <strong style="color: #18181b;">List & Sell</strong>
-          <p style="margin: 4px 0 0 0; color: #71717a; font-size: 14px;">Turn your gear into cash — or rent it out</p>
+        <td style="padding: 16px; background-color: #27272a; border-left: 1px solid #3f3f46; border-right: 1px solid #3f3f46;">
+          <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+            <td style="vertical-align: top; padding-right: 14px;">
+              <div style="width: 36px; height: 36px; background: linear-gradient(135deg, rgba(249,115,22,0.2), rgba(234,88,12,0.1)); border-radius: 8px; text-align: center; line-height: 36px; font-size: 16px;">&#128176;</div>
+            </td>
+            <td>
+              <p style="margin: 0 0 2px 0; color: #ffffff; font-weight: 600; font-size: 15px;">List & Sell</p>
+              <p style="margin: 0; color: #a1a1aa; font-size: 13px;">Turn your gear into cash — or rent it out</p>
+            </td>
+          </tr></table>
         </td>
       </tr>
       <tr>
-        <td style="padding: 12px 0; border-bottom: 1px solid #f4f4f5;">
-          <strong style="color: #18181b;">Try Before You Buy</strong>
-          <p style="margin: 4px 0 0 0; color: #71717a; font-size: 14px;">Rent that grail piece before committing</p>
+        <td style="padding: 16px; background-color: #27272a; border-left: 1px solid #3f3f46; border-right: 1px solid #3f3f46;">
+          <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+            <td style="vertical-align: top; padding-right: 14px;">
+              <div style="width: 36px; height: 36px; background: linear-gradient(135deg, rgba(249,115,22,0.2), rgba(234,88,12,0.1)); border-radius: 8px; text-align: center; line-height: 36px; font-size: 16px;">&#128295;</div>
+            </td>
+            <td>
+              <p style="margin: 0 0 2px 0; color: #f97316; font-weight: 600; font-size: 15px;">Try Before You Buy</p>
+              <p style="margin: 0; color: #a1a1aa; font-size: 13px;">Rent that grail piece before you commit</p>
+            </td>
+          </tr></table>
         </td>
       </tr>
       <tr>
-        <td style="padding: 12px 0;">
-          <strong style="color: #18181b;">Share Your EDC</strong>
-          <p style="margin: 4px 0 0 0; color: #71717a; font-size: 14px;">Post your loadout and connect with the community</p>
+        <td style="padding: 16px; background-color: #27272a; border-radius: 0 0 8px 8px; border: 1px solid #3f3f46; border-top: none;">
+          <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+            <td style="vertical-align: top; padding-right: 14px;">
+              <div style="width: 36px; height: 36px; background: linear-gradient(135deg, rgba(249,115,22,0.2), rgba(234,88,12,0.1)); border-radius: 8px; text-align: center; line-height: 36px; font-size: 16px;">&#127942;</div>
+            </td>
+            <td>
+              <p style="margin: 0 0 2px 0; color: #ffffff; font-weight: 600; font-size: 15px;">Share Your EDC</p>
+              <p style="margin: 0; color: #a1a1aa; font-size: 13px;">Post your loadout and connect with the community</p>
+            </td>
+          </tr></table>
         </td>
       </tr>
     </table>
-    <div style="text-align: center; margin: 24px 0;">
-      <a href="${SITE_URL}" style="display: inline-block; background-color: #18181b; color: #ffffff; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px;">Start Exploring</a>
+
+    <div style="text-align: center; margin: 0 0 8px 0;">
+      <a href="${SITE_URL}/browse" style="display: inline-block; background: linear-gradient(135deg, #b45309, #ea580c); color: #ffffff; padding: 14px 36px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 15px;">Start Exploring</a>
     </div>
   `);
 }
@@ -337,39 +405,47 @@ function buildOrderConfirmationBuyerEmail(params: {
   const totalPrice = params.amount / 100;
 
   const trackingBlock = params.trackingNumber
-    ? `<p style="margin: 12px 0 0 0; color: #3f3f46; font-size: 14px;">Tracking number: <strong>${params.trackingNumber}</strong></p>`
-    : `<p style="margin: 12px 0 0 0; color: #71717a; font-size: 14px;">Tracking info will be available once the seller ships your item.</p>`;
+    ? `<div style="background-color: #27272a; border-radius: 8px; padding: 16px; margin: 20px 0; border: 1px solid #3f3f46;">
+        <p style="margin: 0 0 4px 0; color: #71717a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Tracking</p>
+        <p style="margin: 0; color: #ffffff; font-size: 14px; font-weight: 600;">${params.trackingNumber}</p>
+      </div>`
+    : `<div style="background-color: #27272a; border-radius: 8px; padding: 16px; margin: 20px 0; border: 1px solid #3f3f46;">
+        <p style="margin: 0; color: #a1a1aa; font-size: 14px;">Tracking info will be available once the seller ships your item.</p>
+      </div>`;
 
   return emailWrapper(`
-    <h2 style="margin: 0 0 8px 0; color: #18181b; font-size: 24px;">Order Confirmed</h2>
-    <p style="margin: 0 0 20px 0; color: #71717a; font-size: 16px;">
-      Thanks for your purchase, ${params.buyerName}!
-    </p>
+    <div style="text-align: center; margin-bottom: 24px;">
+      <span style="display: inline-block; background: linear-gradient(135deg, #b45309, #ea580c); color: #ffffff; font-size: 13px; font-weight: 700; padding: 6px 16px; border-radius: 50px; letter-spacing: 0.5px;">ORDER CONFIRMED</span>
+    </div>
 
-    <div style="background-color: #fafafa; border-radius: 6px; padding: 20px; margin: 20px 0;">
+    <h2 style="margin: 0 0 12px 0; color: #ffffff; font-size: 26px; font-weight: 700; text-align: center;">Nice pickup, ${params.buyerName}.</h2>
+    <p style="margin: 0 0 28px 0; color: #a1a1aa; font-size: 16px; text-align: center;">Your order is confirmed and the seller has been notified.</p>
+
+    <div style="background-color: #27272a; border-radius: 8px; padding: 20px; margin: 0 0 4px 0; border: 1px solid #3f3f46; border-bottom: none; border-radius: 8px 8px 0 0;">
       <p style="margin: 0 0 4px 0; color: #71717a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Item</p>
-      <p style="margin: 0 0 16px 0; color: #18181b; font-size: 16px; font-weight: 600;">${params.itemName}</p>
-
+      <p style="margin: 0; color: #ffffff; font-size: 16px; font-weight: 600;">${params.itemName}</p>
+    </div>
+    <div style="background-color: #27272a; border-radius: 0 0 8px 8px; padding: 16px 20px; border: 1px solid #3f3f46; border-top: 1px solid #3f3f46;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
         <tr>
-          <td style="padding: 6px 0; color: #3f3f46; font-size: 14px;">Item price</td>
-          <td style="padding: 6px 0; color: #18181b; font-size: 14px; text-align: right;">$${itemPrice.toFixed(2)} CAD</td>
+          <td style="padding: 6px 0; color: #a1a1aa; font-size: 14px;">Item price</td>
+          <td style="padding: 6px 0; color: #d4d4d8; font-size: 14px; text-align: right;">$${itemPrice.toFixed(2)} CAD</td>
         </tr>
         ${shippingPrice > 0 ? `
         <tr>
-          <td style="padding: 6px 0; color: #3f3f46; font-size: 14px;">Shipping</td>
-          <td style="padding: 6px 0; color: #18181b; font-size: 14px; text-align: right;">$${shippingPrice.toFixed(2)} CAD</td>
+          <td style="padding: 6px 0; color: #a1a1aa; font-size: 14px;">Shipping</td>
+          <td style="padding: 6px 0; color: #d4d4d8; font-size: 14px; text-align: right;">$${shippingPrice.toFixed(2)} CAD</td>
         </tr>` : ""}
         <tr>
-          <td style="padding: 8px 0 0 0; color: #18181b; font-size: 16px; font-weight: 600; border-top: 1px solid #e4e4e7;">Total</td>
-          <td style="padding: 8px 0 0 0; color: #18181b; font-size: 16px; font-weight: 600; text-align: right; border-top: 1px solid #e4e4e7;">$${totalPrice.toFixed(2)} CAD</td>
+          <td style="padding: 10px 0 0 0; color: #ffffff; font-size: 16px; font-weight: 700; border-top: 1px solid #3f3f46;">Total</td>
+          <td style="padding: 10px 0 0 0; color: #f97316; font-size: 16px; font-weight: 700; text-align: right; border-top: 1px solid #3f3f46;">$${totalPrice.toFixed(2)} CAD</td>
         </tr>
       </table>
     </div>
 
     ${trackingBlock}
 
-    <p style="margin: 20px 0 0 0; color: #71717a; font-size: 13px;">
+    <p style="margin: 20px 0 0 0; color: #3f3f46; font-size: 12px; text-align: center;">
       Order date: ${params.orderDate}
     </p>
   `);
@@ -389,38 +465,43 @@ function buildSaleNotificationSellerEmail(params: {
 
   const labelBlock = params.labelUrl
     ? `
-    <div style="background-color: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; padding: 16px; margin: 20px 0;">
-      <p style="margin: 0 0 8px 0; font-weight: 600; color: #065f46; font-size: 14px;">Shipping Label Ready</p>
-      <p style="margin: 0 0 12px 0; color: #065f46; font-size: 14px;">
-        Your prepaid shipping label is ready. Please ship within 3 business days.
-        ${params.trackingNumber ? `<br>Tracking: <strong>${params.trackingNumber}</strong>` : ""}
+    <div style="background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.05)); border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; padding: 20px; margin: 20px 0;">
+      <p style="margin: 0 0 8px 0; font-weight: 700; color: #10b981; font-size: 14px;">SHIPPING LABEL READY</p>
+      <p style="margin: 0 0 14px 0; color: #d4d4d8; font-size: 14px; line-height: 1.6;">
+        Your prepaid label is ready. Please ship within 3 business days.
+        ${params.trackingNumber ? `<br><span style="color: #71717a;">Tracking:</span> <strong style="color: #ffffff;">${params.trackingNumber}</strong>` : ""}
       </p>
-      <a href="${params.labelUrl}" style="display: inline-block; background-color: #10b981; color: #ffffff; padding: 8px 20px; border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 13px;">Download Label</a>
+      <a href="${params.labelUrl}" style="display: inline-block; background-color: #10b981; color: #ffffff; padding: 10px 24px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 13px;">Download Label</a>
     </div>`
-    : `<p style="margin: 20px 0; color: #71717a; font-size: 14px;">Please arrange shipping with the buyer through messages.</p>`;
+    : `<div style="background-color: #27272a; border-radius: 8px; padding: 16px; margin: 20px 0; border: 1px solid #3f3f46;">
+        <p style="margin: 0; color: #a1a1aa; font-size: 14px;">Please arrange shipping with the buyer through messages.</p>
+      </div>`;
 
   return emailWrapper(`
-    <h2 style="margin: 0 0 8px 0; color: #18181b; font-size: 24px;">Your item sold!</h2>
-    <p style="margin: 0 0 20px 0; color: #71717a; font-size: 16px;">
-      Congrats, ${params.sellerName}!
-    </p>
+    <div style="text-align: center; margin-bottom: 24px;">
+      <span style="display: inline-block; background: linear-gradient(135deg, #b45309, #ea580c); color: #ffffff; font-size: 13px; font-weight: 700; padding: 6px 16px; border-radius: 50px; letter-spacing: 0.5px;">ITEM SOLD</span>
+    </div>
 
-    <div style="background-color: #fafafa; border-radius: 6px; padding: 20px; margin: 20px 0;">
+    <h2 style="margin: 0 0 12px 0; color: #ffffff; font-size: 26px; font-weight: 700; text-align: center;">Congrats, ${params.sellerName}!</h2>
+    <p style="margin: 0 0 28px 0; color: #a1a1aa; font-size: 16px; text-align: center;">Your item has been purchased. Time to ship it out.</p>
+
+    <div style="background-color: #27272a; border-radius: 8px 8px 0 0; padding: 20px; border: 1px solid #3f3f46; border-bottom: none;">
       <p style="margin: 0 0 4px 0; color: #71717a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Item</p>
-      <p style="margin: 0 0 16px 0; color: #18181b; font-size: 16px; font-weight: 600;">${params.itemName}</p>
-
+      <p style="margin: 0; color: #ffffff; font-size: 16px; font-weight: 600;">${params.itemName}</p>
+    </div>
+    <div style="background-color: #27272a; border-radius: 0 0 8px 8px; padding: 16px 20px; border: 1px solid #3f3f46; border-top: 1px solid #3f3f46;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
         <tr>
-          <td style="padding: 6px 0; color: #3f3f46; font-size: 14px;">Sale price</td>
-          <td style="padding: 6px 0; color: #18181b; font-size: 14px; text-align: right;">$${saleAmount.toFixed(2)} CAD</td>
+          <td style="padding: 6px 0; color: #a1a1aa; font-size: 14px;">Sale price</td>
+          <td style="padding: 6px 0; color: #d4d4d8; font-size: 14px; text-align: right;">$${saleAmount.toFixed(2)} CAD</td>
         </tr>
         <tr>
-          <td style="padding: 6px 0; color: #3f3f46; font-size: 14px;">Platform fee</td>
+          <td style="padding: 6px 0; color: #a1a1aa; font-size: 14px;">Platform fee</td>
           <td style="padding: 6px 0; color: #ef4444; font-size: 14px; text-align: right;">-$${fee.toFixed(2)} CAD</td>
         </tr>
         <tr>
-          <td style="padding: 8px 0 0 0; color: #18181b; font-size: 16px; font-weight: 600; border-top: 1px solid #e4e4e7;">Your payout</td>
-          <td style="padding: 8px 0 0 0; color: #10b981; font-size: 16px; font-weight: 600; text-align: right; border-top: 1px solid #e4e4e7;">$${payout.toFixed(2)} CAD</td>
+          <td style="padding: 10px 0 0 0; color: #ffffff; font-size: 16px; font-weight: 700; border-top: 1px solid #3f3f46;">Your payout</td>
+          <td style="padding: 10px 0 0 0; color: #10b981; font-size: 16px; font-weight: 700; text-align: right; border-top: 1px solid #3f3f46;">$${payout.toFixed(2)} CAD</td>
         </tr>
       </table>
     </div>
@@ -440,34 +521,43 @@ function buildRentalConfirmationEmail(params: {
   const deposit = params.depositAmount / 100;
 
   const trackingBlock = params.trackingNumber
-    ? `<p style="margin: 12px 0 0 0; color: #3f3f46; font-size: 14px;">Tracking number: <strong>${params.trackingNumber}</strong></p>`
-    : `<p style="margin: 12px 0 0 0; color: #71717a; font-size: 14px;">Tracking info will be available once the item ships.</p>`;
+    ? `<div style="background-color: #27272a; border-radius: 8px; padding: 16px; margin: 20px 0; border: 1px solid #3f3f46;">
+        <p style="margin: 0 0 4px 0; color: #71717a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Tracking</p>
+        <p style="margin: 0; color: #ffffff; font-size: 14px; font-weight: 600;">${params.trackingNumber}</p>
+      </div>`
+    : `<div style="background-color: #27272a; border-radius: 8px; padding: 16px; margin: 20px 0; border: 1px solid #3f3f46;">
+        <p style="margin: 0; color: #a1a1aa; font-size: 14px;">Tracking info will be available once the item ships.</p>
+      </div>`;
 
   return emailWrapper(`
-    <h2 style="margin: 0 0 8px 0; color: #18181b; font-size: 24px;">Rental Confirmed</h2>
-    <p style="margin: 0 0 20px 0; color: #71717a; font-size: 16px;">
-      You're all set, ${params.renterName}!
-    </p>
+    <div style="text-align: center; margin-bottom: 24px;">
+      <span style="display: inline-block; background: linear-gradient(135deg, #b45309, #ea580c); color: #ffffff; font-size: 13px; font-weight: 700; padding: 6px 16px; border-radius: 50px; letter-spacing: 0.5px;">RENTAL CONFIRMED</span>
+    </div>
 
-    <div style="background-color: #fafafa; border-radius: 6px; padding: 20px; margin: 20px 0;">
+    <h2 style="margin: 0 0 12px 0; color: #ffffff; font-size: 26px; font-weight: 700; text-align: center;">You're all set, ${params.renterName}.</h2>
+    <p style="margin: 0 0 28px 0; color: #a1a1aa; font-size: 16px; text-align: center;">Your rental is confirmed. The owner will ship it out shortly.</p>
+
+    <div style="background-color: #27272a; border-radius: 8px 8px 0 0; padding: 20px; border: 1px solid #3f3f46; border-bottom: none;">
       <p style="margin: 0 0 4px 0; color: #71717a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Item</p>
-      <p style="margin: 0 0 16px 0; color: #18181b; font-size: 16px; font-weight: 600;">${params.itemName}</p>
-
+      <p style="margin: 0; color: #ffffff; font-size: 16px; font-weight: 600;">${params.itemName}</p>
+    </div>
+    <div style="background-color: #27272a; border-radius: 0 0 8px 8px; padding: 16px 20px; border: 1px solid #3f3f46; border-top: 1px solid #3f3f46;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
         <tr>
-          <td style="padding: 6px 0; color: #3f3f46; font-size: 14px;">Rental fee</td>
-          <td style="padding: 6px 0; color: #18181b; font-size: 14px; text-align: right;">$${rental.toFixed(2)} CAD</td>
+          <td style="padding: 6px 0; color: #a1a1aa; font-size: 14px;">Rental fee</td>
+          <td style="padding: 6px 0; color: #d4d4d8; font-size: 14px; text-align: right;">$${rental.toFixed(2)} CAD</td>
         </tr>
         <tr>
-          <td style="padding: 6px 0; color: #3f3f46; font-size: 14px;">Security deposit (hold)</td>
+          <td style="padding: 6px 0; color: #a1a1aa; font-size: 14px;">Security deposit (hold)</td>
           <td style="padding: 6px 0; color: #71717a; font-size: 14px; text-align: right;">$${deposit.toFixed(2)} CAD</td>
         </tr>
       </table>
     </div>
 
-    <div style="background-color: #eff6ff; border: 1px solid #3b82f6; border-radius: 6px; padding: 16px; margin: 20px 0;">
-      <p style="margin: 0; color: #1e40af; font-size: 14px; line-height: 1.5;">
-        <strong>About your deposit:</strong> The security deposit is a hold on your card, not a charge. It will be released automatically once the item is returned in good condition. A prepaid return label will be included with your shipment.
+    <!-- Deposit info -->
+    <div style="background: linear-gradient(135deg, rgba(249,115,22,0.1), rgba(234,88,12,0.05)); border: 1px solid rgba(249,115,22,0.2); border-radius: 8px; padding: 16px; margin: 20px 0;">
+      <p style="margin: 0; color: #d4d4d8; font-size: 14px; line-height: 1.6;">
+        <strong style="color: #f97316;">About your deposit:</strong> This is a hold on your card, not a charge. It releases automatically once the item is returned in good condition. A prepaid return label will be included.
       </p>
     </div>
 
@@ -488,33 +578,38 @@ function buildRentalNotificationSellerEmail(params: {
 
   const labelBlock = params.labelUrl
     ? `
-    <div style="background-color: #ecfdf5; border: 1px solid #10b981; border-radius: 6px; padding: 16px; margin: 20px 0;">
-      <p style="margin: 0 0 8px 0; font-weight: 600; color: #065f46; font-size: 14px;">Shipping Labels Ready</p>
-      <p style="margin: 0 0 12px 0; color: #065f46; font-size: 14px;">
-        Your outbound shipping label is ready. A return label has also been generated — include it in the package.
-        ${params.trackingNumber ? `<br>Tracking: <strong>${params.trackingNumber}</strong>` : ""}
+    <div style="background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.05)); border: 1px solid rgba(16,185,129,0.3); border-radius: 8px; padding: 20px; margin: 20px 0;">
+      <p style="margin: 0 0 8px 0; font-weight: 700; color: #10b981; font-size: 14px;">SHIPPING LABELS READY</p>
+      <p style="margin: 0 0 14px 0; color: #d4d4d8; font-size: 14px; line-height: 1.6;">
+        Your outbound label is ready. A return label has also been generated — include it in the package.
+        ${params.trackingNumber ? `<br><span style="color: #71717a;">Tracking:</span> <strong style="color: #ffffff;">${params.trackingNumber}</strong>` : ""}
       </p>
-      <a href="${params.labelUrl}" style="display: inline-block; background-color: #10b981; color: #ffffff; padding: 8px 20px; border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 13px;">Download Label</a>
+      <a href="${params.labelUrl}" style="display: inline-block; background-color: #10b981; color: #ffffff; padding: 10px 24px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 13px;">Download Label</a>
     </div>`
-    : `<p style="margin: 20px 0; color: #71717a; font-size: 14px;">Please arrange handoff with the renter through messages.</p>`;
+    : `<div style="background-color: #27272a; border-radius: 8px; padding: 16px; margin: 20px 0; border: 1px solid #3f3f46;">
+        <p style="margin: 0; color: #a1a1aa; font-size: 14px;">Please arrange handoff with the renter through messages.</p>
+      </div>`;
 
   return emailWrapper(`
-    <h2 style="margin: 0 0 8px 0; color: #18181b; font-size: 24px;">Your item was rented!</h2>
-    <p style="margin: 0 0 20px 0; color: #71717a; font-size: 16px;">
-      Great news, ${params.sellerName}!
-    </p>
+    <div style="text-align: center; margin-bottom: 24px;">
+      <span style="display: inline-block; background: linear-gradient(135deg, #b45309, #ea580c); color: #ffffff; font-size: 13px; font-weight: 700; padding: 6px 16px; border-radius: 50px; letter-spacing: 0.5px;">ITEM RENTED</span>
+    </div>
 
-    <div style="background-color: #fafafa; border-radius: 6px; padding: 20px; margin: 20px 0;">
+    <h2 style="margin: 0 0 12px 0; color: #ffffff; font-size: 26px; font-weight: 700; text-align: center;">Great news, ${params.sellerName}!</h2>
+    <p style="margin: 0 0 28px 0; color: #a1a1aa; font-size: 16px; text-align: center;">Someone's renting your gear. Time to ship it out.</p>
+
+    <div style="background-color: #27272a; border-radius: 8px 8px 0 0; padding: 20px; border: 1px solid #3f3f46; border-bottom: none;">
       <p style="margin: 0 0 4px 0; color: #71717a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">Item</p>
-      <p style="margin: 0 0 16px 0; color: #18181b; font-size: 16px; font-weight: 600;">${params.itemName}</p>
-
+      <p style="margin: 0; color: #ffffff; font-size: 16px; font-weight: 600;">${params.itemName}</p>
+    </div>
+    <div style="background-color: #27272a; border-radius: 0 0 8px 8px; padding: 16px 20px; border: 1px solid #3f3f46; border-top: 1px solid #3f3f46;">
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
         <tr>
-          <td style="padding: 6px 0; color: #3f3f46; font-size: 14px;">Rental fee received</td>
-          <td style="padding: 6px 0; color: #18181b; font-size: 14px; text-align: right;">$${rental.toFixed(2)} CAD</td>
+          <td style="padding: 6px 0; color: #a1a1aa; font-size: 14px;">Rental fee received</td>
+          <td style="padding: 6px 0; color: #d4d4d8; font-size: 14px; text-align: right;">$${rental.toFixed(2)} CAD</td>
         </tr>
         <tr>
-          <td style="padding: 6px 0; color: #3f3f46; font-size: 14px;">Security deposit held</td>
+          <td style="padding: 6px 0; color: #a1a1aa; font-size: 14px;">Security deposit held</td>
           <td style="padding: 6px 0; color: #71717a; font-size: 14px; text-align: right;">$${deposit.toFixed(2)} CAD</td>
         </tr>
       </table>
