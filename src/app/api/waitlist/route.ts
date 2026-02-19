@@ -1,6 +1,7 @@
 // src/app/api/waitlist/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { sendWaitlistConfirmation } from '@/lib/resend';
 
 // Lazy-initialize Supabase client to avoid build-time errors
 // when environment variables are not yet available
@@ -68,6 +69,13 @@ export async function POST(request: NextRequest) {
     const { count } = await (supabase
       .from('waitlist_signups') as any)
       .select('*', { count: 'exact', head: true });
+
+    // Send confirmation email (fire-and-forget — don't block the response)
+    sendWaitlistConfirmation({
+      email: normalizedEmail,
+      position: count || 0,
+      signupType: signup_type as 'general' | 'founding_seller',
+    }).catch(err => console.error('Waitlist email failed:', err));
 
     return NextResponse.json({
       success: true,

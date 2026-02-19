@@ -159,6 +159,16 @@ function SignupForm() {
       // If Supabase returned a session, the user is auto-confirmed
       // (email confirmation disabled in dashboard). Redirect immediately.
       if (signUpData.session) {
+        // Fire-and-forget welcome email
+        fetch("/api/auth/welcome", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email,
+            username: username.toLowerCase(),
+          }),
+        }).catch(() => {}); // Silent fail — don't block navigation
+
         router.push(redirect);
         return;
       }

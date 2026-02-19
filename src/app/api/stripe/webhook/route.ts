@@ -10,6 +10,12 @@ import {
   DEFAULT_PARCEL,
 } from "@/lib/marketplace-config";
 import { getShippo } from "@/lib/shippo";
+import {
+  sendOrderConfirmationBuyer,
+  sendSaleNotificationSeller,
+  sendRentalConfirmation,
+  sendRentalNotificationSeller,
+} from "@/lib/resend";
 
 // Use service role key for webhook operations (bypasses RLS)
 function createServiceClient() {
@@ -365,6 +371,45 @@ export async function POST(request: NextRequest) {
             content: `Your item has been sold! Payment of $${(paymentIntent.amount / 100).toFixed(2)} CAD has been processed.${labelMessage}`,
             is_read: false,
           });
+
+          // Send email notifications (fire-and-forget)
+          try {
+            const [{ data: buyer }, { data: seller }, { data: item }] = await Promise.all([
+              supabase.from("profiles").select("username, full_name").eq("id", metadata.buyer_id).single(),
+              supabase.from("profiles").select("username, full_name").eq("id", metadata.seller_id).single(),
+              supabase.from("items").select("name").eq("id", metadata.listing_id).single(),
+            ]);
+
+            // Get buyer email from auth (profiles may not store email)
+            const { data: buyerAuth } = await supabase.auth.admin.getUserById(metadata.buyer_id);
+            const { data: sellerAuth } = await supabase.auth.admin.getUserById(metadata.seller_id);
+
+            if (buyerAuth?.user?.email && item) {
+              sendOrderConfirmationBuyer({
+                email: buyerAuth.user.email,
+                buyerName: buyer?.full_name || buyer?.username || "there",
+                itemName: item.name,
+                amount: paymentIntent.amount,
+                shippingCost: metadata.shipping_buyer_rate ? Math.round(parseFloat(metadata.shipping_buyer_rate) * 100) : undefined,
+                trackingNumber: labelInfo?.trackingNumber || null,
+                orderDate: new Date().toLocaleDateString("en-CA"),
+              }).catch(err => console.error("Buyer order email failed:", err));
+            }
+
+            if (sellerAuth?.user?.email && item) {
+              sendSaleNotificationSeller({
+                email: sellerAuth.user.email,
+                sellerName: seller?.full_name || seller?.username || "there",
+                itemName: item.name,
+                amount: paymentIntent.amount,
+                platformFee: paymentIntent.application_fee_amount || 0,
+                labelUrl: labelInfo?.labelUrl || null,
+                trackingNumber: labelInfo?.trackingNumber || null,
+              }).catch(err => console.error("Seller sale email failed:", err));
+            }
+          } catch (emailErr) {
+            console.error("Failed to send sale notification emails:", emailErr);
+          }
         }
 
         if (metadata.type === "rental") {
@@ -426,6 +471,47 @@ export async function POST(request: NextRequest) {
             content: `Your item has been rented! Rental fee of $${(paymentIntent.amount / 100).toFixed(2)} CAD has been paid. A security deposit hold has also been placed.${labelMessage}`,
             is_read: false,
           });
+
+          // Send rental email notifications (fire-and-forget)
+          try {
+            const [{ data: renter }, { data: lender }, { data: rentalItem }] = await Promise.all([
+              supabase.from("profiles").select("username, full_name").eq("id", metadata.buyer_id).single(),
+              supabase.from("profiles").select("username, full_name").eq("id", metadata.seller_id).single(),
+              supabase.from("items").select("name").eq("id", metadata.listing_id).single(),
+            ]);
+
+            const { data: renterAuth } = await supabase.auth.admin.getUserById(metadata.buyer_id);
+            const { data: lenderAuth } = await supabase.auth.admin.getUserById(metadata.seller_id);
+
+            const depositAmount = metadata.security_deposit_amount
+              ? parseInt(metadata.security_deposit_amount)
+              : 0;
+
+            if (renterAuth?.user?.email && rentalItem) {
+              sendRentalConfirmation({
+                email: renterAuth.user.email,
+                renterName: renter?.full_name || renter?.username || "there",
+                itemName: rentalItem.name,
+                rentalFee: paymentIntent.amount,
+                depositAmount,
+                trackingNumber: labelInfo?.trackingNumber || null,
+              }).catch(err => console.error("Renter email failed:", err));
+            }
+
+            if (lenderAuth?.user?.email && rentalItem) {
+              sendRentalNotificationSeller({
+                email: lenderAuth.user.email,
+                sellerName: lender?.full_name || lender?.username || "there",
+                itemName: rentalItem.name,
+                rentalFee: paymentIntent.amount,
+                depositAmount,
+                labelUrl: labelInfo?.labelUrl || null,
+                trackingNumber: labelInfo?.trackingNumber || null,
+              }).catch(err => console.error("Lender email failed:", err));
+            }
+          } catch (emailErr) {
+            console.error("Failed to send rental notification emails:", emailErr);
+          }
         }
 
         break;
