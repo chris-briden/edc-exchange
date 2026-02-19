@@ -1,22 +1,12 @@
 // src/app/page.tsx (waitlist landing page)
 'use client';
 
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import WaitlistForm from '@/components/WaitlistForm';
 import { PocketKnife, Flashlight, PenTool, Wrench, ArrowRight, ShieldCheck, RefreshCw, Package, Search, Trophy, Wallet } from 'lucide-react';
 
 export default function WaitlistPage() {
-  const [signupCount, setSignupCount] = useState<number | null>(null);
-
-  // Fetch current signup count on mount
-  useEffect(() => {
-    fetch('/api/waitlist')
-      .then((res) => res.json())
-      .then((data) => setSignupCount(data.count))
-      .catch((err) => console.error('Failed to fetch count:', err));
-  }, []);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -63,12 +53,10 @@ export default function WaitlistPage() {
             trade, and <span className="text-orange-400 font-semibold">rent</span> the gear you carry every day.
           </p>
 
-          {/* Social proof - moved above form */}
-          {signupCount !== null && signupCount > 0 && (
-            <p className="mb-6 text-lg text-orange-400 font-semibold">
-              {signupCount.toLocaleString()} {signupCount === 1 ? 'person has' : 'people have'} joined the waitlist
-            </p>
-          )}
+          {/* Exclusivity hook */}
+          <p className="mb-6 text-lg text-orange-400 font-semibold">
+            Join the first 100 founding members
+          </p>
 
           {/* Email Form */}
           <WaitlistForm
@@ -83,20 +71,6 @@ export default function WaitlistPage() {
           <p className="text-sm text-gray-500">
             Be first in line when we launch. No spam, ever.
           </p>
-
-          {/* Blog callout */}
-          <div className="mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-full bg-zinc-900/60 border border-zinc-700 backdrop-blur hover:border-orange-500/50 transition-all group">
-            <span className="text-sm text-gray-400">New on the blog</span>
-            <Link
-              href="/blog"
-              className="text-sm font-semibold text-orange-400 group-hover:text-orange-300 transition flex items-center gap-1.5"
-            >
-              Read our EDC guides & tips
-              <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
 
           {/* Social Links */}
           <div className="mt-8 flex justify-center items-center gap-6">
@@ -136,6 +110,62 @@ export default function WaitlistPage() {
               </svg>
             </a>
           </div>
+        </div>
+
+        {/* Marketplace Preview Mockup */}
+        <div className="relative z-10 max-w-5xl mx-auto px-6 mt-6 mb-20">
+          <div className="relative rounded-xl border border-zinc-700/50 bg-zinc-900/80 backdrop-blur-sm shadow-2xl shadow-black/50 overflow-hidden">
+            {/* Fake browser bar */}
+            <div className="flex items-center gap-2 px-4 py-3 bg-zinc-800/80 border-b border-zinc-700/50">
+              <div className="flex gap-1.5">
+                <div className="w-3 h-3 rounded-full bg-zinc-600" />
+                <div className="w-3 h-3 rounded-full bg-zinc-600" />
+                <div className="w-3 h-3 rounded-full bg-zinc-600" />
+              </div>
+              <div className="flex-1 mx-4">
+                <div className="bg-zinc-700/50 rounded-md px-3 py-1 text-xs text-zinc-400 max-w-xs mx-auto text-center">
+                  jointhecarry.com/marketplace
+                </div>
+              </div>
+            </div>
+            {/* Marketplace grid preview */}
+            <div className="p-4 md:p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-sm font-semibold text-zinc-300">Browse EDC Gear</div>
+                <div className="flex gap-2">
+                  <span className="px-2 py-1 text-xs rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30">Knives</span>
+                  <span className="px-2 py-1 text-xs rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700">Lights</span>
+                  <span className="px-2 py-1 text-xs rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700">Pens</span>
+                  <span className="hidden sm:inline-block px-2 py-1 text-xs rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700">Watches</span>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {/* Item cards */}
+                {[
+                  { name: 'Chris Reeve Sebenza 31', price: '$425', tag: 'For Sale', tagColor: 'bg-green-500/20 text-green-400' },
+                  { name: 'Benchmade Bugout 535', price: '$15/week', tag: 'Try Before Buy', tagColor: 'bg-orange-500/20 text-orange-400' },
+                  { name: 'Muyshondt Aeon Mk. III', price: '$280', tag: 'For Sale', tagColor: 'bg-green-500/20 text-green-400' },
+                  { name: 'Tactile Turn Side Click', price: 'Trade', tag: 'Open to Trades', tagColor: 'bg-blue-500/20 text-blue-400' },
+                ].map((item, i) => (
+                  <div key={i} className="bg-zinc-800/50 rounded-lg border border-zinc-700/50 overflow-hidden group hover:border-orange-500/30 transition-all">
+                    <div className="aspect-square bg-gradient-to-br from-zinc-700/50 to-zinc-800/50 flex items-center justify-center">
+                      <PocketKnife className={`w-8 h-8 text-zinc-500 group-hover:text-orange-400/60 transition-colors ${i === 1 ? 'rotate-45' : i === 2 ? '-rotate-12' : i === 3 ? 'rotate-90' : ''}`} />
+                    </div>
+                    <div className="p-2.5">
+                      <div className="text-xs font-medium text-zinc-300 truncate mb-1">{item.name}</div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-white">{item.price}</span>
+                        <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${item.tagColor}`}>{item.tag}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Gradient overlay at bottom to fade out */}
+            <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-zinc-900/90 to-transparent" />
+          </div>
+          <p className="text-center text-xs text-zinc-500 mt-3">Preview of The Carry Exchange marketplace</p>
         </div>
 
         {/* Scroll indicator */}
