@@ -13,11 +13,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Fire-and-forget — send welcome email
-    sendWelcomeEmail({
-      email: email.toLowerCase().trim(),
-      username,
-    }).catch((err) => console.error("Welcome email failed:", err));
+    // Await so Vercel doesn't kill the function before Resend responds
+    try {
+      await sendWelcomeEmail({
+        email: email.toLowerCase().trim(),
+        username,
+      });
+    } catch (err) {
+      console.error("Welcome email failed:", err);
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -385,7 +385,7 @@ export async function POST(request: NextRequest) {
             const { data: sellerAuth } = await supabase.auth.admin.getUserById(metadata.seller_id);
 
             if (buyerAuth?.user?.email && item) {
-              sendOrderConfirmationBuyer({
+              await sendOrderConfirmationBuyer({
                 email: buyerAuth.user.email,
                 buyerName: buyer?.full_name || buyer?.username || "there",
                 itemName: item.name,
@@ -393,11 +393,11 @@ export async function POST(request: NextRequest) {
                 shippingCost: metadata.shipping_buyer_rate ? Math.round(parseFloat(metadata.shipping_buyer_rate) * 100) : undefined,
                 trackingNumber: labelInfo?.trackingNumber || null,
                 orderDate: new Date().toLocaleDateString("en-CA"),
-              }).catch(err => console.error("Buyer order email failed:", err));
+              });
             }
 
             if (sellerAuth?.user?.email && item) {
-              sendSaleNotificationSeller({
+              await sendSaleNotificationSeller({
                 email: sellerAuth.user.email,
                 sellerName: seller?.full_name || seller?.username || "there",
                 itemName: item.name,
@@ -405,7 +405,7 @@ export async function POST(request: NextRequest) {
                 platformFee: paymentIntent.application_fee_amount || 0,
                 labelUrl: labelInfo?.labelUrl || null,
                 trackingNumber: labelInfo?.trackingNumber || null,
-              }).catch(err => console.error("Seller sale email failed:", err));
+              });
             }
           } catch (emailErr) {
             console.error("Failed to send sale notification emails:", emailErr);
@@ -488,18 +488,18 @@ export async function POST(request: NextRequest) {
               : 0;
 
             if (renterAuth?.user?.email && rentalItem) {
-              sendRentalConfirmation({
+              await sendRentalConfirmation({
                 email: renterAuth.user.email,
                 renterName: renter?.full_name || renter?.username || "there",
                 itemName: rentalItem.name,
                 rentalFee: paymentIntent.amount,
                 depositAmount,
                 trackingNumber: labelInfo?.trackingNumber || null,
-              }).catch(err => console.error("Renter email failed:", err));
+              });
             }
 
             if (lenderAuth?.user?.email && rentalItem) {
-              sendRentalNotificationSeller({
+              await sendRentalNotificationSeller({
                 email: lenderAuth.user.email,
                 sellerName: lender?.full_name || lender?.username || "there",
                 itemName: rentalItem.name,
@@ -507,7 +507,7 @@ export async function POST(request: NextRequest) {
                 depositAmount,
                 labelUrl: labelInfo?.labelUrl || null,
                 trackingNumber: labelInfo?.trackingNumber || null,
-              }).catch(err => console.error("Lender email failed:", err));
+              });
             }
           } catch (emailErr) {
             console.error("Failed to send rental notification emails:", emailErr);

@@ -70,12 +70,16 @@ export async function POST(request: NextRequest) {
       .from('waitlist_signups') as any)
       .select('*', { count: 'exact', head: true });
 
-    // Send confirmation email (fire-and-forget — don't block the response)
-    sendWaitlistConfirmation({
-      email: normalizedEmail,
-      position: count || 0,
-      signupType: signup_type as 'general' | 'founding_seller',
-    }).catch(err => console.error('Waitlist email failed:', err));
+    // Send confirmation email (awaited so Vercel doesn't kill the function early)
+    try {
+      await sendWaitlistConfirmation({
+        email: normalizedEmail,
+        position: count || 0,
+        signupType: signup_type as 'general' | 'founding_seller',
+      });
+    } catch (err) {
+      console.error('Waitlist email failed:', err);
+    }
 
     return NextResponse.json({
       success: true,

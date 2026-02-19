@@ -5,7 +5,13 @@ let _resend: Resend | null = null;
 
 function getResend(): Resend {
   if (!_resend) {
-    _resend = new Resend(process.env.RESEND_API_KEY!);
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      console.error("RESEND_API_KEY is not set in environment variables");
+      throw new Error("RESEND_API_KEY is not configured");
+    }
+    console.log(`Resend initialized (key prefix: ${apiKey.substring(0, 8)}...)`);
+    _resend = new Resend(apiKey);
   }
   return _resend;
 }
