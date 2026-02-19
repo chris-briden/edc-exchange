@@ -199,7 +199,7 @@ export async function sendRentalNotificationSeller(params: {
 // Dark premium theme matching the site's branding: black backgrounds,
 // orange (#b45309 / #f97316) accents, zinc cards, system sans-serif.
 
-const LOGO_URL = `${SITE_URL}/logo-white.png`;
+const ICON_URL = `${SITE_URL}/icon-new-white.png`;
 
 function emailWrapper(content: string): string {
   return `
@@ -215,11 +215,20 @@ function emailWrapper(content: string): string {
     <tr>
       <td align="center">
         <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color: #18181b; border-radius: 12px; overflow: hidden; border: 1px solid #27272a;">
-          <!-- Header with full logo -->
+          <!-- Header: Icon + Brand Name (matches navbar) -->
           <tr>
-            <td style="background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%); padding: 36px 40px 28px 40px; text-align: center; border-bottom: 1px solid #27272a;">
+            <td style="background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%); padding: 32px 40px 24px 40px; text-align: center; border-bottom: 1px solid #27272a;">
               <a href="${SITE_URL}" style="text-decoration: none;">
-                <img src="${LOGO_URL}" alt="The Carry Exchange" width="280" style="display: block; margin: 0 auto; max-width: 280px; height: auto;" />
+                <table role="presentation" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+                  <tr>
+                    <td style="vertical-align: middle; padding-right: 14px;">
+                      <img src="${ICON_URL}" alt="" width="52" height="52" style="display: block;" />
+                    </td>
+                    <td style="vertical-align: middle;">
+                      <span style="color: #ffffff; font-size: 22px; font-weight: 700; letter-spacing: 0.5px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">The Carry Exchange</span>
+                    </td>
+                  </tr>
+                </table>
               </a>
             </td>
           </tr>
