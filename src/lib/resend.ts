@@ -199,7 +199,7 @@ export async function sendRentalNotificationSeller(params: {
 // Dark premium theme matching the site's branding: black backgrounds,
 // orange (#b45309 / #f97316) accents, zinc cards, system sans-serif.
 
-const LOGO_URL = `${SITE_URL}/icon-new-white.png`;
+const LOGO_URL = `${SITE_URL}/logo-white.png`;
 
 function emailWrapper(content: string): string {
   return `
@@ -215,19 +215,12 @@ function emailWrapper(content: string): string {
     <tr>
       <td align="center">
         <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color: #18181b; border-radius: 12px; overflow: hidden; border: 1px solid #27272a;">
-          <!-- Header with logo -->
+          <!-- Header with full logo -->
           <tr>
-            <td style="background-color: #000000; padding: 32px 32px 24px 32px; text-align: center; border-bottom: 1px solid #27272a;">
-              <table role="presentation" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
-                <tr>
-                  <td style="vertical-align: middle; padding-right: 12px;">
-                    <img src="${LOGO_URL}" alt="The Carry Exchange" width="40" height="40" style="display: block; border-radius: 50%; border: 2px solid #27272a;" />
-                  </td>
-                  <td style="vertical-align: middle;">
-                    <span style="color: #ffffff; font-size: 18px; font-weight: 700; letter-spacing: 0.5px;">The Carry Exchange</span>
-                  </td>
-                </tr>
-              </table>
+            <td style="background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%); padding: 36px 40px 28px 40px; text-align: center; border-bottom: 1px solid #27272a;">
+              <a href="${SITE_URL}" style="text-decoration: none;">
+                <img src="${LOGO_URL}" alt="The Carry Exchange" width="280" style="display: block; margin: 0 auto; max-width: 280px; height: auto;" />
+              </a>
             </td>
           </tr>
           <!-- Content -->
@@ -240,13 +233,13 @@ function emailWrapper(content: string): string {
           <tr>
             <td style="padding: 24px 32px; background-color: #09090b; border-top: 1px solid #27272a; text-align: center;">
               <p style="margin: 0 0 8px 0; color: #71717a; font-size: 12px; line-height: 1.5;">
-                Buy, Sell, Rent & Try — The EDC Marketplace
+                Buy, Sell, Rent &amp; Try — The EDC Marketplace
               </p>
               <a href="${SITE_URL}" style="color: #f97316; font-size: 12px; text-decoration: none; font-weight: 600;">jointhecarry.com</a>
             </td>
           </tr>
         </table>
-        <!-- Unsubscribe / muted text below card -->
+        <!-- Muted text below card -->
         <table role="presentation" width="600" cellpadding="0" cellspacing="0">
           <tr>
             <td style="padding: 16px 32px; text-align: center;">
