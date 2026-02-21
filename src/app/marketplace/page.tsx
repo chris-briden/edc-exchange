@@ -67,93 +67,11 @@ export default function Home() {
     <div className="min-h-screen bg-black text-white">
       <Navbar />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-        <div className="absolute inset-0 opacity-[0.07]">
-          <PocketKnife className="absolute top-10 left-10 w-24 h-24 text-orange-400" />
-          <Flashlight className="absolute top-20 right-20 w-20 h-20 text-blue-400" />
-          <PenTool className="absolute bottom-10 left-1/3 w-16 h-16 text-orange-300" />
-          <Wrench className="absolute bottom-20 right-10 w-24 h-24 text-blue-300" />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
-          <div className="flex items-center gap-8">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-600/20 border border-orange-500/30 text-orange-300 text-sm font-medium mb-6">
-              <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
-              Now in Beta
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
-              The marketplace for{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-blue-400">
-                everyday carry
-              </span>{" "}
-              enthusiasts
-            </h1>
-            <p className="mt-5 text-lg text-gray-300 leading-relaxed max-w-lg">
-              Buy, sell, trade, lend, and rent EDC gear. Share your collection.
-              Join a community that speaks your language.
-            </p>
-            <div className="flex flex-wrap gap-3 mt-8">
-              <Link
-                href="/community"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-orange-700 text-white font-semibold hover:bg-orange-600 transition shadow-lg shadow-orange-900/50"
-              >
-                Join the Carry <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/categories"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-800/80 text-white font-semibold hover:border-orange-500/50 hover:bg-zinc-700/80 transition border border-zinc-600"
-              >
-                Browse Marketplace
-              </Link>
-            </div>
-          </div>
-          {/* Icon Emblem */}
-          <div className="hidden md:flex flex-1 items-center justify-center">
-            <Image
-              src="/icon-new-white.png"
-              alt="The Carry Exchange Emblem"
-              width={568}
-              height={556}
-              className="opacity-50 select-none pointer-events-none drop-shadow-2xl w-96 h-96"
-            />
-          </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Trust bar */}
-      <section className="bg-zinc-900/50 border-b border-zinc-800 py-6">
+      {/* Marketplace Header */}
+      <section className="bg-gradient-to-b from-gray-900 to-black border-b border-zinc-800 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div className="flex items-center justify-center gap-3">
-              <Shield className="w-8 h-8 text-green-500" />
-              <div className="text-left">
-                <p className="font-semibold text-sm text-white">Verified Sellers</p>
-                <p className="text-xs text-gray-500">
-                  Community-vetted traders
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center gap-3">
-              <TrendingUp className="w-8 h-8 text-blue-400" />
-              <div className="text-left">
-                <p className="font-semibold text-sm text-white">Growing Marketplace</p>
-                <p className="text-xs text-gray-500">
-                  Knives, lights, pens & more
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center gap-3">
-              <Users className="w-8 h-8 text-purple-400" />
-              <div className="text-left">
-                <p className="font-semibold text-sm text-white">EDC Community</p>
-                <p className="text-xs text-gray-500">
-                  Connect with enthusiasts
-                </p>
-              </div>
-            </div>
-          </div>
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Marketplace</h1>
+          <p className="text-gray-400 text-lg">Browse, buy, sell, trade, and rent EDC gear from the community.</p>
         </div>
       </section>
 
@@ -300,24 +218,23 @@ export default function Home() {
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-orange-600/10 rounded-full blur-3xl" />
           <div className="relative z-10">
             <h2 className="text-3xl md:text-4xl font-extrabold">
-              Ready to join the carry?
+              Got gear to list?
             </h2>
             <p className="mt-3 text-gray-400 max-w-md mx-auto">
-              Share your collection, find your next grail, and connect with EDC
-              enthusiasts worldwide.
+              Create a free account and start listing in minutes. Lowest fees in the game.
             </p>
             <div className="flex flex-wrap justify-center gap-3 mt-6">
               <Link
                 href="/signup"
                 className="px-6 py-3 rounded-full bg-orange-700 text-white font-semibold hover:bg-orange-600 transition shadow-lg shadow-orange-900/50"
               >
-                Join the Carry →
+                Create Account →
               </Link>
               <Link
-                href="/community"
+                href="/items/new"
                 className="px-6 py-3 rounded-full bg-zinc-800/80 text-white font-semibold hover:border-orange-500/50 hover:bg-zinc-700/80 transition border border-zinc-600"
               >
-                Explore First
+                List an Item
               </Link>
             </div>
           </div>

@@ -97,7 +97,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo - New Icon + Text System */}
-          <Link href="/marketplace" className="flex items-center gap-4 shrink-0">
+          <Link href="/" className="flex items-center gap-4 shrink-0">
             <Image
               src="/icon-new-white.png"
               alt="The Carry Exchange"
@@ -141,10 +141,10 @@ export default function Navbar() {
               Community
             </Link>
             <Link
-              href="/categories"
+              href="/marketplace"
               className="px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-zinc-800 transition"
             >
-              Browse
+              Marketplace
             </Link>
             <Link
               href="/blog"
@@ -272,10 +272,10 @@ export default function Navbar() {
             Community
           </Link>
           <Link
-            href="/categories"
+            href="/marketplace"
             className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
           >
-            Browse
+            Marketplace
           </Link>
           <Link
             href="/blog"
