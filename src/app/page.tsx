@@ -86,7 +86,7 @@ export default function HomePage() {
             source="homepage-hero"
             className="max-w-xl mx-auto mb-3 sm:mb-4"
             variant="hero"
-            buttonText="Get Early Access"
+            buttonText="Join the Carry Exchange"
           />
 
           {/* Fine print */}
