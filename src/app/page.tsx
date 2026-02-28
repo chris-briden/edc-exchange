@@ -9,7 +9,7 @@ import WaitlistForm from '@/components/WaitlistForm';
 import { PocketKnife, Flashlight, PenTool, Wrench, ArrowRight, ShieldCheck, RefreshCw, Package, Search, Trophy, Wallet } from 'lucide-react';
 
 export default function HomePage() {
-  const signupCount: number | null = null; // placeholder, fetch from API if available
+  // signupCount removed — not currently fetched from API
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -78,12 +78,7 @@ export default function HomePage() {
             <span>Share Your EDC Collection</span>
           </div>
 
-          {/* Social proof */}
-          {signupCount !== null && signupCount > 0 && (
-            <p className="mb-4 sm:mb-6 text-base sm:text-lg text-orange-400 font-semibold">
-              {signupCount.toLocaleString()} {signupCount === 1 ? 'person has' : 'people have'} joined the waitlist
-            </p>
-          )}
+          {/* Social proof placeholder — re-enable when signup count API is wired */}
 
           {/* Email Form */}
           <WaitlistForm
