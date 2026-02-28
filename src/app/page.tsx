@@ -4,7 +4,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
-import WaitlistForm from '@/components/WaitlistForm';
 import { ArrowRight, ShieldCheck, RefreshCw, Package, Search, Trophy, Wallet } from 'lucide-react';
 
 export default function HomePage() {
@@ -71,18 +70,40 @@ export default function HomePage() {
             and the only try-before-you-buy program in EDC.
           </p>
 
-          {/* Signup Form — compact, clean, single row */}
-          <WaitlistForm
-            signupType="general"
-            source="homepage-hero"
-            className="max-w-lg mx-auto mb-4"
-            variant="hero"
-            buttonText="Join the Carry"
-          />
+          {/* CTA — links directly to registration */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
+            <Link
+              href="/signup"
+              className="
+                inline-flex items-center justify-center
+                px-8 py-3.5 rounded-full
+                bg-orange-500 hover:bg-orange-400
+                text-white text-base font-bold tracking-wide
+                transition-all transform hover:scale-[1.03]
+                active:scale-[0.98]
+                shadow-lg shadow-orange-600/30
+              "
+            >
+              Join the Carry
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+            <Link
+              href="/login"
+              className="
+                inline-flex items-center justify-center
+                px-6 py-3.5 rounded-full
+                bg-white/5 hover:bg-white/10 border border-white/15
+                text-white text-sm font-medium
+                transition-all
+              "
+            >
+              Sign In
+            </Link>
+          </div>
 
           {/* Trust signals */}
           <p className="text-xs text-gray-500 mb-12 sm:mb-16">
-            Free to join &bull; No spam, ever &bull; Unsubscribe anytime
+            Free to join &bull; Lowest fees in EDC &bull; Try before you buy
           </p>
 
           {/* Feature pills — at-a-glance value props */}
@@ -404,14 +425,23 @@ export default function HomePage() {
                 pens, watches, flashlights, multi-tools, and more.
               </p>
 
-              <WaitlistForm
-                signupType="founding_seller"
-                source="homepage-founding-seller"
-                buttonText="Claim Your Spot"
-                className="max-w-xl mx-auto mb-3 sm:mb-4"
-              />
+              <Link
+                href="/signup?redirect=/sell"
+                className="
+                  inline-flex items-center justify-center
+                  px-8 py-3.5 rounded-full
+                  bg-orange-500 hover:bg-orange-400
+                  text-white text-base font-bold tracking-wide
+                  transition-all transform hover:scale-[1.03]
+                  active:scale-[0.98]
+                  shadow-lg shadow-orange-600/30
+                "
+              >
+                Claim Your Spot
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
 
-              <p className="text-xs sm:text-sm text-gray-500">
+              <p className="text-xs sm:text-sm text-gray-500 mt-4">
                 Founding Seller spots are limited
               </p>
             </div>
