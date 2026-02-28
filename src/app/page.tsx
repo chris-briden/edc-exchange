@@ -241,11 +241,7 @@ export default function HomePage() {
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold text-red-400">The Old Way</h3>
               </div>
-<<<<<<< HEAD
-              <ul className="space-y-4">
-=======
               <ul className="space-y-3 sm:space-y-4">
->>>>>>> 16e3e1e (Redesign hero section, remove all blue colors, fix mobile responsiveness site-wide)
                 {[
                   'Handwritten timestamps on Reddit posts',
                   'PayPal F&F with zero buyer protection',
