@@ -9,7 +9,7 @@ import WaitlistForm from '@/components/WaitlistForm';
 import { PocketKnife, Flashlight, PenTool, Wrench, ArrowRight, ShieldCheck, RefreshCw, Package, Search, Trophy, Wallet } from 'lucide-react';
 
 export default function HomePage() {
-  const signupCount = null; // placeholder, fetch from API if available
+  const signupCount: number | null = null; // placeholder, fetch from API if available
 
   return (
     <div className="min-h-screen bg-black text-white">
