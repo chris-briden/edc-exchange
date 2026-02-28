@@ -190,7 +190,7 @@ export default function EditProfilePage() {
                       className="rounded-full object-cover"
                     />
                   ) : (
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white text-2xl font-bold">
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white text-2xl font-bold">
                       {username.charAt(0).toUpperCase() || "U"}
                     </div>
                   )}

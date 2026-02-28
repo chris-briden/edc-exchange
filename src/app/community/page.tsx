@@ -36,7 +36,7 @@ const sortOptions = [
 
 const typeStyles: Record<string, { badge: string; bg: string }> = {
   collection: { badge: "Collection", bg: "bg-purple-500/20 text-purple-300" },
-  review: { badge: "Review", bg: "bg-blue-500/20 text-blue-300" },
+  review: { badge: "Review", bg: "bg-amber-500/20 text-amber-300" },
   discussion: { badge: "Discussion", bg: "bg-green-500/20 text-green-300" },
   photo: { badge: "Photo", bg: "bg-amber-500/20 text-amber-300" },
 };
@@ -103,7 +103,7 @@ function DbPostCard({
             className="rounded-full w-10 h-10 object-cover"
           />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white font-bold text-sm">
             {post.profiles?.username?.charAt(0)?.toUpperCase() || "U"}
           </div>
         )}
@@ -170,7 +170,7 @@ function DbPostCard({
         </button>
         <Link
           href={`/community/${post.id}`}
-          className="flex items-center gap-1.5 hover:text-blue-500 transition"
+          className="flex items-center gap-1.5 hover:text-amber-500 transition"
         >
           <MessageCircle className="w-4 h-4" />
           <span>{post.comments?.[0]?.count || 0}</span>

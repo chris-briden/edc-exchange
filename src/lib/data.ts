@@ -321,7 +321,7 @@ export const categoryColors: Record<string, string> = {
 // Listing type colors and labels
 export const listingTypeConfig: Record<string, { color: string; label: string; bg: string }> = {
   sell: { color: "text-green-700", label: "For Sale", bg: "bg-green-100" },
-  trade: { color: "text-blue-700", label: "For Trade", bg: "bg-blue-100" },
+  trade: { color: "text-amber-700", label: "For Trade", bg: "bg-amber-100" },
   lend: { color: "text-purple-700", label: "Available to Lend", bg: "bg-purple-100" },
   rent: { color: "text-amber-700", label: "For Rent", bg: "bg-amber-100" },
   showcase: { color: "text-gray-700", label: "Showcase", bg: "bg-gray-100" },

@@ -67,18 +67,100 @@ export default function Home() {
     <div className="min-h-screen bg-black text-white">
       <Navbar />
 
-      {/* Marketplace Header */}
-      <section className="bg-gradient-to-b from-gray-900 to-black border-b border-zinc-800 py-10">
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+        <div className="absolute inset-0 opacity-[0.07]">
+          <PocketKnife className="absolute top-10 left-10 w-24 h-24 text-orange-400" />
+          <Flashlight className="absolute top-20 right-20 w-20 h-20 text-amber-400" />
+          <PenTool className="absolute bottom-10 left-1/3 w-16 h-16 text-orange-300" />
+          <Wrench className="absolute bottom-20 right-10 w-24 h-24 text-amber-300" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
+          <div className="flex items-center gap-8">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-600/20 border border-orange-500/30 text-orange-300 text-sm font-medium mb-6">
+              <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
+              Now in Beta
+            </div>
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
+              The marketplace for{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400">
+                everyday carry
+              </span>{" "}
+              enthusiasts
+            </h1>
+            <p className="mt-5 text-sm sm:text-base md:text-lg text-gray-300 leading-relaxed max-w-lg">
+              Buy, sell, trade, lend, and rent EDC gear. Share your collection.
+              Join a community that speaks your language.
+            </p>
+            <div className="flex flex-wrap gap-2 sm:gap-3 mt-8">
+              <Link
+                href="/community"
+                className="inline-flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-orange-700 text-white text-sm sm:text-base font-semibold hover:bg-orange-600 transition shadow-lg shadow-orange-900/50"
+              >
+                Join the Carry <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              </Link>
+              <Link
+                href="/categories"
+                className="inline-flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-zinc-800/80 text-white text-sm sm:text-base font-semibold hover:border-orange-500/50 hover:bg-zinc-700/80 transition border border-zinc-600"
+              >
+                Browse Marketplace
+              </Link>
+            </div>
+          </div>
+          {/* Icon Emblem */}
+          <div className="hidden md:flex flex-1 items-center justify-center">
+            <Image
+              src="/icon-new-white.png"
+              alt="The Carry Exchange Emblem"
+              width={568}
+              height={556}
+              className="opacity-50 select-none pointer-events-none drop-shadow-2xl w-96 h-96"
+            />
+          </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust bar */}
+      <section className="bg-zinc-900/50 border-b border-zinc-800 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">Marketplace</h1>
-          <p className="text-gray-400 text-lg">Browse, buy, sell, trade, and rent EDC gear from the community.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 text-center">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3">
+              <Shield className="w-6 md:w-8 h-6 md:h-8 text-green-500 shrink-0" />
+              <div className="md:text-left">
+                <p className="font-semibold text-xs md:text-sm text-white">Verified Sellers</p>
+                <p className="text-[10px] md:text-xs text-gray-500">
+                  Community-vetted traders
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3">
+              <TrendingUp className="w-6 md:w-8 h-6 md:h-8 text-amber-400 shrink-0" />
+              <div className="md:text-left">
+                <p className="font-semibold text-xs md:text-sm text-white">Growing Marketplace</p>
+                <p className="text-[10px] md:text-xs text-gray-500">
+                  Knives, lights, pens & more
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3">
+              <Users className="w-6 md:w-8 h-6 md:h-8 text-purple-400 shrink-0" />
+              <div className="md:text-left">
+                <p className="font-semibold text-xs md:text-sm text-white">EDC Community</p>
+                <p className="text-[10px] md:text-xs text-gray-500">
+                  Connect with enthusiasts
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Categories */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-white">Browse Categories</h2>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+        <div className="flex items-center justify-between mb-4 md:mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-white">Browse Categories</h2>
           <Link
             href="/categories"
             className="text-orange-400 text-sm font-medium hover:text-orange-300 flex items-center gap-1 transition"
@@ -109,8 +191,8 @@ export default function Home() {
 
       {/* Recent Listings */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-white">Recent Listings</h2>
+        <div className="flex items-center justify-between mb-4 md:mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-white">Recent Listings</h2>
           <Link
             href="/categories"
             className="text-orange-400 text-sm font-medium hover:text-orange-300 flex items-center gap-1 transition"
@@ -139,8 +221,8 @@ export default function Home() {
 
       {/* Community Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-white">From the Community</h2>
+        <div className="flex items-center justify-between mb-4 md:mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-white">From the Community</h2>
           <Link
             href="/community"
             className="text-orange-400 text-sm font-medium hover:text-orange-300 flex items-center gap-1 transition"
@@ -163,7 +245,7 @@ export default function Home() {
                   className="bg-zinc-900/50 backdrop-blur rounded-2xl border border-zinc-800 p-5 hover:border-orange-500/50 transition block"
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white font-bold text-sm">
                       {post.profiles?.username?.charAt(0)?.toUpperCase() || "U"}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -212,27 +294,28 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <div className="rounded-2xl bg-gradient-to-br from-zinc-900 to-black border border-orange-500/30 text-white p-8 md:p-12 text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-orange-600/10 rounded-full blur-3xl" />
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+        <div className="rounded-2xl bg-gradient-to-br from-zinc-900 to-black border border-orange-500/30 text-white p-6 sm:p-8 md:p-12 text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-48 sm:w-64 h-48 sm:h-64 bg-orange-500/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-48 sm:w-64 h-48 sm:h-64 bg-orange-600/10 rounded-full blur-3xl" />
           <div className="relative z-10">
-            <h2 className="text-3xl md:text-4xl font-extrabold">
-              Got gear to list?
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold">
+              Ready to join the carry?
             </h2>
-            <p className="mt-3 text-gray-400 max-w-md mx-auto">
-              Create a free account and start listing in minutes. Lowest fees in the game.
+            <p className="mt-2 sm:mt-3 text-xs sm:text-sm md:text-base text-gray-400 max-w-md mx-auto">
+              Share your collection, find your next grail, and connect with EDC
+              enthusiasts worldwide.
             </p>
-            <div className="flex flex-wrap justify-center gap-3 mt-6">
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-4 sm:mt-6">
               <Link
                 href="/signup"
-                className="px-6 py-3 rounded-full bg-orange-700 text-white font-semibold hover:bg-orange-600 transition shadow-lg shadow-orange-900/50"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-orange-700 text-white text-sm sm:text-base font-semibold hover:bg-orange-600 transition shadow-lg shadow-orange-900/50"
               >
                 Create Account →
               </Link>
               <Link
-                href="/items/new"
-                className="px-6 py-3 rounded-full bg-zinc-800/80 text-white font-semibold hover:border-orange-500/50 hover:bg-zinc-700/80 transition border border-zinc-600"
+                href="/community"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-zinc-800/80 text-white text-sm sm:text-base font-semibold hover:border-orange-500/50 hover:bg-zinc-700/80 transition border border-zinc-600"
               >
                 List an Item
               </Link>
@@ -248,7 +331,7 @@ export default function Home() {
 
 const typeStyles: Record<string, { badge: string; bg: string }> = {
   collection: { badge: "Collection", bg: "bg-purple-500/20 text-purple-300" },
-  review: { badge: "Review", bg: "bg-blue-500/20 text-blue-300" },
+  review: { badge: "Review", bg: "bg-amber-500/20 text-amber-300" },
   discussion: { badge: "Discussion", bg: "bg-green-500/20 text-green-300" },
   photo: { badge: "Photo", bg: "bg-amber-500/20 text-amber-300" },
 };

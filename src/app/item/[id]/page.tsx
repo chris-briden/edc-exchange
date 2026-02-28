@@ -33,7 +33,7 @@ const listingConfig: Record<
   { color: string; label: string; bg: string }
 > = {
   sell: { color: "text-green-300", label: "For Sale", bg: "bg-green-500/20" },
-  trade: { color: "text-blue-300", label: "For Trade", bg: "bg-blue-500/20" },
+  trade: { color: "text-amber-300", label: "For Trade", bg: "bg-amber-500/20" },
   lend: {
     color: "text-purple-300",
     label: "Available to Lend",
@@ -366,7 +366,7 @@ export default function ItemPage() {
                 </div>
               )}
             </div>
-              <h1 className="text-2xl md:text-3xl font-extrabold mt-3">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold mt-3">
                 {dbItem.name}
               </h1>
               <p className="text-gray-400 mt-1">
@@ -374,15 +374,15 @@ export default function ItemPage() {
               </p>
 
               {dbItem.price && (
-                <p className="text-3xl font-extrabold text-green-400 mt-4">
+                <p className="text-2xl sm:text-3xl font-extrabold text-green-400 mt-4">
                   ${Number(dbItem.price).toFixed(0)}
                 </p>
               )}
               {dbItem.rent_price && (
-                <p className="text-3xl font-extrabold text-amber-400 mt-4">
+                <p className="text-2xl sm:text-3xl font-extrabold text-amber-400 mt-4">
                   {dbItem.rent_price}
                   {dbItem.rental_period && (
-                    <span className="text-base font-medium text-gray-400">
+                    <span className="text-xs sm:text-base font-medium text-gray-400">
                       {" "}
                       / {dbItem.rental_period}
                     </span>
@@ -390,7 +390,7 @@ export default function ItemPage() {
                 </p>
               )}
               {!dbItem.price && !dbItem.rent_price && (
-                <p className="text-xl font-bold text-blue-400 mt-4">
+                <p className="text-lg sm:text-xl font-bold text-amber-400 mt-4">
                   Open to trade offers
                 </p>
               )}
@@ -422,7 +422,7 @@ export default function ItemPage() {
                       </span>
                     )}
                     {dbItem.accepts_returns && (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-500/20 text-blue-300 text-xs font-medium">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-medium">
                         <RotateCcw className="w-3.5 h-3.5" />
                         Returns Accepted
                       </span>
@@ -461,7 +461,7 @@ export default function ItemPage() {
                   <p className="text-gray-500 text-sm mt-1">Browse similar items below or check back for new listings.</p>
                 </div>
               ) : !isOwner ? (
-                <div className="flex flex-wrap gap-3 mt-6">
+                <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 mt-6">
                   {dbItem.listing_type === "sell" && dbItem.price && (
                     <button
                       onClick={() => {
@@ -471,7 +471,7 @@ export default function ItemPage() {
                         }
                         setShowBuyForm(true);
                       }}
-                      className="flex-1 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition"
+                      className="flex-1 py-2 sm:py-3 rounded-xl bg-green-600 text-white text-sm sm:text-base font-semibold hover:bg-green-700 transition"
                     >
                       Buy Now &mdash; ${Number(dbItem.price).toFixed(0)}
                     </button>
@@ -479,7 +479,7 @@ export default function ItemPage() {
                   {dbItem.listing_type === "trade" && (
                     <button
                       onClick={handleAction}
-                      className="flex-1 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+                      className="flex-1 py-2 sm:py-3 rounded-xl bg-amber-600 text-white text-sm sm:text-base font-semibold hover:bg-amber-700 transition"
                     >
                       Make Trade Offer
                     </button>
@@ -487,7 +487,7 @@ export default function ItemPage() {
                   {dbItem.listing_type === "lend" && (
                     <button
                       onClick={handleAction}
-                      className="flex-1 py-3 rounded-xl bg-purple-600 text-white font-semibold hover:bg-purple-700 transition"
+                      className="flex-1 py-2 sm:py-3 rounded-xl bg-purple-600 text-white text-sm sm:text-base font-semibold hover:bg-purple-700 transition"
                     >
                       Request to Borrow
                     </button>
@@ -501,11 +501,11 @@ export default function ItemPage() {
                         }
                         setShowRentalForm(true);
                       }}
-                      className="flex-1 py-3 rounded-xl bg-amber-600 text-white font-semibold hover:bg-amber-700 transition"
+                      className="flex-1 py-2 sm:py-3 rounded-xl bg-amber-600 text-white text-sm sm:text-base font-semibold hover:bg-amber-700 transition"
                     >
                       Rent &mdash; {dbItem.rent_price}
                       {dbItem.rental_period && (
-                        <span className="text-amber-200 text-sm font-normal">
+                        <span className="text-amber-200 text-xs sm:text-sm font-normal">
                           {" "}/ {dbItem.rental_period}
                         </span>
                       )}
@@ -513,7 +513,7 @@ export default function ItemPage() {
                   )}
                   <button
                     onClick={handleAction}
-                    className="py-3 px-4 rounded-xl border border-zinc-700 text-gray-300 hover:bg-zinc-800 transition"
+                    className="py-2 sm:py-3 px-3 sm:px-4 rounded-xl border border-zinc-700 text-gray-300 text-sm sm:text-base hover:bg-zinc-800 transition"
                   >
                     Message Seller
                   </button>
@@ -521,61 +521,61 @@ export default function ItemPage() {
               ) : null}
 
               {/* Engagement + stats */}
-              <div className="flex items-center gap-5 mt-6 pt-5 border-t border-zinc-800 text-gray-400 text-sm">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-5 mt-6 pt-5 border-t border-zinc-800 text-gray-400 text-xs sm:text-sm">
               <button
                 onClick={handleLike}
-                className={`flex items-center gap-1.5 transition ${
+                className={`flex items-center gap-1 sm:gap-1.5 transition ${
                   liked ? "text-red-500" : "hover:text-red-500"
                 }`}
               >
                 <Heart
-                  className={`w-5 h-5 ${liked ? "fill-current" : ""}`}
+                  className={`w-4 h-4 sm:w-5 sm:h-5 ${liked ? "fill-current" : ""}`}
                 />
                 {likeCount} {likeCount === 1 ? "like" : "likes"}
               </button>
-              <span className="flex items-center gap-1.5">
-                <Eye className="w-4 h-4" />
+              <span className="flex items-center gap-1 sm:gap-1.5">
+                <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 {viewsCount} {viewsCount === 1 ? "view" : "views"}
               </span>
                 <button
                   onClick={handleShare}
-                  className="flex items-center gap-1.5 hover:text-green-400 transition ml-auto"
+                  className="flex items-center gap-1 sm:gap-1.5 hover:text-green-400 transition ml-auto"
                 >
-                  <Share2 className="w-5 h-5" /> Share
+                  <Share2 className="w-4 h-4 sm:w-5 sm:h-5" /> <span className="hidden sm:inline">Share</span>
                 </button>
-                <button className="flex items-center gap-1.5 hover:text-red-400 transition">
-                  <Flag className="w-4 h-4" />
+                <button className="flex items-center gap-1 sm:gap-1.5 hover:text-red-400 transition">
+                  <Flag className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </button>
               </div>
 
               {/* Seller info */}
-              <div className="mt-6 p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
-              <div className="flex items-center gap-3">
-                <Link href={`/profile/${dbItem.user_id}`}>
+              <div className="mt-6 p-3 sm:p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
+              <div className="flex items-start sm:items-center gap-2 sm:gap-3 flex-col sm:flex-row">
+                <Link href={`/profile/${dbItem.user_id}`} className="shrink-0">
                   {ownerAvatar ? (
                     <Image
                       src={ownerAvatar}
                       alt={ownerUsername}
                       width={48}
                       height={48}
-                      className="rounded-full w-12 h-12 object-cover"
+                      className="rounded-full w-10 h-10 sm:w-12 sm:h-12 object-cover"
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white font-bold text-sm">
                       {ownerUsername.charAt(0)}
                     </div>
                   )}
                 </Link>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <Link
                     href={`/profile/${dbItem.user_id}`}
-                    className="font-semibold hover:text-orange-400 transition"
+                    className="font-semibold text-sm hover:text-orange-400 transition"
                   >
                     {ownerUsername}
                   </Link>
-                  <div className="flex items-center gap-3 text-xs text-gray-400 mt-0.5">
-                    <span className="flex items-center gap-1">
-                      <Shield className="w-3.5 h-3.5 text-green-400" />{" "}
+                  <div className="flex flex-wrap items-center gap-2 text-[10px] sm:text-xs text-gray-400 mt-0.5">
+                    <span className="flex items-center gap-0.5">
+                      <Shield className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-green-400" />{" "}
                       Member
                     </span>
                     {dbItem.ships_from_country && (
@@ -585,7 +585,7 @@ export default function ItemPage() {
                 </div>
                 <Link
                   href={`/profile/${dbItem.user_id}`}
-                  className="px-4 py-2 rounded-lg border border-zinc-700 text-sm font-medium text-gray-300 hover:bg-zinc-800 transition"
+                  className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg border border-zinc-700 text-xs sm:text-sm font-medium text-gray-300 hover:bg-zinc-800 transition whitespace-nowrap"
                 >
                   View Profile
                 </Link>
@@ -599,8 +599,8 @@ export default function ItemPage() {
 
           {/* Similar Items */}
           {similarItems.length > 0 && (
-            <div className="mt-12 pt-8 border-t border-zinc-800">
-              <h2 className="text-xl font-bold mb-4">Similar Items</h2>
+            <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-zinc-800">
+              <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Similar Items</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {similarItems.map((item) => (
                   <DbItemCard key={item.id} item={item} />

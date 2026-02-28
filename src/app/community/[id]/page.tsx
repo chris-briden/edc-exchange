@@ -19,7 +19,7 @@ import type { Post } from "@/lib/types";
 
 const typeStyles: Record<string, { badge: string; bg: string }> = {
   collection: { badge: "Collection", bg: "bg-purple-500/20 text-purple-300" },
-  review: { badge: "Review", bg: "bg-blue-500/20 text-blue-300" },
+  review: { badge: "Review", bg: "bg-amber-500/20 text-amber-300" },
   discussion: { badge: "Discussion", bg: "bg-green-500/20 text-green-300" },
   photo: { badge: "Photo", bg: "bg-amber-500/20 text-amber-300" },
 };
@@ -182,7 +182,7 @@ export default function PostDetailPage() {
                   className="rounded-full w-12 h-12 object-cover"
                 />
               ) : (
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white font-bold">
                   {username.charAt(0).toUpperCase()}
                 </div>
               )}

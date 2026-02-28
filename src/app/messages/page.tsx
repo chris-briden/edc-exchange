@@ -255,7 +255,7 @@ function MessagesContent() {
                       className="rounded-full w-10 h-10 object-cover shrink-0"
                     />
                   ) : (
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white text-sm font-bold shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white text-sm font-bold shrink-0">
                       {convo.profile.username?.charAt(0)?.toUpperCase() || "U"}
                     </div>
                   )}
@@ -293,7 +293,7 @@ function MessagesContent() {
                         className="rounded-full w-10 h-10 object-cover shrink-0"
                       />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white text-sm font-bold shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white text-sm font-bold shrink-0">
                         {activeProfile.username?.charAt(0)?.toUpperCase() ||
                           "U"}
                       </div>
@@ -334,7 +334,7 @@ function MessagesContent() {
                         className="rounded-full w-8 h-8 object-cover"
                       />
                     ) : (
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white text-xs font-bold">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white text-xs font-bold">
                         {activeProfile.username?.charAt(0)?.toUpperCase() ||
                           "U"}
                       </div>

@@ -94,36 +94,36 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-black/95 backdrop-blur border-b border-zinc-800 shadow-lg shadow-black/20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-20">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo - New Icon + Text System */}
-          <Link href="/" className="flex items-center gap-4 shrink-0">
+          <Link href="/marketplace" className="flex items-center gap-2 sm:gap-4 shrink-0">
             <Image
               src="/icon-new-white.png"
               alt="The Carry Exchange"
               width={568}
               height={556}
-              className="h-16 w-16"
+              className="h-12 w-12 sm:h-16 sm:w-16"
             />
-            <span className="text-xl font-bold tracking-wide text-white hidden sm:inline">
+            <span className="text-sm sm:text-lg md:text-xl font-bold tracking-wide text-white hidden sm:inline">
               The Carry Exchange
             </span>
           </Link>
 
           {/* Search bar */}
-          <form onSubmit={handleSearch} className="flex-1 max-w-xl mx-4">
+          <form onSubmit={handleSearch} className="hidden sm:flex flex-1 max-w-xl mx-2 md:mx-4">
             <div
-              className={`relative flex items-center rounded-full border transition-all ${
+              className={`relative flex items-center rounded-full border transition-all w-full ${
                 searchFocused
                   ? "border-orange-500/50 ring-2 ring-orange-500/20"
                   : "border-zinc-700"
               } bg-zinc-900/50`}
             >
-              <Search className="absolute left-3 w-4 h-4 text-gray-500" />
+              <Search className="absolute left-3 w-3.5 h-3.5 md:w-4 md:h-4 text-gray-500" />
               <input
                 type="text"
                 placeholder="Search knives, flashlights, pens..."
-                className="w-full pl-10 pr-4 py-2 bg-transparent text-sm rounded-full focus:outline-none text-white placeholder-gray-500"
+                className="w-full pl-10 pr-3 md:pr-4 py-1.5 md:py-2 bg-transparent text-xs md:text-sm rounded-full focus:outline-none text-white placeholder-gray-500"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setSearchFocused(true)}
@@ -133,22 +133,22 @@ export default function Navbar() {
           </form>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-0.5 lg:gap-1">
             <Link
               href="/community"
-              className="px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-zinc-800 transition"
+              className="px-2 lg:px-3 py-1.5 lg:py-2 rounded-lg text-xs lg:text-sm font-medium text-gray-400 hover:text-white hover:bg-zinc-800 transition"
             >
               Community
             </Link>
             <Link
-              href="/marketplace"
-              className="px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-zinc-800 transition"
+              href="/categories"
+              className="px-2 lg:px-3 py-1.5 lg:py-2 rounded-lg text-xs lg:text-sm font-medium text-gray-400 hover:text-white hover:bg-zinc-800 transition"
             >
               Marketplace
             </Link>
             <Link
               href="/blog"
-              className="px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-zinc-800 transition"
+              className="px-2 lg:px-3 py-1.5 lg:py-2 rounded-lg text-xs lg:text-sm font-medium text-gray-400 hover:text-white hover:bg-zinc-800 transition"
             >
               Blog
             </Link>
@@ -157,10 +157,10 @@ export default function Navbar() {
               <>
                 <Link
                   href="/items/new"
-                  className="ml-2 flex items-center gap-1.5 px-4 py-2 rounded-full bg-orange-700 text-white text-sm font-semibold hover:bg-orange-600 transition shadow-lg shadow-orange-900/50"
+                  className="ml-1 lg:ml-2 flex items-center gap-1 lg:gap-1.5 px-3 lg:px-4 py-1.5 lg:py-2 rounded-full bg-orange-700 text-white text-xs lg:text-sm font-semibold hover:bg-orange-600 transition shadow-lg shadow-orange-900/50"
                 >
-                  <Plus className="w-4 h-4" />
-                  List Item
+                  <Plus className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
+                  <span className="hidden lg:inline">List Item</span>
                 </Link>
                 <div className="flex items-center gap-1 ml-2">
                   <button className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-zinc-800 transition relative">
@@ -188,7 +188,7 @@ export default function Navbar() {
                           className="rounded-full w-8 h-8 object-cover"
                         />
                       ) : (
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white text-sm font-bold">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white text-sm font-bold">
                           {profile?.username?.charAt(0)?.toUpperCase() || "U"}
                         </div>
                       )}
@@ -230,17 +230,17 @@ export default function Navbar() {
                 </div>
               </>
             ) : (
-              <div className="flex items-center gap-2 ml-2">
+              <div className="flex items-center gap-1 lg:gap-2 ml-1 lg:ml-2">
                 <Link
                   href="/login"
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-zinc-700 text-gray-300 text-sm font-medium hover:bg-zinc-800 hover:text-white transition"
+                  className="flex items-center gap-1 lg:gap-1.5 px-2 lg:px-4 py-1.5 lg:py-2 rounded-full border border-zinc-700 text-gray-300 text-xs lg:text-sm font-medium hover:bg-zinc-800 hover:text-white transition"
                 >
-                  <LogIn className="w-4 h-4" />
-                  Sign In
+                  <LogIn className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
+                  <span className="hidden lg:inline">Sign In</span>
                 </Link>
                 <Link
                   href="/signup"
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-orange-700 text-white text-sm font-semibold hover:bg-orange-600 transition shadow-lg shadow-orange-900/50"
+                  className="hidden md:flex items-center gap-1 lg:gap-1.5 px-3 lg:px-4 py-1.5 lg:py-2 rounded-full bg-orange-700 text-white text-xs lg:text-sm font-semibold hover:bg-orange-600 transition shadow-lg shadow-orange-900/50"
                 >
                   Create Account
                 </Link>
@@ -264,22 +264,22 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-zinc-800 bg-black/95 backdrop-blur px-4 py-3 space-y-1">
+        <div className="md:hidden border-t border-zinc-800 bg-black/95 backdrop-blur px-3 py-2 space-y-0.5">
           <Link
             href="/community"
-            className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
+            className="block px-2 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
           >
             Community
           </Link>
           <Link
-            href="/marketplace"
-            className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
+            href="/categories"
+            className="block px-2 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
           >
             Marketplace
           </Link>
           <Link
             href="/blog"
-            className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
+            className="block px-2 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
           >
             Blog
           </Link>
@@ -287,49 +287,49 @@ export default function Navbar() {
             <>
               <Link
                 href="/profile"
-                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
+                className="block px-2 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
               >
                 Profile
               </Link>
               <Link
                 href="/messages"
-                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
+                className="block px-2 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
               >
                 Messages
               </Link>
               <Link
                 href="/profile/edit"
-                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
+                className="block px-2 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
               >
                 Edit Profile
               </Link>
               <Link
                 href="/items/new"
-                className="w-full flex items-center justify-center gap-1.5 mt-2 px-4 py-2 rounded-full bg-orange-700 text-white text-sm font-semibold shadow-lg shadow-orange-900/50"
+                className="w-full flex items-center justify-center gap-1 mt-1.5 px-3 py-2 rounded-full bg-orange-700 text-white text-xs font-semibold shadow-lg shadow-orange-900/50"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="w-3.5 h-3.5" />
                 List Item
               </Link>
               <button
                 onClick={handleSignOut}
-                className="w-full flex items-center justify-center gap-1.5 mt-2 px-4 py-2 rounded-full border border-red-500/30 text-red-400 text-sm font-medium"
+                className="w-full flex items-center justify-center gap-1 mt-1.5 px-3 py-2 rounded-full border border-red-500/30 text-red-400 text-xs font-medium"
               >
-                <LogOut className="w-4 h-4" />
+                <LogOut className="w-3.5 h-3.5" />
                 Sign Out
               </button>
             </>
           ) : (
-            <div className="space-y-2 mt-2">
+            <div className="space-y-1.5 mt-1.5">
               <Link
                 href="/login"
-                className="w-full flex items-center justify-center gap-1.5 px-4 py-2 rounded-full border border-zinc-700 text-gray-300 text-sm font-medium"
+                className="w-full flex items-center justify-center gap-1 px-3 py-2 rounded-full border border-zinc-700 text-gray-300 text-xs font-medium"
               >
-                <LogIn className="w-4 h-4" />
+                <LogIn className="w-3.5 h-3.5" />
                 Sign In
               </Link>
               <Link
                 href="/signup"
-                className="w-full flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-orange-700 text-white text-sm font-semibold shadow-lg shadow-orange-900/50"
+                className="w-full flex items-center justify-center gap-1 px-3 py-2 rounded-full bg-orange-700 text-white text-xs font-semibold shadow-lg shadow-orange-900/50"
               >
                 Create Account
               </Link>

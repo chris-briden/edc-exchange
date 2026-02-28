@@ -186,19 +186,19 @@ function SignupForm() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 px-4 py-8">
         <div className="w-full max-w-md text-center">
-          <div className="flex justify-center mb-8">
-            <Image src="/icon-new-white.png" alt="The Carry Exchange" width={568} height={556} className="w-40 h-40 opacity-90 drop-shadow-2xl" />
+          <div className="flex justify-center mb-4 sm:mb-8">
+            <Image src="/icon-new-white.png" alt="The Carry Exchange" width={568} height={556} className="w-28 sm:w-40 h-28 sm:h-40 opacity-90 drop-shadow-2xl" />
           </div>
-          <h1 className="text-3xl font-bold mb-3 text-white">You&apos;re almost in!</h1>
-          <p className="text-gray-300 mb-6 leading-relaxed">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3 text-white">You&apos;re almost in!</h1>
+          <p className="text-gray-300 mb-4 sm:mb-6 text-xs sm:text-sm leading-relaxed">
             We sent a confirmation link to{" "}
-            <span className="font-medium text-white">{email}</span>. Click it
+            <span className="font-medium text-white break-all">{email}</span>. Click it
             to activate your account.
           </p>
-          <div className="bg-orange-500/20 border border-orange-500/50 rounded-xl p-4 mb-6">
-            <p className="text-sm text-orange-300">
+          <div className="bg-orange-500/20 border border-orange-500/50 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6">
+            <p className="text-xs sm:text-sm text-orange-300">
               Your username{" "}
               <span className="font-bold text-orange-200">@{username.toLowerCase()}</span> is
               reserved and waiting for you.
@@ -206,11 +206,11 @@ function SignupForm() {
           </div>
           <Link
             href="/login"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-orange-700 text-white font-semibold hover:bg-orange-600 shadow-lg shadow-orange-900/50 transition"
+            className="inline-flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-orange-700 text-white text-sm sm:text-base font-semibold hover:bg-orange-600 shadow-lg shadow-orange-900/50 transition"
           >
             Go to Sign In
           </Link>
-          <p className="text-xs text-gray-500 mt-4">
+          <p className="text-[10px] sm:text-xs text-gray-500 mt-3 sm:mt-4">
             Didn&apos;t get the email? Check your spam folder.
           </p>
         </div>
@@ -219,40 +219,40 @@ function SignupForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 px-4 py-8">
       <div className="w-full max-w-md">
         {/* Logo & Header */}
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-6">
-            <Image src="/icon-new-white.png" alt="The Carry Exchange" width={568} height={556} className="w-32 h-32 opacity-90 drop-shadow-2xl" />
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="flex justify-center mb-4 sm:mb-6">
+            <Image src="/icon-new-white.png" alt="The Carry Exchange" width={568} height={556} className="w-24 sm:w-32 h-24 sm:h-32 opacity-90 drop-shadow-2xl" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-3">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 sm:mb-3">
             Create your account
           </h1>
-          <p className="text-gray-300 text-sm leading-relaxed">
+          <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
             Join The Carry Exchange community. It only takes a minute.
           </p>
         </div>
 
         {/* Form Container */}
-        <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6">
+        <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-4 sm:p-6">
           {formError && (
-            <div className="mb-4 p-3 rounded-lg bg-red-900/50 border border-red-500 text-red-300 text-sm">
+            <div className="mb-3 sm:mb-4 p-2.5 sm:p-3 rounded-lg bg-red-900/50 border border-red-500 text-red-300 text-xs sm:text-sm">
               {formError}
             </div>
           )}
 
-          <form onSubmit={handleSignup} className="space-y-4">
+          <form onSubmit={handleSignup} className="space-y-3 sm:space-y-4">
             {/* Username */}
             <div>
               <label
                 htmlFor="username"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-xs sm:text-sm font-medium text-gray-300 mb-1"
               >
                 Username
               </label>
             <div className="relative">
-              <AtSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <AtSign className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" />
               <input
                 id="username"
                 type="text"
@@ -260,7 +260,7 @@ function SignupForm() {
                 onChange={(e) =>
                   setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, ""))
                 }
-                className={`w-full pl-10 pr-10 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:border-transparent bg-zinc-800/50 text-white placeholder-gray-500 ${
+                className={`w-full pl-10 pr-10 py-2 sm:py-2.5 rounded-xl border text-xs sm:text-sm focus:outline-none focus:ring-2 focus:border-transparent bg-zinc-800/50 text-white placeholder-gray-500 ${
                   username.length > 0 && usernameAvailable === true
                     ? "border-green-500 focus:ring-green-500/50"
                     : username.length > 0 && usernameAvailable === false
@@ -313,19 +313,19 @@ function SignupForm() {
             <div>
               <label
                 htmlFor="fullName"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-xs sm:text-sm font-medium text-gray-300 mb-1"
               >
                 Full Name{" "}
                 <span className="text-gray-500 font-normal">(optional)</span>
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500" />
                 <input
                   id="fullName"
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-zinc-700 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-transparent bg-zinc-800/50 text-white placeholder-gray-500"
+                  className="w-full pl-10 pr-4 py-2 sm:py-2.5 rounded-xl border border-zinc-700 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-transparent bg-zinc-800/50 text-white placeholder-gray-500"
                   placeholder="John Doe"
                 />
               </div>
@@ -335,18 +335,18 @@ function SignupForm() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-xs sm:text-sm font-medium text-gray-300 mb-1"
               >
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500" />
                 <input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-zinc-700 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-transparent bg-zinc-800/50 text-white placeholder-gray-500"
+                  className="w-full pl-10 pr-4 py-2 sm:py-2.5 rounded-xl border border-zinc-700 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-transparent bg-zinc-800/50 text-white placeholder-gray-500"
                   placeholder="you@example.com"
                   required
                 />
@@ -357,18 +357,18 @@ function SignupForm() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-xs sm:text-sm font-medium text-gray-300 mb-1"
               >
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500" />
                 <input
                   id="password"
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-zinc-700 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-transparent bg-zinc-800/50 text-white placeholder-gray-500"
+                  className="w-full pl-10 pr-10 py-2 sm:py-2.5 rounded-xl border border-zinc-700 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-transparent bg-zinc-800/50 text-white placeholder-gray-500"
                   placeholder="Create a strong password"
                   required
                 />
@@ -378,29 +378,29 @@ function SignupForm() {
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
                 >
                   {showPassword ? (
-                    <EyeOff className="w-4 h-4" />
+                    <EyeOff className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   ) : (
-                    <Eye className="w-4 h-4" />
+                    <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   )}
                 </button>
               </div>
               {/* Password strength indicators */}
               {password.length > 0 && (
-                <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1">
+                <div className="mt-1.5 sm:mt-2 grid grid-cols-2 gap-x-3 sm:gap-x-4 gap-y-0.5 sm:gap-y-1">
                   {[
                     { key: "length", label: "8+ characters" },
                     { key: "uppercase", label: "Uppercase letter" },
                     { key: "lowercase", label: "Lowercase letter" },
                     { key: "number", label: "Number" },
                   ].map(({ key, label }) => (
-                    <div key={key} className="flex items-center gap-1.5">
+                    <div key={key} className="flex items-center gap-1">
                       {passwordChecks[key as keyof typeof passwordChecks] ? (
-                        <Check className="w-3 h-3 text-green-400 shrink-0" />
+                        <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-green-400 shrink-0" />
                       ) : (
-                        <X className="w-3 h-3 text-gray-600 shrink-0" />
+                        <X className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-gray-600 shrink-0" />
                       )}
                       <span
-                        className={`text-xs ${
+                        className={`text-[10px] sm:text-xs ${
                           passwordChecks[key as keyof typeof passwordChecks]
                             ? "text-green-400"
                             : "text-gray-500"
@@ -418,18 +418,18 @@ function SignupForm() {
             <div>
               <label
                 htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-300 mb-1"
+                className="block text-xs sm:text-sm font-medium text-gray-300 mb-1"
               >
                 Confirm Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500" />
                 <input
                   id="confirmPassword"
                   type={showPassword ? "text" : "password"}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={`w-full pl-10 pr-10 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:border-transparent bg-zinc-800/50 text-white placeholder-gray-500 ${
+                  className={`w-full pl-10 pr-10 py-2 sm:py-2.5 rounded-xl border text-xs sm:text-sm focus:outline-none focus:ring-2 focus:border-transparent bg-zinc-800/50 text-white placeholder-gray-500 ${
                     confirmPassword.length > 0 && passwordsMatch
                       ? "border-green-500 focus:ring-green-500/50"
                       : confirmPassword.length > 0 && !passwordsMatch
@@ -465,7 +465,7 @@ function SignupForm() {
                 !passwordsMatch ||
                 usernameAvailable !== true
               }
-              className="w-full py-3 rounded-xl bg-orange-700 text-white font-semibold hover:bg-orange-600 shadow-lg shadow-orange-900/50 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
+              className="w-full py-2.5 sm:py-3 rounded-xl bg-orange-700 text-white text-sm sm:text-base font-semibold hover:bg-orange-600 shadow-lg shadow-orange-900/50 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
             >
               {loading && <Loader2 className="w-4 h-4 animate-spin" />}
               {loading ? "Creating your account..." : "Create Account"}
@@ -474,7 +474,7 @@ function SignupForm() {
         </div>
 
         {/* Sign in link */}
-        <p className="text-center text-sm text-gray-400 mt-6">
+        <p className="text-center text-xs sm:text-sm text-gray-400 mt-4 sm:mt-6">
           Already have an account?{" "}
           <Link
             href="/login"
@@ -484,7 +484,7 @@ function SignupForm() {
           </Link>
         </p>
 
-        <p className="text-center text-xs text-gray-500 mt-6">
+        <p className="text-center text-[10px] sm:text-xs text-gray-500 mt-4 sm:mt-6">
           By creating an account, you agree to our{" "}
           <Link href="#" className="underline hover:text-gray-300">
             Terms of Service
@@ -496,10 +496,10 @@ function SignupForm() {
           .
         </p>
 
-        <div className="text-center mt-6">
+        <div className="text-center mt-4 sm:mt-6">
           <Link
             href="/"
-            className="text-sm text-gray-400 hover:text-orange-400 transition"
+            className="text-xs sm:text-sm text-gray-400 hover:text-orange-400 transition"
           >
             &larr; Back to home
           </Link>

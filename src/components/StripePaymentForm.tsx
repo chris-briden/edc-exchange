@@ -204,9 +204,9 @@ export function BuyNowForm({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="bg-zinc-900 rounded-2xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-4">
+      <div className="bg-zinc-900 rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="p-4 sm:p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-white">Complete Purchase</h2>
             <button
@@ -218,9 +218,9 @@ export function BuyNowForm({
           </div>
 
           {/* Order summary */}
-          <div className="p-4 rounded-xl bg-zinc-800 mb-6">
-            <h3 className="font-semibold text-sm mb-3 text-white">{itemName}</h3>
-            <div className="space-y-1.5 text-sm">
+          <div className="p-3 sm:p-4 rounded-xl bg-zinc-800 mb-6">
+            <h3 className="font-semibold text-xs sm:text-sm mb-3 text-white line-clamp-2">{itemName}</h3>
+            <div className="space-y-1.5 text-xs sm:text-sm">
               <div className="flex justify-between text-gray-300">
                 <span>Item price</span>
                 <span>${price.toFixed(2)} CAD</span>
@@ -228,7 +228,7 @@ export function BuyNowForm({
               {selectedRate && (
                 <div className="flex justify-between text-gray-300">
                   <span className="flex items-center gap-1">
-                    <Truck className="w-3 h-3" /> Shipping
+                    <Truck className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> Shipping
                   </span>
                   <span>${shippingCost.toFixed(2)} CAD</span>
                 </div>
@@ -433,9 +433,9 @@ export function RentalPaymentForm({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="bg-zinc-900 rounded-2xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-4">
+      <div className="bg-zinc-900 rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="p-4 sm:p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold text-white">Rent Item</h2>
             <button
@@ -447,9 +447,9 @@ export function RentalPaymentForm({
           </div>
 
           {/* Order summary */}
-          <div className="p-4 rounded-xl bg-zinc-800 mb-4">
-            <h3 className="font-semibold text-sm mb-3 text-white">{itemName}</h3>
-            <div className="space-y-1.5 text-sm">
+          <div className="p-3 sm:p-4 rounded-xl bg-zinc-800 mb-4">
+            <h3 className="font-semibold text-xs sm:text-sm mb-3 text-white line-clamp-2">{itemName}</h3>
+            <div className="space-y-1.5 text-xs sm:text-sm">
               <div className="flex justify-between text-gray-300">
                 <span>Rental fee ({periodLabel})</span>
                 <span className="font-medium">
@@ -459,7 +459,7 @@ export function RentalPaymentForm({
               {selectedRate && (
                 <div className="flex justify-between text-gray-300">
                   <span className="flex items-center gap-1">
-                    <Truck className="w-3 h-3" /> Outbound shipping
+                    <Truck className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> Outbound shipping
                   </span>
                   <span>${shippingCost.toFixed(2)} CAD</span>
                 </div>

@@ -11,7 +11,7 @@ const listingTypeConfig: Record<
   { color: string; label: string; bg: string }
 > = {
   sell: { color: "text-green-300", label: "For Sale", bg: "bg-green-500/20" },
-  trade: { color: "text-blue-300", label: "For Trade", bg: "bg-blue-500/20" },
+  trade: { color: "text-amber-300", label: "For Trade", bg: "bg-amber-500/20" },
   lend: {
     color: "text-purple-300",
     label: "Available to Lend",
@@ -107,7 +107,7 @@ export default function DbItemCard({ item }: { item: Item }) {
               </p>
             )}
             {!item.price && !item.rent_price && (
-              <p className="text-sm font-semibold text-blue-400 mt-2">
+              <p className="text-sm font-semibold text-amber-400 mt-2">
                 Open to offers
               </p>
             )}
@@ -125,7 +125,7 @@ export default function DbItemCard({ item }: { item: Item }) {
                 className="rounded-full w-5 h-5 object-cover"
               />
             ) : (
-              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-blue-500" />
+              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-amber-600" />
             )}
             <span className="text-xs text-gray-500">{ownerUsername}</span>
           </div>

@@ -45,7 +45,7 @@ function CommentItem({
               className="rounded-full w-9 h-9 object-cover"
             />
           ) : (
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white text-xs font-bold">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white text-xs font-bold">
               {comment.profiles?.username?.charAt(0)?.toUpperCase() || "U"}
             </div>
           )}
@@ -102,7 +102,7 @@ function CommentItem({
 
       {/* Replies */}
       {replies.length > 0 && (
-        <div className="ml-12 mt-3 space-y-3 border-l-2 border-zinc-700 pl-4">
+        <div className="ml-6 sm:ml-12 mt-3 space-y-3 border-l-2 border-zinc-700 pl-3 sm:pl-4">
           {replies.map((reply) => (
             <div key={reply.id} className="flex gap-3">
               <Link href={`/profile/${reply.user_id}`} className="shrink-0">
@@ -115,7 +115,7 @@ function CommentItem({
                     className="rounded-full w-7 h-7 object-cover"
                   />
                 ) : (
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white text-[10px] font-bold">
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white text-[10px] font-bold">
                     {reply.profiles?.username?.charAt(0)?.toUpperCase() || "U"}
                   </div>
                 )}
@@ -252,13 +252,13 @@ export default function CommentSection({
   );
 
   return (
-    <div className="mt-8">
-      <h3 className="font-bold text-lg mb-4">
+    <div className="mt-6 sm:mt-8">
+      <h3 className="font-bold text-base sm:text-lg mb-3 sm:mb-4">
         Comments ({comments.length})
       </h3>
 
       {/* Comment list */}
-      <div className="space-y-4 mb-6">
+      <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
         {topLevel.map((comment) => (
           <CommentItem
             key={comment.id}
@@ -290,17 +290,17 @@ export default function CommentSection({
           onChange={(e) => setNewComment(e.target.value)}
           placeholder={userId ? "Write a comment..." : "Sign in to comment"}
           disabled={!userId}
-          className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-900/50 border border-zinc-700 text-white placeholder:text-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:bg-zinc-800 disabled:cursor-not-allowed"
+          className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-zinc-900/50 border border-zinc-700 text-white placeholder:text-gray-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:bg-zinc-800 disabled:cursor-not-allowed"
         />
         <button
           type="submit"
           disabled={!userId || submitting || !newComment.trim()}
-          className="px-4 py-2.5 rounded-xl bg-orange-700 text-white font-semibold hover:bg-orange-600 shadow-lg shadow-orange-900/50 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-orange-700 text-white font-semibold hover:bg-orange-600 shadow-lg shadow-orange-900/50 transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {submitting ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
+            <Loader2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin" />
           ) : (
-            <Send className="w-4 h-4" />
+            <Send className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           )}
         </button>
       </form>

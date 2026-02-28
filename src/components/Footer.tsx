@@ -4,33 +4,33 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <footer className="bg-black border-t border-zinc-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
               <Image
                 src="/icon-new-white.png"
                 alt="The Carry Exchange"
                 width={568}
                 height={556}
-                className="h-10 w-10"
+                className="h-8 w-8 md:h-10 md:w-10"
               />
-              <span className="text-lg font-bold tracking-wide text-white">
+              <span className="text-sm md:text-lg font-bold tracking-wide text-white line-clamp-2">
                 The Carry Exchange
               </span>
             </div>
-            <p className="text-sm leading-relaxed text-gray-400">
+            <p className="text-xs md:text-sm leading-relaxed text-gray-400">
               The community marketplace for everyday carry enthusiasts.
             </p>
-            <p className="text-xs text-gray-600 mt-2 font-medium">
+            <p className="text-[10px] md:text-xs text-gray-600 mt-2 font-medium">
               jointhecarry.com
             </p>
           </div>
           <div>
-            <h4 className="font-semibold text-white mb-3 text-sm uppercase tracking-wider">
+            <h4 className="font-semibold text-white mb-2 md:mb-3 text-xs md:text-sm uppercase tracking-wider">
               Marketplace
             </h4>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-1.5 md:space-y-2 text-xs md:text-sm">
               <li><Link href="/categories" className="text-gray-400 hover:text-orange-400 transition">Browse All</Link></li>
               <li><Link href="/categories?category=knives" className="text-gray-400 hover:text-orange-400 transition">Knives</Link></li>
               <li><Link href="/categories?category=flashlights" className="text-gray-400 hover:text-orange-400 transition">Flashlights</Link></li>
@@ -39,10 +39,10 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold text-white mb-3 text-sm uppercase tracking-wider">
+            <h4 className="font-semibold text-white mb-2 md:mb-3 text-xs md:text-sm uppercase tracking-wider">
               Community
             </h4>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-1.5 md:space-y-2 text-xs md:text-sm">
               <li><Link href="/community" className="text-gray-400 hover:text-orange-400 transition">Feed</Link></li>
               <li><Link href="/community?filter=collection" className="text-gray-400 hover:text-orange-400 transition">Collections</Link></li>
               <li><Link href="/blog" className="text-gray-400 hover:text-orange-400 transition">Blog</Link></li>
@@ -51,10 +51,10 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold text-white mb-3 text-sm uppercase tracking-wider">
+            <h4 className="font-semibold text-white mb-2 md:mb-3 text-xs md:text-sm uppercase tracking-wider">
               Company
             </h4>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-1.5 md:space-y-2 text-xs md:text-sm">
               <li><Link href="/about" className="text-gray-400 hover:text-orange-400 transition">About</Link></li>
               <li><Link href="/trust-safety" className="text-gray-400 hover:text-orange-400 transition">Trust & Safety</Link></li>
               <li><Link href="/terms" className="text-gray-400 hover:text-orange-400 transition">Terms of Service</Link></li>
@@ -62,7 +62,7 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <div className="border-t border-zinc-800 mt-10 pt-6 text-center text-sm text-gray-500">
+        <div className="border-t border-zinc-800 mt-6 md:mt-10 pt-4 md:pt-6 text-center text-xs md:text-sm text-gray-500">
           &copy; 2026 The Carry Exchange. All rights reserved.
         </div>
       </div>

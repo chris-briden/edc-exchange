@@ -49,14 +49,14 @@ export default function ItemCard({ item }: { item: EDCItem }) {
           </p>
         )}
         {!item.price && !item.rentPrice && (
-          <p className="text-sm font-semibold text-blue-400 mt-2">
+          <p className="text-sm font-semibold text-amber-400 mt-2">
             Open to offers
           </p>
         )}
 
         <div className="flex items-center justify-between mt-3 pt-3 border-t border-zinc-800">
           <div className="flex items-center gap-1">
-            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-blue-500" />
+            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-orange-400 to-amber-600" />
             <span className="text-xs text-gray-500">
               {item.owner.username}
             </span>

@@ -71,9 +71,9 @@ export default function Home() {
       <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
         <div className="absolute inset-0 opacity-[0.07]">
           <PocketKnife className="absolute top-10 left-10 w-24 h-24 text-orange-400" />
-          <Flashlight className="absolute top-20 right-20 w-20 h-20 text-blue-400" />
+          <Flashlight className="absolute top-20 right-20 w-20 h-20 text-amber-400" />
           <PenTool className="absolute bottom-10 left-1/3 w-16 h-16 text-orange-300" />
-          <Wrench className="absolute bottom-20 right-10 w-24 h-24 text-blue-300" />
+          <Wrench className="absolute bottom-20 right-10 w-24 h-24 text-amber-300" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-20 md:py-28">
           <div className="flex items-center gap-8">
@@ -84,7 +84,7 @@ export default function Home() {
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
               The marketplace for{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-blue-400">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400">
                 everyday carry
               </span>{" "}
               enthusiasts
@@ -136,7 +136,7 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center justify-center gap-3">
-              <TrendingUp className="w-8 h-8 text-blue-600" />
+              <TrendingUp className="w-8 h-8 text-amber-600" />
               <div className="text-left">
                 <p className="font-semibold text-sm">Growing Marketplace</p>
                 <p className="text-xs text-gray-500">
@@ -245,7 +245,7 @@ export default function Home() {
                   className="bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-md transition block"
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white font-bold text-sm">
                       {post.profiles?.username?.charAt(0)?.toUpperCase() || "U"}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -295,11 +295,11 @@ export default function Home() {
 
       {/* CTA */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <div className="rounded-3xl bg-gradient-to-br from-orange-600 to-blue-600 text-white p-8 md:p-12 text-center">
+        <div className="rounded-3xl bg-gradient-to-br from-orange-600 to-amber-600 text-white p-8 md:p-12 text-center">
           <h2 className="text-3xl md:text-4xl font-extrabold">
             Ready to join the carry?
           </h2>
-          <p className="mt-3 text-blue-100 max-w-md mx-auto">
+          <p className="mt-3 text-amber-100 max-w-md mx-auto">
             Share your collection, find your next grail, and connect with EDC
             enthusiasts worldwide.
           </p>
@@ -327,7 +327,7 @@ export default function Home() {
 
 const typeStyles: Record<string, { badge: string; bg: string }> = {
   collection: { badge: "Collection", bg: "bg-purple-100 text-purple-700" },
-  review: { badge: "Review", bg: "bg-blue-100 text-blue-700" },
+  review: { badge: "Review", bg: "bg-amber-100 text-amber-700" },
   discussion: { badge: "Discussion", bg: "bg-green-100 text-green-700" },
   photo: { badge: "Photo", bg: "bg-amber-100 text-amber-700" },
 };

@@ -110,7 +110,7 @@ export default function AvatarCropper({
         </div>
 
         {/* Crop area */}
-        <div className="relative w-full" style={{ height: 340 }}>
+        <div className="relative w-full" style={{ height: `clamp(240px, 60vh, 400px)` }}>
           <Cropper
             image={imageSrc}
             crop={crop}

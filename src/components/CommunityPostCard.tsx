@@ -5,7 +5,7 @@ import type { Post } from "@/lib/types";
 
 const typeStyles: Record<string, { badge: string; bg: string }> = {
   collection: { badge: "Collection", bg: "bg-purple-500/20 text-purple-300" },
-  review: { badge: "Review", bg: "bg-blue-500/20 text-blue-300" },
+  review: { badge: "Review", bg: "bg-amber-500/20 text-amber-300" },
   discussion: { badge: "Discussion", bg: "bg-green-500/20 text-green-300" },
   photo: { badge: "Photo", bg: "bg-amber-500/20 text-amber-300" },
 };
@@ -31,7 +31,7 @@ export default function CommunityPostCard({
         className="bg-zinc-900/50 backdrop-blur rounded-2xl border border-zinc-800 p-5 hover:border-orange-500/50 transition block"
       >
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white font-bold text-sm">
             {username.charAt(0).toUpperCase()}
           </div>
           <div className="flex-1 min-w-0">
@@ -79,7 +79,7 @@ export default function CommunityPostCard({
   return (
     <article className="bg-zinc-900/50 backdrop-blur rounded-2xl border border-zinc-800 p-5 hover:border-orange-500/50 transition">
       <div className="flex items-center gap-3 mb-3">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white font-bold text-sm">
           {post.author.username.charAt(0)}
         </div>
         <div className="flex-1 min-w-0">
@@ -123,7 +123,7 @@ export default function CommunityPostCard({
           <Heart className="w-4 h-4" />
           <span>{post.likes}</span>
         </button>
-        <button className="flex items-center gap-1.5 hover:text-blue-400 transition">
+        <button className="flex items-center gap-1.5 hover:text-amber-400 transition">
           <MessageCircle className="w-4 h-4" />
           <span>{post.comments}</span>
         </button>

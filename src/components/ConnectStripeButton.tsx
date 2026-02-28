@@ -115,7 +115,7 @@ export default function ConnectStripeButton() {
 
   // Not connected
   return (
-    <div className="p-4 rounded-xl border border-zinc-800 bg-gradient-to-r from-purple-500/10 to-blue-500/10">
+    <div className="p-4 rounded-xl border border-zinc-800 bg-gradient-to-r from-purple-500/10 to-amber-500/10">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm font-semibold text-white">

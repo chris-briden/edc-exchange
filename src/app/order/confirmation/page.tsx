@@ -410,7 +410,7 @@ function OrderConfirmationContent() {
 
                   {/* Return label notice for rentals */}
                   {isRental && (
-                    <div className="p-3 rounded-xl bg-blue-900/20 border border-blue-800/50 text-sm text-blue-300/80">
+                    <div className="p-3 rounded-xl bg-amber-900/20 border border-amber-800/50 text-sm text-amber-300/80">
                       <div className="flex items-start gap-2">
                         <Truck className="w-4 h-4 shrink-0 mt-0.5" />
                         <span>
