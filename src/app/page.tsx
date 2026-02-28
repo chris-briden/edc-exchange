@@ -109,20 +109,21 @@ export default function HomePage() {
           {/* Feature pills — at-a-glance value props */}
           <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10 sm:mb-14">
             {[
-              { icon: '🔪', label: 'Knives & Blades' },
-              { icon: '🔦', label: 'Flashlights' },
-              { icon: '⌚', label: 'Watches' },
-              { icon: '🔧', label: 'Multi-Tools' },
-              { icon: '✏️', label: 'Pens' },
-              { icon: '👛', label: 'Wallets' },
+              { icon: '🔪', label: 'Knives & Blades', href: '/products?category=knives' },
+              { icon: '🔦', label: 'Flashlights', href: '/categories' },
+              { icon: '⌚', label: 'Watches', href: '/categories' },
+              { icon: '🔧', label: 'Multi-Tools', href: '/products?category=multi-tools' },
+              { icon: '✏️', label: 'Pens', href: '/categories' },
+              { icon: '👛', label: 'Wallets', href: '/categories' },
             ].map((item) => (
-              <div
+              <Link
                 key={item.label}
-                className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm text-sm text-gray-300 hover:border-orange-500/40 hover:bg-orange-500/5 transition-all cursor-default"
+                href={item.href}
+                className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm text-sm text-gray-300 hover:border-orange-500/40 hover:bg-orange-500/5 transition-all"
               >
                 <span>{item.icon}</span>
                 <span>{item.label}</span>
-              </div>
+              </Link>
             ))}
           </div>
 

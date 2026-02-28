@@ -186,6 +186,83 @@ export type Message = {
   receiver?: Profile;
 };
 
+// ============================================================
+// AGGREGATOR TYPES
+// ============================================================
+
+export type Product = {
+  id: string;
+  name: string;
+  brand: string;
+  slug: string;
+  category: string;
+  description: string | null;
+  image_url: string | null;
+  msrp: number | null;
+  specs: Record<string, string | number>;
+  tags: string[];
+  created_at: string;
+  updated_at: string;
+  // Joined / computed
+  external_listings?: ExternalListing[];
+  listing_count?: number;
+  min_price?: number;
+  max_price?: number;
+};
+
+export type Retailer = {
+  id: string;
+  name: string;
+  slug: string;
+  website_url: string;
+  type: 'retail' | 'secondary';
+  affiliate_url_template: string | null;
+  logo_url: string | null;
+  is_active: boolean;
+  scrape_config: Record<string, unknown>;
+  created_at: string;
+};
+
+export type ExternalListing = {
+  id: string;
+  product_id: string | null;
+  retailer_id: string;
+  external_id: string | null;
+  title: string;
+  price: number;
+  currency: string;
+  condition: string | null;
+  in_stock: boolean;
+  url: string;
+  image_url: string | null;
+  shipping_cost: number | null;
+  shipping_estimate: string | null;
+  location_country: string | null;
+  location_region: string | null;
+  seller_name: string | null;
+  seller_rating: number | null;
+  listing_type: 'buy_now' | 'auction';
+  auction_end_time: string | null;
+  raw_data: Record<string, unknown>;
+  last_seen_at: string;
+  created_at: string;
+  updated_at: string;
+  // Joined
+  retailers?: Retailer;
+  products?: Product;
+};
+
+export type PriceHistory = {
+  id: string;
+  product_id: string;
+  retailer_id: string;
+  price: number;
+  in_stock: boolean;
+  recorded_at: string;
+  // Joined
+  retailers?: Retailer;
+};
+
 export type Transaction = {
   id: string;
   listing_id: string;

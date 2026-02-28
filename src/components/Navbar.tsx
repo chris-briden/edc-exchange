@@ -141,6 +141,12 @@ export default function Navbar() {
               Community
             </Link>
             <Link
+              href="/products"
+              className="px-2 lg:px-3 py-1.5 lg:py-2 rounded-lg text-xs lg:text-sm font-medium text-orange-400 hover:text-orange-300 hover:bg-orange-500/10 transition"
+            >
+              Price Check
+            </Link>
+            <Link
               href="/categories"
               className="px-2 lg:px-3 py-1.5 lg:py-2 rounded-lg text-xs lg:text-sm font-medium text-gray-400 hover:text-white hover:bg-zinc-800 transition"
             >
@@ -265,6 +271,12 @@ export default function Navbar() {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="md:hidden border-t border-zinc-800 bg-black/95 backdrop-blur px-3 py-2 space-y-0.5">
+          <Link
+            href="/products"
+            className="block px-2 py-1.5 rounded-lg text-xs font-medium text-orange-400 hover:bg-orange-500/10 hover:text-orange-300"
+          >
+            Price Check
+          </Link>
           <Link
             href="/community"
             className="block px-2 py-1.5 rounded-lg text-xs font-medium text-gray-300 hover:bg-zinc-800 hover:text-white"
