@@ -489,7 +489,7 @@ function OrderConfirmationContent() {
               Message Seller
             </Link>
             <Link
-              href="/marketplace"
+              href="/categories"
               className="flex-1 py-3 px-4 rounded-xl bg-orange-600 text-white hover:bg-orange-700 transition flex items-center justify-center gap-2 text-sm font-medium"
             >
               Continue Shopping
