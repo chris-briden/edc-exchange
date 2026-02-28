@@ -348,7 +348,6 @@ export default function HomePage() {
         </div>
       </section>
 
-<<<<<<< HEAD
       {/* Try Before You Buy — Dedicated Section */}
       <section className="relative py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-zinc-900 to-black overflow-hidden">
         {/* Background glow */}
@@ -405,7 +404,6 @@ export default function HomePage() {
             What We&apos;re Building
           </h2>
 
-<<<<<<< HEAD
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {[
               {
@@ -461,7 +459,6 @@ export default function HomePage() {
         </div>
       </section>
 
-<<<<<<< HEAD
       {/* Founding Seller CTA Section */}
       <section className="relative py-16 sm:py-24 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto">
@@ -502,7 +499,6 @@ export default function HomePage() {
         </div>
       </section>
 
-<<<<<<< HEAD
       {/* Footer */}
       <footer className="border-t border-zinc-800 py-8 sm:py-12 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
