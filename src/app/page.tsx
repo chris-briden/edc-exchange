@@ -56,84 +56,102 @@ export default function HomePage() {
       <Navbar />
 
       {/* ═══════════════ HERO ═══════════════ */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Background */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Dark leather/canvas background */}
         <div className="absolute inset-0">
           <Image
-            src="/hero-edc-layout.jpg"
-            alt="Gear flatlay — knife, flashlight, wallet, watch, pen, multi-tool"
+            src="/hero-dark-leather.jpg"
+            alt=""
             fill
-            className="object-cover object-center scale-105"
+            className="object-cover"
             priority
             quality={85}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/55 to-black/90" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40" />
-          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent" />
+          {/* Subtle radial glow behind the logo area */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(194,65,12,0.08)_0%,_transparent_60%)]" />
+          {/* Bottom fade to next section */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
         </div>
 
         {/* Content */}
-        <div className="relative z-10 max-w-5xl mx-auto px-5 sm:px-8 pt-28 sm:pt-32 pb-20 text-center">
-          {/* Shield logo */}
-          <div className="mb-8 sm:mb-10">
+        <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 pt-20 sm:pt-24 pb-12 text-center">
+          {/* Shield logo — large and prominent */}
+          <div className="mb-6 sm:mb-8">
             <Image
               src="/tcc-shield-logo.png"
               alt="The Carry Collective shield logo"
               width={643}
               height={874}
-              className="mx-auto h-48 sm:h-64 md:h-72 lg:h-80 w-auto drop-shadow-2xl"
+              className="mx-auto h-44 sm:h-56 md:h-64 lg:h-72 w-auto drop-shadow-[0_8px_32px_rgba(194,65,12,0.25)]"
               priority
             />
           </div>
 
           {/* Headline */}
-          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[0.95] tracking-tight mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1] tracking-tight mb-4 sm:mb-6">
             <span className="block text-white">
               Reviews. Guides. Gear.
             </span>
-            <span className="block mt-2">
+            <span className="block mt-1 sm:mt-2">
               <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-amber-400 bg-clip-text text-transparent">
                 Everything You Carry.
               </span>
             </span>
           </h1>
 
-          {/* Subheadline */}
-          <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-10 sm:mb-12 max-w-2xl mx-auto leading-relaxed font-light">
-            The carry culture community. Expert reviews, buyer&apos;s guides, price comparison, and marketplace for{' '}
+          {/* Subheadline — condensed */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-400 mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed">
+            The carry culture community — expert reviews, price comparison, and marketplace for{' '}
             <span className="text-orange-400 font-medium">EDC</span>,{' '}
             <span className="text-amber-400 font-medium">bags</span>,{' '}
-            <span className="text-sky-400 font-medium">travel gear</span>, and{' '}
+            <span className="text-sky-400 font-medium">travel</span>, and{' '}
             <span className="text-green-400 font-medium">rucking</span>.
           </p>
 
-          {/* CTA */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
+          {/* CTA buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-3">
             <Link
               href="/signup"
-              className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-orange-500 hover:bg-orange-400 text-white text-base font-bold tracking-wide transition-all transform hover:scale-[1.03] active:scale-[0.98] shadow-lg shadow-orange-600/30"
+              className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-orange-500 hover:bg-orange-400 text-white text-sm sm:text-base font-bold tracking-wide transition-all transform hover:scale-[1.03] active:scale-[0.98] shadow-lg shadow-orange-600/30"
             >
               Join The Collective
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
             <Link
               href="/reviews"
-              className="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white text-sm font-medium transition-all"
+              className="inline-flex items-center justify-center px-5 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white text-sm font-medium transition-all"
             >
               Browse Reviews
             </Link>
           </div>
 
-          <p className="text-xs text-gray-500 mb-12">
+          <p className="text-[11px] sm:text-xs text-gray-600 mb-8">
             Free to join &bull; Expert reviews &bull; Price comparison &bull; Community marketplace
           </p>
 
-          {/* Scroll indicator */}
-          <div className="animate-bounce opacity-40">
-            <svg className="w-5 h-5 mx-auto text-white" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-              <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
+          {/* Pillar quick links — horizontal row */}
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+            {PILLARS.map((p) => {
+              const Icon = p.icon;
+              return (
+                <Link
+                  key={p.title}
+                  href={p.href}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/[0.04] border border-white/[0.08] hover:border-white/20 hover:bg-white/[0.08] transition-all text-xs sm:text-sm`}
+                >
+                  <Icon className={`w-3.5 h-3.5 ${p.accent}`} />
+                  <span className="text-gray-300 font-medium">{p.title}</span>
+                </Link>
+              );
+            })}
           </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce opacity-30">
+          <svg className="w-5 h-5 text-white" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+            <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
         </div>
       </section>
 
