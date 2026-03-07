@@ -20,6 +20,7 @@ import {
   Plane,
   Dumbbell,
   Pocket,
+  TrendingUp,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase-browser";
 import type { User } from "@supabase/supabase-js";
@@ -247,6 +248,13 @@ export default function Navbar() {
             ))}
 
             <Link
+              href="/products"
+              className="flex items-center gap-1 px-2 xl:px-3 py-1.5 rounded-lg text-xs xl:text-sm font-medium text-orange-400 hover:text-orange-300 hover:bg-zinc-800 transition"
+            >
+              <TrendingUp className="w-3.5 h-3.5" />
+              Price Check
+            </Link>
+            <Link
               href="/reviews"
               className="px-2 xl:px-3 py-1.5 rounded-lg text-xs xl:text-sm font-medium text-gray-400 hover:text-white hover:bg-zinc-800 transition"
             >
@@ -356,6 +364,7 @@ export default function Navbar() {
 
           {/* Tablet nav (md but not lg) */}
           <div className="hidden md:flex lg:hidden items-center gap-1">
+            <Link href="/products" className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium text-orange-400 hover:text-orange-300 hover:bg-zinc-800 transition"><TrendingUp className="w-3.5 h-3.5" />Price Check</Link>
             <Link href="/reviews" className="px-2 py-1.5 rounded-lg text-xs font-medium text-gray-400 hover:text-white hover:bg-zinc-800 transition">Reviews</Link>
             <Link href="/categories" className="px-2 py-1.5 rounded-lg text-xs font-medium text-gray-400 hover:text-white hover:bg-zinc-800 transition">Marketplace</Link>
             {!user && (
@@ -413,6 +422,14 @@ export default function Navbar() {
 
           <div className="border-t border-zinc-800 my-2" />
 
+          <Link
+            href="/products"
+            onClick={() => setMobileOpen(false)}
+            className="flex items-center gap-2 px-2 py-2 rounded-lg text-sm font-medium text-orange-400 hover:bg-zinc-800 hover:text-orange-300"
+          >
+            <TrendingUp className="w-4 h-4" />
+            Price Check
+          </Link>
           <Link
             href="/reviews"
             onClick={() => setMobileOpen(false)}
