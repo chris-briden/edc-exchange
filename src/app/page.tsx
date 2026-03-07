@@ -56,7 +56,7 @@ export default function HomePage() {
       <Navbar />
 
       {/* ═══════════════ HERO ═══════════════ */}
-      <section className="relative min-h-screen flex flex-col overflow-hidden">
+      <section className="relative min-h-[calc(100dvh-64px)] sm:min-h-screen flex flex-col overflow-hidden">
         {/* Dark leather/canvas background */}
         <div className="absolute inset-0">
           <Image
@@ -74,21 +74,21 @@ export default function HomePage() {
         </div>
 
         {/* Content — top-aligned on mobile with padding, centered on desktop */}
-        <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 text-center flex flex-col items-center flex-1 justify-center pt-8 sm:pt-0">
+        <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 text-center flex flex-col items-center flex-1 justify-start pt-6 sm:justify-center sm:pt-0">
           {/* Shield logo — large on all screens */}
-          <div className="mb-5 sm:mb-8">
+          <div className="mb-4 sm:mb-8">
             <Image
               src="/tcc-shield-logo.png"
               alt="The Carry Collective shield logo"
               width={643}
               height={874}
-              className="mx-auto h-44 sm:h-52 md:h-60 lg:h-72 w-auto drop-shadow-[0_8px_32px_rgba(194,65,12,0.25)]"
+              className="mx-auto h-40 sm:h-52 md:h-60 lg:h-72 w-auto drop-shadow-[0_8px_32px_rgba(194,65,12,0.25)]"
               priority
             />
           </div>
 
           {/* Headline — big and bold on all screens */}
-          <h1 className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1] tracking-tight mb-4 sm:mb-5">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1] tracking-tight mb-3 sm:mb-5">
             <span className="block text-white">
               Reviews. Guides. Gear.
             </span>
@@ -100,7 +100,7 @@ export default function HomePage() {
           </h1>
 
           {/* Subheadline */}
-          <p className="text-sm sm:text-base md:text-lg text-gray-400 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-gray-400 mb-5 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
             The carry culture community — expert reviews, price comparison, and marketplace for{' '}
             <span className="text-orange-400 font-medium">EDC</span>,{' '}
             <span className="text-amber-400 font-medium">bags</span>,{' '}

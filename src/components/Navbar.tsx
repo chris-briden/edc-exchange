@@ -172,11 +172,11 @@ export default function Navbar() {
               height={640}
               className="h-10 w-auto sm:h-14"
             />
-            <div className="hidden sm:flex flex-col leading-none">
-              <span className="text-sm md:text-base font-black tracking-wide text-white uppercase">
+            <div className="flex flex-col leading-none">
+              <span className="text-xs sm:text-sm md:text-base font-black tracking-wide text-white uppercase">
                 The Carry
               </span>
-              <span className="text-[10px] md:text-xs font-semibold tracking-[0.2em] text-orange-400 uppercase">
+              <span className="text-[8px] sm:text-[10px] md:text-xs font-semibold tracking-[0.2em] text-orange-400 uppercase">
                 Collective
               </span>
             </div>
