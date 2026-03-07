@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -35,6 +36,7 @@ interface PillarLandingProps {
   description: string;
   iconName: IconName;
   accentColor: string; // e.g. "orange", "amber", "sky", "green"
+  heroImage?: string; // e.g. "/hero-edc.jpg"
   subcategories: SubCategory[];
   featuredContent: FeaturedContent[];
   ctaText?: string;
@@ -82,6 +84,7 @@ export default function PillarLanding({
   description,
   iconName,
   accentColor,
+  heroImage,
   subcategories,
   featuredContent,
   ctaText = 'Join The Collective',
@@ -96,6 +99,21 @@ export default function PillarLanding({
 
       {/* ═══════════════ HERO ═══════════════ */}
       <section className="relative pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6 overflow-hidden">
+        {/* Background image */}
+        {heroImage && (
+          <div className="absolute inset-0">
+            <Image
+              src={heroImage}
+              alt=""
+              fill
+              className="object-cover"
+              priority
+              quality={80}
+            />
+            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
+          </div>
+        )}
         {/* Background glow */}
         <div className={`absolute top-20 left-1/2 -translate-x-1/2 w-[500px] h-[500px] ${colors.bg} rounded-full blur-[120px] opacity-60`} />
 

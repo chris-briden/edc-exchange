@@ -73,6 +73,7 @@ export default function TravelPage() {
       description="Carry-on luggage, packing systems, tech kits, and airline guides. Everything you need to travel lighter and smarter."
       iconName="plane"
       accentColor="sky"
+      heroImage="/hero-travel.jpg"
       subcategories={subcategories}
       featuredContent={featuredContent}
     />

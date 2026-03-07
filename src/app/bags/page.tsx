@@ -73,6 +73,7 @@ export default function BagsPage() {
       description="Backpacks, slings, messengers, duffels, and organizers. How you haul your world — reviewed, compared, and priced."
       iconName="backpack"
       accentColor="amber"
+      heroImage="/hero-bags.jpg"
       subcategories={subcategories}
       featuredContent={featuredContent}
     />

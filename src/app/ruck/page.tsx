@@ -73,6 +73,7 @@ export default function RuckPage() {
       description="Rucksacks, weighted vests, training plans, and the ruck club directory. The carry culture meets fitness community."
       iconName="dumbbell"
       accentColor="green"
+      heroImage="/hero-ruck.jpg"
       subcategories={subcategories}
       featuredContent={featuredContent}
     />

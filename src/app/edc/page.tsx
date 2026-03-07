@@ -76,6 +76,7 @@ export default function EDCPage() {
       description="The gear in your pockets, on your belt, and around your neck. Expert reviews and the best prices on knives, flashlights, multi-tools, pens, and wallets."
       iconName="pocket"
       accentColor="orange"
+      heroImage="/hero-edc.jpg"
       subcategories={subcategories}
       featuredContent={featuredContent}
     />
