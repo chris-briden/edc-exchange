@@ -74,25 +74,25 @@ export default function HomePage() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 pt-20 sm:pt-24 pb-12 text-center">
-          {/* Shield logo — large and prominent */}
-          <div className="mb-6 sm:mb-8">
+        <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 pt-16 sm:pt-20 pb-8 text-center">
+          {/* Shield logo — prominent but sized to fit above fold */}
+          <div className="mb-4 sm:mb-5">
             <Image
               src="/tcc-shield-logo.png"
               alt="The Carry Collective shield logo"
               width={643}
               height={874}
-              className="mx-auto h-44 sm:h-56 md:h-64 lg:h-72 w-auto drop-shadow-[0_8px_32px_rgba(194,65,12,0.25)]"
+              className="mx-auto h-32 sm:h-40 md:h-48 lg:h-56 w-auto drop-shadow-[0_8px_32px_rgba(194,65,12,0.25)]"
               priority
             />
           </div>
 
           {/* Headline */}
-          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1] tracking-tight mb-4 sm:mb-6">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black leading-[1] tracking-tight mb-3 sm:mb-4">
             <span className="block text-white">
               Reviews. Guides. Gear.
             </span>
-            <span className="block mt-1 sm:mt-2">
+            <span className="block mt-1">
               <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-amber-400 bg-clip-text text-transparent">
                 Everything You Carry.
               </span>
@@ -100,7 +100,7 @@ export default function HomePage() {
           </h1>
 
           {/* Subheadline — condensed */}
-          <p className="text-sm sm:text-base md:text-lg text-gray-400 mb-6 sm:mb-8 max-w-xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base text-gray-400 mb-5 sm:mb-6 max-w-xl mx-auto leading-relaxed">
             The carry culture community — expert reviews, price comparison, and marketplace for{' '}
             <span className="text-orange-400 font-medium">EDC</span>,{' '}
             <span className="text-amber-400 font-medium">bags</span>,{' '}
@@ -109,7 +109,7 @@ export default function HomePage() {
           </p>
 
           {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-3">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-2">
             <Link
               href="/signup"
               className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-orange-500 hover:bg-orange-400 text-white text-sm sm:text-base font-bold tracking-wide transition-all transform hover:scale-[1.03] active:scale-[0.98] shadow-lg shadow-orange-600/30"
@@ -125,7 +125,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <p className="text-[11px] sm:text-xs text-gray-600 mb-8">
+          <p className="text-[11px] sm:text-xs text-gray-600 mb-5">
             Free to join &bull; Expert reviews &bull; Price comparison &bull; Community marketplace
           </p>
 
