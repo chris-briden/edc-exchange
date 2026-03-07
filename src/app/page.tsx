@@ -73,34 +73,34 @@ export default function HomePage() {
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
         </div>
 
-        {/* Content */}
-        <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 pt-16 sm:pt-20 pb-8 text-center">
-          {/* Shield logo — prominent but sized to fit above fold */}
-          <div className="mb-4 sm:mb-5">
+        {/* Content — vertically centered, scaled to fill viewport */}
+        <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 text-center flex flex-col items-center">
+          {/* Shield logo — scaled to fill space properly */}
+          <div className="mb-6 sm:mb-8">
             <Image
               src="/tcc-shield-logo.png"
               alt="The Carry Collective shield logo"
               width={643}
               height={874}
-              className="mx-auto h-32 sm:h-40 md:h-48 lg:h-56 w-auto drop-shadow-[0_8px_32px_rgba(194,65,12,0.25)]"
+              className="mx-auto h-40 sm:h-52 md:h-60 lg:h-72 w-auto drop-shadow-[0_8px_32px_rgba(194,65,12,0.25)]"
               priority
             />
           </div>
 
-          {/* Headline */}
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black leading-[1] tracking-tight mb-3 sm:mb-4">
+          {/* Headline — full size for impact */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1] tracking-tight mb-4 sm:mb-5">
             <span className="block text-white">
               Reviews. Guides. Gear.
             </span>
-            <span className="block mt-1">
+            <span className="block mt-1 sm:mt-2">
               <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-amber-400 bg-clip-text text-transparent">
                 Everything You Carry.
               </span>
             </span>
           </h1>
 
-          {/* Subheadline — condensed */}
-          <p className="text-sm sm:text-base text-gray-400 mb-5 sm:mb-6 max-w-xl mx-auto leading-relaxed">
+          {/* Subheadline */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-400 mb-7 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
             The carry culture community — expert reviews, price comparison, and marketplace for{' '}
             <span className="text-orange-400 font-medium">EDC</span>,{' '}
             <span className="text-amber-400 font-medium">bags</span>,{' '}
@@ -109,37 +109,37 @@ export default function HomePage() {
           </p>
 
           {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-2">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-3">
             <Link
               href="/signup"
-              className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-orange-500 hover:bg-orange-400 text-white text-sm sm:text-base font-bold tracking-wide transition-all transform hover:scale-[1.03] active:scale-[0.98] shadow-lg shadow-orange-600/30"
+              className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-orange-500 hover:bg-orange-400 text-white text-base font-bold tracking-wide transition-all transform hover:scale-[1.03] active:scale-[0.98] shadow-lg shadow-orange-600/30"
             >
               Join The Collective
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
             <Link
               href="/reviews"
-              className="inline-flex items-center justify-center px-5 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white text-sm font-medium transition-all"
+              className="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white text-base font-medium transition-all"
             >
               Browse Reviews
             </Link>
           </div>
 
-          <p className="text-[11px] sm:text-xs text-gray-600 mb-5">
+          <p className="text-xs text-gray-600 mb-6 sm:mb-8">
             Free to join &bull; Expert reviews &bull; Price comparison &bull; Community marketplace
           </p>
 
           {/* Pillar quick links — horizontal row */}
-          <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+          <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3">
             {PILLARS.map((p) => {
               const Icon = p.icon;
               return (
                 <Link
                   key={p.title}
                   href={p.href}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/[0.04] border border-white/[0.08] hover:border-white/20 hover:bg-white/[0.08] transition-all text-xs sm:text-sm`}
+                  className={`inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-white/[0.04] border border-white/[0.08] hover:border-white/20 hover:bg-white/[0.08] transition-all text-sm`}
                 >
-                  <Icon className={`w-3.5 h-3.5 ${p.accent}`} />
+                  <Icon className={`w-4 h-4 ${p.accent}`} />
                   <span className="text-gray-300 font-medium">{p.title}</span>
                 </Link>
               );
