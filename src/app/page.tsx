@@ -56,7 +56,7 @@ export default function HomePage() {
       <Navbar />
 
       {/* ═══════════════ HERO ═══════════════ */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[calc(100dvh-60px)] sm:min-h-screen flex items-center justify-center overflow-hidden">
         {/* Dark leather/canvas background */}
         <div className="absolute inset-0">
           <Image
@@ -75,20 +75,20 @@ export default function HomePage() {
 
         {/* Content — vertically centered, scaled to fill viewport */}
         <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 text-center flex flex-col items-center">
-          {/* Shield logo — scaled to fill space properly */}
-          <div className="mb-6 sm:mb-8">
+          {/* Shield logo — compact on mobile, larger on desktop */}
+          <div className="mb-4 sm:mb-8">
             <Image
               src="/tcc-shield-logo.png"
               alt="The Carry Collective shield logo"
               width={643}
               height={874}
-              className="mx-auto h-40 sm:h-52 md:h-60 lg:h-72 w-auto drop-shadow-[0_8px_32px_rgba(194,65,12,0.25)]"
+              className="mx-auto h-28 sm:h-52 md:h-60 lg:h-72 w-auto drop-shadow-[0_8px_32px_rgba(194,65,12,0.25)]"
               priority
             />
           </div>
 
-          {/* Headline — full size for impact */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1] tracking-tight mb-4 sm:mb-5">
+          {/* Headline — compact on mobile, full size on desktop */}
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1] tracking-tight mb-3 sm:mb-5">
             <span className="block text-white">
               Reviews. Guides. Gear.
             </span>
@@ -100,7 +100,7 @@ export default function HomePage() {
           </h1>
 
           {/* Subheadline */}
-          <p className="text-sm sm:text-base md:text-lg text-gray-400 mb-7 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xs sm:text-base md:text-lg text-gray-400 mb-5 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
             The carry culture community — expert reviews, price comparison, and marketplace for{' '}
             <span className="text-orange-400 font-medium">EDC</span>,{' '}
             <span className="text-amber-400 font-medium">bags</span>,{' '}
@@ -109,17 +109,17 @@ export default function HomePage() {
           </p>
 
           {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-4 w-full max-w-xs sm:max-w-none">
             <Link
               href="/signup"
-              className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-3.5 rounded-full bg-orange-500 hover:bg-orange-400 text-white text-base font-bold tracking-wide transition-all transform hover:scale-[1.03] active:scale-[0.98] shadow-lg shadow-orange-600/30"
+              className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-3 sm:py-3.5 rounded-full bg-orange-500 hover:bg-orange-400 text-white text-sm sm:text-base font-bold tracking-wide transition-all transform hover:scale-[1.03] active:scale-[0.98] shadow-lg shadow-orange-600/30"
             >
               Join The Collective
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
             <Link
               href="/reviews"
-              className="inline-flex items-center justify-center w-full sm:w-auto px-6 py-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white text-base font-medium transition-all"
+              className="inline-flex items-center justify-center w-full sm:w-auto px-6 py-3 sm:py-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white text-sm sm:text-base font-medium transition-all"
             >
               Browse Reviews
             </Link>
@@ -135,7 +135,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════ 4 PILLARS ═══════════════ */}
-      <section className="relative py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-black to-zinc-900">
+      <section className="relative py-10 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-black to-zinc-900">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3">
             One Community. Every Carry.
