@@ -30,13 +30,13 @@ export default function BlogPostLayout({
         <div className="max-w-3xl mx-auto px-6 py-6 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition">
             <Image
-              src="/icon-new-white.png"
-              alt="The Carry Exchange"
+              src="/tcc-icon.png"
+              alt="The Carry Collective"
               width={40}
               height={40}
               className="w-8 h-8"
             />
-            <span className="font-bold text-lg">The Carry Exchange</span>
+            <span className="font-bold text-lg">The Carry Collective</span>
           </Link>
           <Link
             href="/blog"
@@ -76,7 +76,7 @@ export default function BlogPostLayout({
 
         {/* CTA */}
         <div className="mt-16 p-8 rounded-2xl border border-orange-500/30 bg-zinc-900/50 text-center">
-          <h3 className="text-2xl font-bold mb-3">Join the Carry Exchange</h3>
+          <h3 className="text-2xl font-bold mb-3">Join the Carry Collective</h3>
           <p className="text-gray-400 mb-6 max-w-lg mx-auto">
             We&apos;re building the marketplace the EDC community actually deserves.
             Low fees, rentals, and a community-first approach. Get on the list.
@@ -95,7 +95,7 @@ export default function BlogPostLayout({
         <Link href="/blog" className="text-orange-400 hover:text-orange-300 transition">
           Read more on the blog
         </Link>
-        <p className="mt-2">&copy; 2026 The Carry Exchange</p>
+        <p className="mt-2">&copy; 2026 The Carry Collective</p>
       </footer>
     </div>
   );

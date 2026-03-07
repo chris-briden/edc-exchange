@@ -17,7 +17,7 @@ function getResend(): Resend {
 }
 
 // Default sender — uses verified domain
-const FROM_EMAIL = "The Carry Exchange <noreply@jointhecarry.com>";
+const FROM_EMAIL = "The Carry Collective <noreply@jointhecarry.com>";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jointhecarry.com";
 
 /**
@@ -34,7 +34,7 @@ export async function sendWaitlistConfirmation(params: {
     const isFoundingSeller = params.signupType === "founding_seller";
     const subject = isFoundingSeller
       ? `You're in as a Founding Seller — #${params.position} on the waitlist`
-      : `You're on the list — #${params.position} for The Carry Exchange`;
+      : `You're on the list — #${params.position} for The Carry Collective`;
 
     const { error } = await resend.emails.send({
       from: FROM_EMAIL,
@@ -64,7 +64,7 @@ export async function sendWelcomeEmail(params: {
     const { error } = await resend.emails.send({
       from: FROM_EMAIL,
       to: params.email,
-      subject: `Welcome to The Carry Exchange, ${params.username}!`,
+      subject: `Welcome to The Carry Collective, ${params.username}!`,
       html: buildWelcomeEmail(params),
     });
 
@@ -199,7 +199,7 @@ export async function sendRentalNotificationSeller(params: {
 // Dark premium theme matching the site's branding: black backgrounds,
 // orange (#b45309 / #f97316) accents, zinc cards, system sans-serif.
 
-const ICON_URL = `${SITE_URL}/icon-new-white.png`;
+const ICON_URL = `${SITE_URL}/tcc-icon.png`;
 
 function emailWrapper(content: string): string {
   return `
@@ -208,7 +208,7 @@ function emailWrapper(content: string): string {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Carry Exchange</title>
+  <title>The Carry Collective</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #000000; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #000000; padding: 40px 20px;">
@@ -225,7 +225,7 @@ function emailWrapper(content: string): string {
                       <img src="${ICON_URL}" alt="" width="52" height="52" style="display: block;" />
                     </td>
                     <td style="vertical-align: middle;">
-                      <span style="color: #ffffff; font-size: 22px; font-weight: 700; letter-spacing: 0.5px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">The Carry Exchange</span>
+                      <span style="color: #ffffff; font-size: 22px; font-weight: 700; letter-spacing: 0.5px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">The Carry Collective</span>
                     </td>
                   </tr>
                 </table>
@@ -253,7 +253,7 @@ function emailWrapper(content: string): string {
           <tr>
             <td style="padding: 16px 32px; text-align: center;">
               <p style="margin: 0; color: #3f3f46; font-size: 11px;">
-                You're receiving this because you signed up at The Carry Exchange.
+                You're receiving this because you signed up at The Carry Collective.
               </p>
             </td>
           </tr>
@@ -295,7 +295,7 @@ function buildWaitlistEmail(params: {
 
     <h2 style="margin: 0 0 12px 0; color: #ffffff; font-size: 26px; font-weight: 700; text-align: center;">You're in.</h2>
     <p style="margin: 0 0 24px 0; color: #a1a1aa; font-size: 16px; text-align: center; line-height: 1.6;">
-      Welcome to The Carry Exchange — the first marketplace built exclusively for the EDC community.
+      Welcome to The Carry Collective — the first marketplace built exclusively for the EDC community.
     </p>
 
     ${foundingSellerBlock}
@@ -313,7 +313,7 @@ function buildWaitlistEmail(params: {
     </p>
 
     <div style="text-align: center; margin: 0 0 8px 0;">
-      <a href="${SITE_URL}" style="display: inline-block; background: linear-gradient(135deg, #b45309, #ea580c); color: #ffffff; padding: 14px 36px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 15px;">Visit The Carry Exchange</a>
+      <a href="${SITE_URL}" style="display: inline-block; background: linear-gradient(135deg, #b45309, #ea580c); color: #ffffff; padding: 14px 36px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 15px;">Visit The Carry Collective</a>
     </div>
   `);
 }
@@ -325,7 +325,7 @@ function buildWelcomeEmail(params: {
   return emailWrapper(`
     <h2 style="margin: 0 0 12px 0; color: #ffffff; font-size: 26px; font-weight: 700; text-align: center;">Welcome, ${params.username}.</h2>
     <p style="margin: 0 0 28px 0; color: #a1a1aa; font-size: 16px; text-align: center; line-height: 1.6;">
-      Your account is live. Here's what you can do on The Carry Exchange.
+      Your account is live. Here's what you can do on The Carry Collective.
     </p>
 
     <!-- Feature grid -->

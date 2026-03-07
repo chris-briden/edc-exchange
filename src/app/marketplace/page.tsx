@@ -111,8 +111,8 @@ export default function Home() {
           {/* Icon Emblem */}
           <div className="hidden md:flex flex-1 items-center justify-center">
             <Image
-              src="/icon-new-white.png"
-              alt="The Carry Exchange Emblem"
+              src="/tcc-icon.png"
+              alt="The Carry Collective Emblem"
               width={568}
               height={556}
               className="opacity-50 select-none pointer-events-none drop-shadow-2xl w-96 h-96"

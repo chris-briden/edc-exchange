@@ -4,24 +4,28 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "The Carry Exchange — Buy, Sell, Trade & Rent Everyday Carry",
-    template: "%s | The Carry Exchange",
+    default: "The Carry Collective — Gear Reviews, Guides & Marketplace",
+    template: "%s | The Carry Collective",
   },
   description:
-    "The community marketplace for everyday carry enthusiasts. Buy, sell, trade, lend, and rent knives, flashlights, pens, multi-tools, and more. Join the carry at The Carry Exchange.",
+    "The carry culture community. Expert reviews, buyer's guides, and marketplace for EDC, bags, travel gear, and rucking. Join the collective at jointhecarry.com.",
   keywords: [
     "everyday carry",
     "EDC",
+    "EDC reviews",
+    "gear reviews",
+    "carry culture",
+    "backpack reviews",
+    "travel carry",
+    "rucking gear",
     "EDC marketplace",
-    "buy sell EDC",
-    "trade EDC gear",
-    "pocket knife marketplace",
-    "flashlight marketplace",
-    "EDC community",
-    "sell EDC gear",
-    "buy used knives",
-    "EDC exchange",
-    "everyday carry marketplace",
+    "carry-on luggage",
+    "sling bags",
+    "pocket knife reviews",
+    "flashlight reviews",
+    "carry collective",
+    "best EDC gear",
+    "rucking community",
   ],
   icons: {
     icon: [
@@ -30,26 +34,26 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "The Carry Exchange — Buy, Sell, Trade & Rent Everyday Carry",
+    title: "The Carry Collective — Gear Reviews, Guides & Marketplace",
     description:
-      "The community marketplace for EDC gear. Buy, sell, trade, lend, and rent everyday carry. Join the carry.",
+      "The carry culture community. Reviews, guides, and marketplace for EDC, bags, travel gear, and rucking. Join the collective.",
     url: "https://jointhecarry.com",
-    siteName: "The Carry Exchange",
+    siteName: "The Carry Collective",
     type: "website",
     images: [
       {
         url: "https://jointhecarry.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "The Carry Exchange — The EDC Community Marketplace",
+        alt: "The Carry Collective — Gear Reviews, Guides & Community Marketplace",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "The Carry Exchange — Buy, Sell, Trade & Rent Everyday Carry",
+    title: "The Carry Collective — Gear Reviews, Guides & Marketplace",
     description:
-      "The community marketplace for EDC gear. Buy, sell, trade, lend, and rent everyday carry. Join the carry.",
+      "The carry culture community. Reviews, guides, and marketplace for EDC, bags, travel gear, and rucking.",
     images: ["https://jointhecarry.com/og-image.png"],
   },
   alternates: {
@@ -64,17 +68,17 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "The Carry Exchange",
+  name: "The Carry Collective",
   url: "https://jointhecarry.com",
-  logo: "https://jointhecarry.com/icon-new-white.png",
+  logo: "https://jointhecarry.com/tcc-shield-logo.png",
   description:
-    "The community marketplace for everyday carry enthusiasts. Buy, sell, trade, lend, and rent EDC gear.",
+    "The carry culture community. Expert reviews, buyer's guides, and marketplace for EDC, bags, travel gear, and rucking.",
   sameAs: [
-    "https://www.instagram.com/thecarryexchange/",
+    "https://www.instagram.com/thecarrycollective/",
     "https://www.facebook.com/profile.php?id=61587984548075",
     "https://x.com/jointhecarry",
   ],
-  foundingDate: "2026",
+  foundingDate: "2024",
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer support",
@@ -85,13 +89,13 @@ const jsonLd = {
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "The Carry Exchange",
+  name: "The Carry Collective",
   url: "https://jointhecarry.com",
   description:
-    "Buy, sell, trade, lend, and rent everyday carry gear. The community marketplace for EDC enthusiasts.",
+    "Expert reviews, buyer's guides, and marketplace for EDC, bags, travel gear, and rucking. The carry culture community.",
   potentialAction: {
     "@type": "SearchAction",
-    target: "https://jointhecarry.com/marketplace?q={search_term_string}",
+    target: "https://jointhecarry.com/categories?search={search_term_string}",
     "query-input": "required name=search_term_string",
   },
 };

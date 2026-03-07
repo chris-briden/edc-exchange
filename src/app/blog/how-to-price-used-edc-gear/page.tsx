@@ -156,7 +156,7 @@ export default function Post() {
       <p>
         And fourth, factor in fees. If you&apos;re selling on eBay, that 13% hit
         is real. Reddit swaps avoid platform fees but require PayPal G&amp;S (about 3%).
-        When The Carry Exchange launches, we&apos;re starting at just 3% commission —
+        When The Carry Collective launches, we&apos;re starting at just 3% commission —
         designed specifically so you keep more of what your gear is worth.
       </p>
 

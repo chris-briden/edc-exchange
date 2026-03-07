@@ -49,7 +49,7 @@ export default async function ProductDetailPage({ params }: Props) {
     .eq('product_id', product.id)
     .order('price', { ascending: true });
 
-  // Get native listings (items on The Carry Exchange)
+  // Get native listings (items on The Carry Collective)
   const { data: nativeItems } = await supabase
     .from('items')
     .select('*, profiles(username, avatar_url), item_images(url, position)')
@@ -181,7 +181,7 @@ export default async function ProductDetailPage({ params }: Props) {
         {/* Native Listings Section */}
         {nativeItems && nativeItems.length > 0 && (
           <section className="mb-10">
-            <h2 className="text-xl font-bold mb-4">Listed on The Carry Exchange</h2>
+            <h2 className="text-xl font-bold mb-4">Listed on The Carry Collective</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {nativeItems.map(item => (
                 <Link
@@ -211,7 +211,7 @@ export default async function ProductDetailPage({ params }: Props) {
         <section className="text-center py-10 bg-zinc-900/30 border border-zinc-800 rounded-xl">
           <h3 className="text-lg font-bold mb-2">Have this item?</h3>
           <p className="text-sm text-zinc-400 mb-4">
-            List it on The Carry Exchange and reach EDC enthusiasts
+            List it on The Carry Collective and reach EDC enthusiasts
           </p>
           <Link
             href="/items/new"

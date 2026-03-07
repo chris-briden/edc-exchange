@@ -177,7 +177,7 @@ export default function Post() {
       <p>
         And when pieces rotate out — which they will, because that&apos;s half the
         fun — you&apos;ll need somewhere to sell them. That&apos;s where we come in.
-        The Carry Exchange is building the home for exactly this: a place where
+        The Carry Collective is building the home for exactly this: a place where
         your old carry becomes someone else&apos;s new favorite piece.
       </p>
     </BlogPostLayout>

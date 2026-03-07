@@ -68,7 +68,7 @@ export default function Post() {
       </p>
 
       <p>
-        At The Carry Exchange, our first 100 sellers get permanently locked at our
+        At The Carry Collective, our first 100 sellers get permanently locked at our
         lowest commission rate. Not a trial. Not a promo that expires. A permanent
         rate that&apos;s lower than anything we&apos;ll offer after launch. Plus a
         Founding Seller badge on your profile that tells every buyer you were here
@@ -119,7 +119,7 @@ export default function Post() {
 
       <p>
         And if your first few items sell quickly (which they will with less competition),
-        you can reinvest into more gear — buy low on Reddit, sell on The Carry Exchange,
+        you can reinvest into more gear — buy low on Reddit, sell on The Carry Collective,
         build your reputation, and turn your hobby into something that funds itself.
       </p>
 

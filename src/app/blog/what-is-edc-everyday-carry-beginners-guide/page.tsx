@@ -145,7 +145,7 @@ export default function Post() {
       <p>
         And when you&apos;re ready to buy your first piece of gear (or sell something
         that&apos;s not making the rotation), that&apos;s exactly what we&apos;re building
-        The Carry Exchange for. A place where the community can buy, sell, trade, and
+        The Carry Collective for. A place where the community can buy, sell, trade, and
         share gear with the lowest fees and the best experience.
       </p>
     </BlogPostLayout>

@@ -6,7 +6,7 @@ import { blogPosts } from './blogData';
 export const metadata: Metadata = {
   title: 'Blog — EDC Guides, Tips & Gear Talk',
   description:
-    'Guides on buying, selling, and trading everyday carry gear. Pocket dump inspiration, pricing tips, and community stories from The Carry Exchange.',
+    'Guides on buying, selling, and trading everyday carry gear. Pocket dump inspiration, pricing tips, and community stories from The Carry Collective.',
   alternates: {
     canonical: 'https://jointhecarry.com/blog',
   },
@@ -20,13 +20,13 @@ export default function BlogIndex() {
         <div className="max-w-5xl mx-auto px-6 py-6 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition">
             <Image
-              src="/icon-new-white.png"
-              alt="The Carry Exchange"
+              src="/tcc-icon.png"
+              alt="The Carry Collective"
               width={40}
               height={40}
               className="w-8 h-8"
             />
-            <span className="font-bold text-lg">The Carry Exchange</span>
+            <span className="font-bold text-lg">The Carry Collective</span>
           </Link>
           <Link
             href="/"
@@ -94,7 +94,7 @@ export default function BlogIndex() {
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-2xl font-bold mb-4">Ready to join the community?</h2>
           <p className="text-gray-400 mb-8">
-            The Carry Exchange is building the marketplace the EDC community deserves.
+            The Carry Collective is building the marketplace the EDC community deserves.
             Get on the waitlist and be first to know when we launch.
           </p>
           <Link
@@ -108,7 +108,7 @@ export default function BlogIndex() {
 
       {/* Footer */}
       <footer className="border-t border-zinc-800 py-8 px-6 text-center text-sm text-gray-500">
-        <p>&copy; 2026 The Carry Exchange</p>
+        <p>&copy; 2026 The Carry Collective</p>
       </footer>
     </div>
   );

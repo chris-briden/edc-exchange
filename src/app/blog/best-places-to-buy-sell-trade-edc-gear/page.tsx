@@ -139,7 +139,7 @@ export default function Post() {
       </p>
 
       <p>
-        That&apos;s what we&apos;re building at The Carry Exchange. A proper marketplace
+        That&apos;s what we&apos;re building at The Carry Collective. A proper marketplace
         with the lowest fees in the game (starting at 3%), built-in rentals (try before
         you buy), and a community-first approach where your reputation matters.
       </p>

@@ -189,7 +189,7 @@ function SignupForm() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 px-4 py-8">
         <div className="w-full max-w-md text-center">
           <div className="flex justify-center mb-4 sm:mb-8">
-            <Image src="/icon-new-white.png" alt="The Carry Exchange" width={568} height={556} className="w-28 sm:w-40 h-28 sm:h-40 opacity-90 drop-shadow-2xl" />
+            <Image src="/tcc-icon.png" alt="The Carry Collective" width={568} height={556} className="w-28 sm:w-40 h-28 sm:h-40 opacity-90 drop-shadow-2xl" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3 text-white">You&apos;re almost in!</h1>
           <p className="text-gray-300 mb-4 sm:mb-6 text-xs sm:text-sm leading-relaxed">
@@ -224,13 +224,13 @@ function SignupForm() {
         {/* Logo & Header */}
         <div className="text-center mb-6 sm:mb-8">
           <div className="flex justify-center mb-4 sm:mb-6">
-            <Image src="/icon-new-white.png" alt="The Carry Exchange" width={568} height={556} className="w-24 sm:w-32 h-24 sm:h-32 opacity-90 drop-shadow-2xl" />
+            <Image src="/tcc-icon.png" alt="The Carry Collective" width={568} height={556} className="w-24 sm:w-32 h-24 sm:h-32 opacity-90 drop-shadow-2xl" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 sm:mb-3">
             Create your account
           </h1>
           <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
-            Join The Carry Exchange community. It only takes a minute.
+            Join The Carry Collective community. It only takes a minute.
           </p>
         </div>
 

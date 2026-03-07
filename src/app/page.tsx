@@ -1,504 +1,294 @@
-// src/app/page.tsx — Main homepage (merged from waitlist landing + marketplace intro)
+// src/app/page.tsx — The Carry Collective Homepage
 'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
-import { ArrowRight, ShieldCheck, RefreshCw, Package, Search, Trophy, Wallet } from 'lucide-react';
+import Footer from '@/components/Footer';
+import { ArrowRight, Pocket, Backpack, Plane, Dumbbell, Star, TrendingUp, Users, ShieldCheck } from 'lucide-react';
+
+const PILLARS = [
+  {
+    icon: Pocket,
+    title: 'EDC',
+    subtitle: 'Everyday Carry',
+    desc: 'Knives, flashlights, multi-tools, pens, wallets — the gear in your pockets.',
+    href: '/edc',
+    color: 'from-orange-500/20 to-orange-600/20',
+    accent: 'text-orange-400',
+    border: 'hover:border-orange-500/50',
+  },
+  {
+    icon: Backpack,
+    title: 'Bags & Packs',
+    subtitle: 'Carry Systems',
+    desc: 'Backpacks, slings, messengers, duffels — how you haul your world.',
+    href: '/bags',
+    color: 'from-amber-500/20 to-amber-600/20',
+    accent: 'text-amber-400',
+    border: 'hover:border-amber-500/50',
+  },
+  {
+    icon: Plane,
+    title: 'Travel Carry',
+    subtitle: 'On The Move',
+    desc: 'Carry-on luggage, packing systems, tech kits, airline guides.',
+    href: '/travel',
+    color: 'from-sky-500/20 to-sky-600/20',
+    accent: 'text-sky-400',
+    border: 'hover:border-sky-500/50',
+  },
+  {
+    icon: Dumbbell,
+    title: 'Ruck & Fitness',
+    subtitle: 'Loaded Carry',
+    desc: 'Rucksacks, weighted vests, training plans, and ruck club directory.',
+    href: '/ruck',
+    color: 'from-green-500/20 to-green-600/20',
+    accent: 'text-green-400',
+    border: 'hover:border-green-500/50',
+  },
+];
 
 export default function HomePage() {
-  // signupCount removed — not currently fetched from API
-
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar />
 
-      {/* ═══════════════════════════════════════════════════════════
-          HERO SECTION — Editorial, type-first design
-          Inspired by Huckberry/Grailed marketplace aesthetics
-      ═══════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
+      {/* ═══════════════ HERO ═══════════════ */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+        {/* Background */}
         <div className="absolute inset-0">
           <Image
             src="/hero-edc-layout.jpg"
-            alt="EDC gear flatlay — flashlight, wallet, watch, pen, multi-tool"
+            alt="Gear flatlay — knife, flashlight, wallet, watch, pen, multi-tool"
             fill
             className="object-cover object-center scale-105"
             priority
             quality={85}
           />
-          {/* Cinematic dark overlay — heavier on edges, lighter center for depth */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/55 to-black/90" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40" />
-          {/* Bottom fade */}
           <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent" />
         </div>
 
         {/* Content */}
         <div className="relative z-10 max-w-5xl mx-auto px-5 sm:px-8 pt-28 sm:pt-32 pb-20 text-center">
-
-          {/* Eyebrow badge */}
-          <div className="mb-8 sm:mb-10 inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-orange-500"></span>
-            </span>
-            <span className="text-sm text-gray-300 font-medium tracking-wide">
-              Now accepting early members
-            </span>
+          {/* Shield logo */}
+          <div className="mb-6 sm:mb-8">
+            <Image
+              src="/tcc-shield-logo.png"
+              alt="The Carry Collective shield logo"
+              width={850}
+              height={795}
+              className="mx-auto h-28 sm:h-40 w-auto drop-shadow-2xl"
+              priority
+            />
           </div>
 
-          {/* Headline — big, bold, editorial */}
-          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight mb-6 sm:mb-8">
+          {/* Headline */}
+          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[0.95] tracking-tight mb-6 sm:mb-8">
             <span className="block text-white">
-              The Marketplace
+              Reviews. Guides. Gear.
             </span>
-            <span className="block text-white">
-              for{' '}
+            <span className="block mt-2">
               <span className="bg-gradient-to-r from-orange-400 via-orange-500 to-amber-400 bg-clip-text text-transparent">
-                Everyday Carry
+                Everything You Carry.
               </span>
             </span>
           </h1>
 
-          {/* Subheadline — concise value prop */}
+          {/* Subheadline */}
           <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-10 sm:mb-12 max-w-2xl mx-auto leading-relaxed font-light">
-            Buy, sell, trade, and{' '}
-            <span className="text-orange-400 font-medium">rent</span>{' '}
-            knives, flashlights, watches, and gear — with the lowest fees
-            and the only try-before-you-buy program in EDC.
+            The carry culture community. Expert reviews, buyer&apos;s guides, price comparison, and marketplace for{' '}
+            <span className="text-orange-400 font-medium">EDC</span>,{' '}
+            <span className="text-amber-400 font-medium">bags</span>,{' '}
+            <span className="text-sky-400 font-medium">travel gear</span>, and{' '}
+            <span className="text-green-400 font-medium">rucking</span>.
           </p>
 
-          {/* CTA — links directly to registration */}
+          {/* CTA */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
             <Link
               href="/signup"
-              className="
-                inline-flex items-center justify-center
-                px-8 py-3.5 rounded-full
-                bg-orange-500 hover:bg-orange-400
-                text-white text-base font-bold tracking-wide
-                transition-all transform hover:scale-[1.03]
-                active:scale-[0.98]
-                shadow-lg shadow-orange-600/30
-              "
+              className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-orange-500 hover:bg-orange-400 text-white text-base font-bold tracking-wide transition-all transform hover:scale-[1.03] active:scale-[0.98] shadow-lg shadow-orange-600/30"
             >
-              Join the Carry
+              Join The Collective
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
             <Link
-              href="/login"
-              className="
-                inline-flex items-center justify-center
-                px-6 py-3.5 rounded-full
-                bg-white/5 hover:bg-white/10 border border-white/15
-                text-white text-sm font-medium
-                transition-all
-              "
+              href="/reviews"
+              className="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white text-sm font-medium transition-all"
             >
-              Sign In
+              Browse Reviews
             </Link>
           </div>
 
-          {/* Trust signals */}
-          <p className="text-xs text-gray-500 mb-12 sm:mb-16">
-            Free to join &bull; Lowest fees in EDC &bull; Try before you buy
+          <p className="text-xs text-gray-500 mb-12">
+            Free to join &bull; Expert reviews &bull; Price comparison &bull; Community marketplace
           </p>
 
-          {/* Feature pills — at-a-glance value props */}
-          <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10 sm:mb-14">
-            {[
-              { icon: '🔪', label: 'Knives & Blades', href: '/products?category=knives' },
-              { icon: '🔦', label: 'Flashlights', href: '/categories' },
-              { icon: '⌚', label: 'Watches', href: '/categories' },
-              { icon: '🔧', label: 'Multi-Tools', href: '/products?category=multi-tools' },
-              { icon: '✏️', label: 'Pens', href: '/categories' },
-              { icon: '👛', label: 'Wallets', href: '/categories' },
-            ].map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm text-sm text-gray-300 hover:border-orange-500/40 hover:bg-orange-500/5 transition-all"
-              >
-                <span>{item.icon}</span>
-                <span>{item.label}</span>
-              </Link>
-            ))}
-          </div>
-
-          {/* Bottom row — blog + social */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-orange-400 transition-colors group"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
-              Read our EDC guides
-              <svg className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-
-            <div className="flex items-center gap-4">
-              <a href="https://www.instagram.com/thecarryexchange/" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-orange-400 transition-colors" aria-label="Instagram">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-              </a>
-              <a href="https://www.facebook.com/profile.php?id=61587984548075" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-orange-400 transition-colors" aria-label="Facebook">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-              </a>
-              <a href="https://x.com/jointhecarry" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-orange-400 transition-colors" aria-label="X">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll indicator — subtle */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce opacity-40">
-          <svg className="w-5 h-5 text-white" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-            <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </div>
-      </section>
-
-      {/* The Old Way vs. The Carry Way */}
-      <section className="relative py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-black to-zinc-900">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 sm:mb-4">
-            There Has to Be a Better Way
-          </h2>
-          <p className="text-gray-400 text-center mb-10 sm:mb-16 max-w-2xl mx-auto text-base sm:text-lg px-2">
-            Sound familiar? We built The Carry Exchange because we were tired of it too.
-          </p>
-
-          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
-            {/* The Old Way */}
-            <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-2xl p-6 sm:p-8">
-              <div className="flex items-center gap-3 mb-5 sm:mb-6">
-                <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center shrink-0">
-                  <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold text-red-400">The Old Way</h3>
-              </div>
-              <ul className="space-y-3 sm:space-y-4">
-                {[
-                  'Handwritten timestamps on Reddit posts',
-                  'PayPal F&F with zero buyer protection',
-                  'eBay fees eating into every sale',
-                  'Spending $300 on a knife you\'ve never held',
-                  'Explaining to non-EDC buyers why your knife is worth it',
-                ].map((text, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-red-400/60 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                    </svg>
-                    <span className="text-sm sm:text-base text-gray-300">{text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* The Carry Way */}
-            <div className="bg-zinc-900/50 backdrop-blur border border-orange-500/30 rounded-2xl p-6 sm:p-8">
-              <div className="flex items-center gap-3 mb-5 sm:mb-6">
-                <div className="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center shrink-0">
-                  <svg className="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold text-orange-400">The Carry Way</h3>
-              </div>
-              <ul className="space-y-3 sm:space-y-4">
-                {[
-                  'Purpose-built marketplace for EDC gear',
-                  'Stripe-powered secure payments built in',
-                  'Starting at just 3% — the lowest fees around',
-                  'Rent gear to try before you commit',
-                  'A community that gets why a Sebenza is worth every penny',
-                ].map((text, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <svg className="w-5 h-5 text-orange-400/60 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span className="text-sm sm:text-base text-gray-300">{text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Scroll indicator */}
+          <div className="animate-bounce opacity-40">
+            <svg className="w-5 h-5 mx-auto text-white" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+              <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="relative py-16 sm:py-24 px-4 sm:px-6 bg-zinc-900">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 sm:mb-4">
-            How It Works
-          </h2>
-          <p className="text-gray-400 text-center mb-10 sm:mb-16 text-base sm:text-lg">
-            Three steps. Zero handwritten timestamps.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-8 md:gap-4 items-start">
-            {/* Step 1 */}
-            <div className="text-center">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-6 rounded-2xl bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
-                <Package className="w-7 h-7 sm:w-8 sm:h-8 text-orange-500" />
-              </div>
-              <div className="text-xs sm:text-sm font-bold text-orange-400 mb-2">STEP 1</div>
-              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">List Your Gear</h3>
-              <p className="text-sm sm:text-base text-gray-400 leading-relaxed px-2">
-                Snap a photo, set your price, and choose to sell, trade, or rent. Takes less than a minute.
-              </p>
-            </div>
-
-            <div className="hidden md:flex items-center justify-center pt-8">
-              <ArrowRight className="w-6 h-6 text-zinc-600" />
-            </div>
-
-            {/* Step 2 */}
-            <div className="text-center">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-6 rounded-2xl bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
-                <ShieldCheck className="w-7 h-7 sm:w-8 sm:h-8 text-orange-500" />
-              </div>
-              <div className="text-xs sm:text-sm font-bold text-orange-400 mb-2">STEP 2</div>
-              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">Connect &amp; Pay Securely</h3>
-              <p className="text-sm sm:text-base text-gray-400 leading-relaxed px-2">
-                Find your next grail or the perfect buyer. Stripe handles the money — no PayPal F&amp;F risk.
-              </p>
-            </div>
-
-            <div className="hidden md:flex items-center justify-center pt-8">
-              <ArrowRight className="w-6 h-6 text-zinc-600" />
-            </div>
-
-            {/* Step 3 */}
-            <div className="text-center">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-6 rounded-2xl bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
-                <RefreshCw className="w-7 h-7 sm:w-8 sm:h-8 text-orange-500" />
-              </div>
-              <div className="text-xs sm:text-sm font-bold text-orange-400 mb-2">STEP 3</div>
-              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">Ship &amp; Rotate</h3>
-              <p className="text-sm sm:text-base text-gray-400 leading-relaxed px-2">
-                Ship your gear, fund your next purchase, and keep your collection fresh.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Try Before You Buy — Dedicated Section */}
-      <section className="relative py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-zinc-900 to-black overflow-hidden">
-        {/* Background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-96 h-64 sm:h-96 bg-orange-500/10 rounded-full blur-3xl" />
-
-        <div className="max-w-4xl mx-auto relative z-10">
-          <div className="text-center">
-            <div className="inline-block px-4 py-2 bg-orange-500/20 border border-orange-500/50 rounded-full mb-4 sm:mb-6">
-              <span className="text-orange-400 font-semibold text-xs sm:text-sm">
-                ONLY ON THE CARRY EXCHANGE
-              </span>
-            </div>
-
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">
-              Try Before You Buy
-            </h2>
-
-            <p className="text-base sm:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-2">
-              Curious about that $400 Sebenza? Rent it for a week before you commit.
-              Sellers earn rental income. Buyers try with confidence. Everyone wins.
-            </p>
-
-            <div className="grid sm:grid-cols-3 gap-4 sm:gap-6 mt-8 sm:mt-12">
-              <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-5 sm:p-6 hover:border-orange-500/50 transition-all">
-                <div className="w-11 h-11 sm:w-12 sm:h-12 mb-3 sm:mb-4 rounded-lg bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
-                  <Search className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />
-                </div>
-                <h4 className="font-bold mb-1.5 sm:mb-2 text-sm sm:text-base">For Buyers</h4>
-                <p className="text-gray-400 text-xs sm:text-sm">Try premium gear risk-free before dropping hundreds</p>
-              </div>
-              <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-5 sm:p-6 hover:border-orange-500/50 transition-all">
-                <div className="w-11 h-11 sm:w-12 sm:h-12 mb-3 sm:mb-4 rounded-lg bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
-                  <Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />
-                </div>
-                <h4 className="font-bold mb-1.5 sm:mb-2 text-sm sm:text-base">For Sellers</h4>
-                <p className="text-gray-400 text-xs sm:text-sm">Earn rental income on gear that&apos;s sitting in a drawer</p>
-              </div>
-              <div className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-5 sm:p-6 hover:border-orange-500/50 transition-all">
-                <div className="w-11 h-11 sm:w-12 sm:h-12 mb-3 sm:mb-4 rounded-lg bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
-                  <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />
-                </div>
-                <h4 className="font-bold mb-1.5 sm:mb-2 text-sm sm:text-base">No One Else Has This</h4>
-                <p className="text-gray-400 text-xs sm:text-sm">The only EDC marketplace with a rental model. Period.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* What We're Building Section */}
+      {/* ═══════════════ 4 PILLARS ═══════════════ */}
       <section className="relative py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-black to-zinc-900">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 sm:mb-16">
-            What We&apos;re Building
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3">
+            One Community. Every Carry.
           </h2>
+          <p className="text-gray-400 text-center mb-10 sm:mb-16 max-w-2xl mx-auto text-base sm:text-lg">
+            Whether it&apos;s in your pocket, on your back, at the airport, or on the trail — we cover it all.
+          </p>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-            {[
-              {
-                icon: (
-                  <svg className="w-7 h-7 sm:w-8 sm:h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                ),
-                title: 'Buy & Sell',
-                desc: 'List your gear in minutes. Find your next grail from verified sellers.',
-              },
-              {
-                icon: (
-                  <svg className="w-7 h-7 sm:w-8 sm:h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                  </svg>
-                ),
-                title: 'Lowest Fees',
-                desc: 'Starting at just 3% commission. Keep more of every sale.',
-              },
-              {
-                icon: (
-                  <svg className="w-7 h-7 sm:w-8 sm:h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                ),
-                title: 'Rentals',
-                desc: 'Earn rental income on your valuable items or offer try before you buy.',
-                extra: '*Not available anywhere else!',
-              },
-              {
-                icon: (
-                  <svg className="w-7 h-7 sm:w-8 sm:h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                ),
-                title: 'Community First',
-                desc: 'Build your collection and proudly share it with a growing community of carry enthusiasts.',
-              },
-            ].map((card, i) => (
-              <div key={i} className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 sm:p-8 hover:border-orange-500/50 transition-all group">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 mb-4 sm:mb-6 rounded-lg bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  {card.icon}
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">{card.title}</h3>
-                <p className="text-sm sm:text-base text-gray-400 leading-relaxed">{card.desc}</p>
-                {card.extra && (
-                  <p className="text-orange-500 text-xs sm:text-sm font-semibold mt-2">{card.extra}</p>
-                )}
-              </div>
-            ))}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {PILLARS.map((pillar) => {
+              const Icon = pillar.icon;
+              return (
+                <Link
+                  key={pillar.title}
+                  href={pillar.href}
+                  className={`bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 sm:p-8 ${pillar.border} transition-all group`}
+                >
+                  <div className={`w-12 h-12 sm:w-14 sm:h-14 mb-4 sm:mb-5 rounded-lg bg-gradient-to-br ${pillar.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                    <Icon className={`w-6 h-6 sm:w-7 sm:h-7 ${pillar.accent}`} />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold mb-1">{pillar.title}</h3>
+                  <p className={`text-xs font-semibold ${pillar.accent} mb-2 uppercase tracking-wider`}>{pillar.subtitle}</p>
+                  <p className="text-sm text-gray-400 leading-relaxed">{pillar.desc}</p>
+                  <div className={`mt-4 flex items-center gap-1 text-sm font-medium ${pillar.accent} group-hover:gap-2 transition-all`}>
+                    Explore <ArrowRight className="w-3.5 h-3.5" />
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Founding Seller CTA Section */}
+      {/* ═══════════════ WHAT WE OFFER ═══════════════ */}
+      <section className="relative py-16 sm:py-24 px-4 sm:px-6 bg-zinc-900">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 sm:mb-16">
+            Everything You Need. One Place.
+          </h2>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {[
+              {
+                icon: Star,
+                title: 'Expert Reviews',
+                desc: 'In-depth, honest reviews of the gear that matters. No fluff, no paid placements.',
+                color: 'text-orange-500',
+              },
+              {
+                icon: TrendingUp,
+                title: 'Price Comparison',
+                desc: 'Track prices across retailers. Find the best deal before you buy.',
+                color: 'text-orange-500',
+              },
+              {
+                icon: Users,
+                title: 'Community',
+                desc: 'Share your carry, get recommendations, and connect with fellow gear enthusiasts.',
+                color: 'text-orange-500',
+              },
+              {
+                icon: ShieldCheck,
+                title: 'Marketplace',
+                desc: 'Buy, sell, trade, and rent gear with Stripe-powered secure payments.',
+                color: 'text-orange-500',
+              },
+            ].map((card) => {
+              const Icon = card.icon;
+              return (
+                <div key={card.title} className="bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 hover:border-orange-500/50 transition-all">
+                  <div className="w-12 h-12 mb-4 rounded-lg bg-gradient-to-br from-orange-500/20 to-orange-600/20 flex items-center justify-center">
+                    <Icon className={`w-6 h-6 ${card.color}`} />
+                  </div>
+                  <h3 className="text-lg font-bold mb-2">{card.title}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed">{card.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════ PRICE CHECK HIGHLIGHT ═══════════════ */}
+      <section className="relative py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-zinc-900 to-black overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-96 h-64 sm:h-96 bg-orange-500/10 rounded-full blur-3xl" />
+
+        <div className="max-w-4xl mx-auto relative z-10 text-center">
+          <div className="inline-block px-4 py-2 bg-orange-500/20 border border-orange-500/50 rounded-full mb-6">
+            <span className="text-orange-400 font-semibold text-xs sm:text-sm">
+              LIVE NOW — 49 PRODUCTS TRACKED
+            </span>
+          </div>
+
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">
+            Never Overpay for Gear Again
+          </h2>
+          <p className="text-base sm:text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+            Our price comparison engine tracks prices across BladeHQ, KnifeCenter, SMKW, and more. Compare prices across retailers before you buy.
+          </p>
+
+          <Link
+            href="/products"
+            className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-orange-500 hover:bg-orange-400 text-white text-base font-bold tracking-wide transition-all transform hover:scale-[1.03] shadow-lg shadow-orange-600/30"
+          >
+            Compare Prices
+            <ArrowRight className="ml-2 w-4 h-4" />
+          </Link>
+        </div>
+      </section>
+
+      {/* ═══════════════ FOUNDING MEMBER CTA ═══════════════ */}
       <section className="relative py-16 sm:py-24 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto">
           <div className="relative bg-gradient-to-br from-zinc-900 to-black border border-orange-500/30 rounded-2xl p-8 sm:p-12 overflow-hidden">
-            {/* Background glow */}
             <div className="absolute top-0 right-0 w-48 sm:w-64 h-48 sm:h-64 bg-orange-500/10 rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-48 sm:w-64 h-48 sm:h-64 bg-orange-600/10 rounded-full blur-3xl" />
 
             <div className="relative z-10 text-center">
-              <div className="inline-block px-4 py-2 bg-orange-500/20 border border-orange-500/50 rounded-full mb-4 sm:mb-6">
+              <div className="inline-block px-4 py-2 bg-orange-500/20 border border-orange-500/50 rounded-full mb-6">
                 <span className="text-orange-400 font-semibold text-xs sm:text-sm">
                   LIMITED SPOTS
                 </span>
               </div>
 
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
-                Become a Founding Seller
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+                Become a Founding Member
               </h2>
 
-              <p className="text-base sm:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-2">
-                Our first 100 sellers get permanently locked at our lowest commission
-                rate, plus a Founding Seller badge on their profile. List knives,
-                pens, watches, flashlights, multi-tools, and more.
+              <p className="text-base sm:text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+                Our first 100 members get permanently locked at our lowest marketplace commission
+                rate, plus a Founding Member badge on their profile. Early access to reviews, deals, and Pro features.
               </p>
 
               <Link
-                href="/signup?redirect=/sell"
-                className="
-                  inline-flex items-center justify-center
-                  px-8 py-3.5 rounded-full
-                  bg-orange-500 hover:bg-orange-400
-                  text-white text-base font-bold tracking-wide
-                  transition-all transform hover:scale-[1.03]
-                  active:scale-[0.98]
-                  shadow-lg shadow-orange-600/30
-                "
+                href="/signup"
+                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-orange-500 hover:bg-orange-400 text-white text-base font-bold tracking-wide transition-all transform hover:scale-[1.03] active:scale-[0.98] shadow-lg shadow-orange-600/30"
               >
-                Claim Your Spot
+                Join The Collective
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
 
               <p className="text-xs sm:text-sm text-gray-500 mt-4">
-                Founding Seller spots are limited
+                Founding Member spots are limited
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-zinc-800 py-8 sm:py-12 px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6 mb-6 sm:mb-8">
-            {/* Logo: Icon + Text */}
-            <div className="flex items-center gap-3">
-              <Image
-                src="/icon-new-white.png"
-                alt="The Carry Exchange"
-                width={568}
-                height={556}
-                className="h-8 w-8 sm:h-10 sm:w-10"
-              />
-              <span className="text-base sm:text-lg font-bold tracking-wide text-white">
-                The Carry Exchange
-              </span>
-            </div>
-
-            {/* Nav Links */}
-            <div className="flex items-center gap-4 sm:gap-6">
-              <Link
-                href="/blog"
-                className="text-gray-400 hover:text-orange-400 transition-colors font-medium text-sm sm:text-base"
-              >
-                Blog
-              </Link>
-              <a
-                href="https://instagram.com/jointhecarry"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
-                aria-label="Instagram"
-              >
-                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                </svg>
-              </a>
-            </div>
-          </div>
-
-          {/* Bottom bar */}
-          <div className="text-center text-xs sm:text-sm text-gray-500">
-            <p className="mb-1.5 sm:mb-2">
-              The Carry Exchange — Buy, Sell, Trade &amp; Rent Everyday Carry
-            </p>
-            <p>&copy; 2026 The Carry Exchange</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

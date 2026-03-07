@@ -6,8 +6,8 @@ export default function NotFound() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="text-center max-w-md">
         <div className="flex justify-center items-center gap-3 mb-6">
-          <Image src="/icon-new-dark-fixed.png" alt="The Carry Exchange" width={1024} height={1024} className="h-12 w-12" />
-          <span className="text-xl font-bold tracking-wide text-gray-900">The Carry Exchange</span>
+          <Image src="/tcc-icon.png" alt="The Carry Collective" width={1024} height={1024} className="h-12 w-12" />
+          <span className="text-xl font-bold tracking-wide text-gray-900">The Carry Collective</span>
         </div>
         <h1 className="text-6xl font-extrabold text-gray-900 mb-2">404</h1>
         <p className="text-xl font-semibold text-gray-700 mb-2">Page not found</p>

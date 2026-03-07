@@ -122,7 +122,7 @@ export default function ConnectStripeButton() {
             Connect Stripe to Sell & Rent
           </p>
           <p className="text-xs text-gray-400 mt-0.5">
-            Set up payouts to list items for sale or rent on The Carry Exchange
+            Set up payouts to list items for sale or rent on The Carry Collective
           </p>
         </div>
         <button

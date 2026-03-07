@@ -47,10 +47,10 @@ function LoginForm() {
         {/* Logo */}
         <div className="text-center mb-6 sm:mb-8">
           <div className="flex justify-center mb-4 sm:mb-6">
-            <Image src="/icon-new-white.png" alt="The Carry Exchange" width={568} height={556} className="w-24 sm:w-32 h-24 sm:h-32 opacity-90 drop-shadow-2xl" />
+            <Image src="/tcc-icon.png" alt="The Carry Collective" width={568} height={556} className="w-24 sm:w-32 h-24 sm:h-32 opacity-90 drop-shadow-2xl" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 sm:mb-3">
-            Sign in to The Carry Exchange
+            Sign in to The Carry Collective
           </h1>
           <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
             Welcome back. Pick up where you left off.
@@ -134,7 +134,7 @@ function LoginForm() {
         {/* Create account link */}
         <div className="mt-4 sm:mt-6 p-3 sm:p-4 rounded-xl bg-zinc-800/30 border border-zinc-700 text-center">
           <p className="text-xs sm:text-sm text-gray-300">
-            New to The Carry Exchange?{" "}
+            New to The Carry Collective?{" "}
             <Link
               href="/signup"
               className="text-orange-400 font-semibold hover:text-orange-300 transition"

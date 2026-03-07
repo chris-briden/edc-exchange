@@ -51,9 +51,9 @@ export const DEFAULT_PARCEL = {
   mass_unit: "lb" as const,
 };
 
-/** Platform return address (The Carry Exchange HQ — update with real address) */
+/** Platform return address (The Carry Collective HQ — update with real address) */
 export const PLATFORM_RETURN_ADDRESS = {
-  name: process.env.PLATFORM_ADDRESS_NAME || "The Carry Exchange",
+  name: process.env.PLATFORM_ADDRESS_NAME || "The Carry Collective",
   street1: process.env.PLATFORM_ADDRESS_STREET || "",
   city: process.env.PLATFORM_ADDRESS_CITY || "",
   state: process.env.PLATFORM_ADDRESS_STATE || "",
