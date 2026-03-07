@@ -33,6 +33,7 @@ export default function EventsPage() {
       pillarHref="/ruck"
       description="GORUCK events, Star Course, ruck marches, and community challenges to keep you moving. Find your next mission."
       iconName="dumbbell"
+      heroImage="/hero-ruck-events.jpg"
       accentColor="green"
       features={features}
       relatedSubcategories={relatedSubcategories}

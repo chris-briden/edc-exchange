@@ -33,6 +33,7 @@ export default function DuffelsPage() {
       pillarHref="/bags"
       description="Gym duffels, weekenders, and expedition bags. From GORUCK to Patagonia — hauling capacity reviewed and compared."
       iconName="backpack"
+      heroImage="/hero-bags-duffels.jpg"
       accentColor="amber"
       features={features}
       relatedSubcategories={relatedSubcategories}

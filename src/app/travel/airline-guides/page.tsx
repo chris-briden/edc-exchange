@@ -33,6 +33,7 @@ export default function AirlineGuidesPage() {
       pillarHref="/travel"
       description="Carry-on size limits, personal item rules, and weight restrictions for every major airline. Your go-to reference before you fly."
       iconName="plane"
+      heroImage="/hero-travel-airlines.jpg"
       accentColor="sky"
       features={features}
       relatedSubcategories={relatedSubcategories}

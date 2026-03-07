@@ -33,6 +33,7 @@ export default function PensPage() {
       pillarHref="/edc"
       description="Bolt-action pens, tactical pens, fountain pens, and refills for everyday writers. The write stuff for your pocket."
       iconName="pocket"
+      heroImage="/hero-edc-pens.jpg"
       accentColor="orange"
       features={features}
       relatedSubcategories={relatedSubcategories}

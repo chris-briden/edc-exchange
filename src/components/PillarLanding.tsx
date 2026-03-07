@@ -43,38 +43,46 @@ interface PillarLandingProps {
   ctaHref?: string;
 }
 
-const colorMap: Record<string, { gradient: string; text: string; bg: string; border: string; badge: string; shadow: string }> = {
+const colorMap: Record<string, { gradient: string; text: string; bg: string; border: string; borderHover: string; badge: string; shadow: string; hoverText: string }> = {
   orange: {
     gradient: 'from-orange-500 to-orange-600',
     text: 'text-orange-400',
     bg: 'bg-orange-500/10',
     border: 'border-orange-500/30',
+    borderHover: 'hover:border-orange-500/50',
     badge: 'bg-orange-500/20 text-orange-400',
     shadow: 'shadow-orange-600/30',
+    hoverText: 'group-hover:text-orange-400',
   },
   amber: {
     gradient: 'from-amber-500 to-amber-600',
     text: 'text-amber-400',
     bg: 'bg-amber-500/10',
     border: 'border-amber-500/30',
+    borderHover: 'hover:border-amber-500/50',
     badge: 'bg-amber-500/20 text-amber-400',
     shadow: 'shadow-amber-600/30',
+    hoverText: 'group-hover:text-amber-400',
   },
   sky: {
     gradient: 'from-sky-500 to-sky-600',
     text: 'text-sky-400',
     bg: 'bg-sky-500/10',
     border: 'border-sky-500/30',
+    borderHover: 'hover:border-sky-500/50',
     badge: 'bg-sky-500/20 text-sky-400',
     shadow: 'shadow-sky-600/30',
+    hoverText: 'group-hover:text-sky-400',
   },
   green: {
     gradient: 'from-green-500 to-green-600',
     text: 'text-green-400',
     bg: 'bg-green-500/10',
     border: 'border-green-500/30',
+    borderHover: 'hover:border-green-500/50',
     badge: 'bg-green-500/20 text-green-400',
     shadow: 'shadow-green-600/30',
+    hoverText: 'group-hover:text-green-400',
   },
 };
 
@@ -172,7 +180,7 @@ export default function PillarLanding({
               <Link
                 key={sub.title}
                 href={sub.href}
-                className={`group bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 sm:p-8 hover:${colors.border} transition-all`}
+                className={`group bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 sm:p-8 ${colors.borderHover} transition-all`}
               >
                 <h3 className="text-lg sm:text-xl font-bold mb-2 group-hover:text-white transition-colors">
                   {sub.title}
@@ -208,12 +216,12 @@ export default function PillarLanding({
                 <Link
                   key={content.title}
                   href={content.href}
-                  className="group bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 hover:border-orange-500/50 transition-all"
+                  className={`group bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 ${colors.borderHover} transition-all`}
                 >
                   <span className={`inline-block text-xs font-semibold px-2.5 py-1 rounded-full ${colors.badge} mb-3`}>
                     {content.tag}
                   </span>
-                  <h3 className="text-lg font-bold mb-2 group-hover:text-orange-400 transition-colors leading-tight">
+                  <h3 className={`text-lg font-bold mb-2 ${colors.hoverText} transition-colors leading-tight`}>
                     {content.title}
                   </h3>
                   <p className="text-sm text-gray-400 leading-relaxed mb-3">{content.excerpt}</p>

@@ -33,6 +33,7 @@ export default function AccessoriesPage() {
       pillarHref="/edc"
       description="Field watches, G-Shocks, watch straps, coins, beads, and pocket accessories. The finishing touches on your everyday carry."
       iconName="pocket"
+      heroImage="/hero-edc-accessories.jpg"
       accentColor="orange"
       features={features}
       relatedSubcategories={relatedSubcategories}

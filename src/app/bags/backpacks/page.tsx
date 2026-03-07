@@ -33,6 +33,7 @@ export default function BackpacksPage() {
       pillarHref="/bags"
       description="Urban EDC packs, tech backpacks, heritage rucksacks, and ultralight daypacks. Every style reviewed, compared, and priced."
       iconName="backpack"
+      heroImage="/hero-bags-backpacks.jpg"
       accentColor="amber"
       features={features}
       relatedSubcategories={relatedSubcategories}

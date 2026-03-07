@@ -33,6 +33,7 @@ export default function MessengersPage() {
       pillarHref="/bags"
       description="Laptop messengers, leather briefcases, and professional bags for the office commute. Style meets function."
       iconName="backpack"
+      heroImage="/hero-bags-messengers.jpg"
       accentColor="amber"
       features={features}
       relatedSubcategories={relatedSubcategories}

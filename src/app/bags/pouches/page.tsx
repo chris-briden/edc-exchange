@@ -33,6 +33,7 @@ export default function PouchesPage() {
       pillarHref="/bags"
       description="Tech pouches, dopp kits, admin panels, and modular organizers that keep your carry tidy. Small bags, big impact."
       iconName="backpack"
+      heroImage="/hero-bags-pouches.jpg"
       accentColor="amber"
       features={features}
       relatedSubcategories={relatedSubcategories}

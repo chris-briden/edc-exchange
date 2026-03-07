@@ -33,6 +33,7 @@ export default function OneBagPage() {
       pillarHref="/travel"
       description="The art of traveling with a single bag. Packing lists, bag picks, and minimalist travel philosophy for the carry-on purist."
       iconName="plane"
+      heroImage="/hero-travel-onebag.jpg"
       accentColor="sky"
       features={features}
       relatedSubcategories={relatedSubcategories}

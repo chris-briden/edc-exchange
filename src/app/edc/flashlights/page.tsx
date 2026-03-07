@@ -33,6 +33,7 @@ export default function FlashlightsPage() {
       pillarHref="/edc"
       description="EDC lights, keychain torches, headlamps, and tactical lights. Lumens, runtimes, and beam patterns compared across every budget."
       iconName="pocket"
+      heroImage="/hero-edc-flashlights.jpg"
       accentColor="orange"
       features={features}
       relatedSubcategories={relatedSubcategories}

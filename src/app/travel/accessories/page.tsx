@@ -33,6 +33,7 @@ export default function TravelAccessoriesPage() {
       pillarHref="/travel"
       description="Neck pillows, eye masks, TSA locks, luggage tags, and the small stuff that makes travel better. Comfort on the go."
       iconName="plane"
+      heroImage="/hero-travel-accessories.jpg"
       accentColor="sky"
       features={features}
       relatedSubcategories={relatedSubcategories}

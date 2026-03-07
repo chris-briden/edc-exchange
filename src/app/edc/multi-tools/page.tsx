@@ -33,6 +33,7 @@ export default function MultiToolsPage() {
       pillarHref="/edc"
       description="Leatherman, Victorinox, and boutique multi-tools. The Swiss Army knife and beyond — every tool compared, reviewed, and priced."
       iconName="pocket"
+      heroImage="/hero-edc-multitools.jpg"
       accentColor="orange"
       features={features}
       relatedSubcategories={relatedSubcategories}

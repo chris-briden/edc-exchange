@@ -33,6 +33,7 @@ export default function FootwearPage() {
       pillarHref="/ruck"
       description="Boots, trail runners, and rucking-specific shoes. What works on pavement, trail, and everything in between."
       iconName="dumbbell"
+      heroImage="/hero-ruck-footwear.jpg"
       accentColor="green"
       features={features}
       relatedSubcategories={relatedSubcategories}

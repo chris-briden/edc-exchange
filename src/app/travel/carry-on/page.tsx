@@ -33,6 +33,7 @@ export default function CarryOnPage() {
       pillarHref="/travel"
       description="Hardside spinners, soft-side rollers, and travel backpacks that fit every airline's overhead bin. Never check a bag again."
       iconName="plane"
+      heroImage="/hero-travel-carryon.jpg"
       accentColor="sky"
       features={features}
       relatedSubcategories={relatedSubcategories}

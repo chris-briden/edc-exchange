@@ -33,6 +33,7 @@ export default function VestsPage() {
       pillarHref="/ruck"
       description="Ruck plates, weight vests, sandbags, and loading systems for training and events. Load up and get moving."
       iconName="dumbbell"
+      heroImage="/hero-ruck-vests.jpg"
       accentColor="green"
       features={features}
       relatedSubcategories={relatedSubcategories}

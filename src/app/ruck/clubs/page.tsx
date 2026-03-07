@@ -33,6 +33,7 @@ export default function ClubsPage() {
       pillarHref="/ruck"
       description="Find a ruck club near you. Local groups, events, and community rucks across North America. Get out and ruck with others."
       iconName="dumbbell"
+      heroImage="/hero-ruck-clubs.jpg"
       accentColor="green"
       features={features}
       relatedSubcategories={relatedSubcategories}

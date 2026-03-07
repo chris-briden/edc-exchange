@@ -33,6 +33,7 @@ export default function TechKitsPage() {
       pillarHref="/travel"
       description="Cable organizers, portable chargers, adapters, and everything to keep your devices alive on the road."
       iconName="plane"
+      heroImage="/hero-travel-techkits.jpg"
       accentColor="sky"
       features={features}
       relatedSubcategories={relatedSubcategories}

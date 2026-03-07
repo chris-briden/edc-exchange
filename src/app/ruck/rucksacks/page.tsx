@@ -33,6 +33,7 @@ export default function RucksacksPage() {
       pillarHref="/ruck"
       description="GORUCK, Mystery Ranch, 5.11, and more. Purpose-built rucking packs reviewed, compared, and priced for every mission."
       iconName="dumbbell"
+      heroImage="/hero-ruck-rucksacks.jpg"
       accentColor="green"
       features={features}
       relatedSubcategories={relatedSubcategories}

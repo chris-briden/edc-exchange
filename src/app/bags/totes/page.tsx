@@ -33,6 +33,7 @@ export default function TotesPage() {
       pillarHref="/bags"
       description="Canvas totes, market bags, and carryalls. Versatile haulers for every occasion — reviewed, compared, and priced."
       iconName="backpack"
+      heroImage="/hero-bags-totes.jpg"
       accentColor="amber"
       features={features}
       relatedSubcategories={relatedSubcategories}

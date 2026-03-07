@@ -33,6 +33,7 @@ export default function PackingPage() {
       pillarHref="/travel"
       description="Packing cubes, compression bags, garment folders, and the art of one-bag travel. Pack smarter, travel lighter."
       iconName="plane"
+      heroImage="/hero-travel-packing.jpg"
       accentColor="sky"
       features={features}
       relatedSubcategories={relatedSubcategories}

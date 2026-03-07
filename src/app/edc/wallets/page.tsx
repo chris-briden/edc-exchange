@@ -33,6 +33,7 @@ export default function WalletsPage() {
       pillarHref="/edc"
       description="Minimalist wallets, ridge wallets, card holders, key organizers, and pocket trays. Slim your carry without losing function."
       iconName="pocket"
+      heroImage="/hero-edc-wallets.jpg"
       accentColor="orange"
       features={features}
       relatedSubcategories={relatedSubcategories}

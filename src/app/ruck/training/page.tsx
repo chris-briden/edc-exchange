@@ -33,6 +33,7 @@ export default function TrainingPage() {
       pillarHref="/ruck"
       description="Beginner to advanced rucking programs. Couch to ruck, GORUCK event prep, and military standards. Your training starts here."
       iconName="dumbbell"
+      heroImage="/hero-ruck-training.jpg"
       accentColor="green"
       features={features}
       relatedSubcategories={relatedSubcategories}

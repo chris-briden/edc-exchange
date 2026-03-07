@@ -33,6 +33,7 @@ export default function SlingsPage() {
       pillarHref="/bags"
       description="Crossbody slings, chest packs, and hip bags. The fastest-growing carry category — reviewed, compared, and priced."
       iconName="backpack"
+      heroImage="/hero-bags-slings.jpg"
       accentColor="amber"
       features={features}
       relatedSubcategories={relatedSubcategories}
