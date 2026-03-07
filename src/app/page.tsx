@@ -109,41 +109,20 @@ export default function HomePage() {
           </p>
 
           {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-3">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <Link
               href="/signup"
-              className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-orange-500 hover:bg-orange-400 text-white text-base font-bold tracking-wide transition-all transform hover:scale-[1.03] active:scale-[0.98] shadow-lg shadow-orange-600/30"
+              className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-3.5 rounded-full bg-orange-500 hover:bg-orange-400 text-white text-base font-bold tracking-wide transition-all transform hover:scale-[1.03] active:scale-[0.98] shadow-lg shadow-orange-600/30"
             >
               Join The Collective
               <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
             <Link
               href="/reviews"
-              className="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white text-base font-medium transition-all"
+              className="inline-flex items-center justify-center w-full sm:w-auto px-6 py-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white text-base font-medium transition-all"
             >
               Browse Reviews
             </Link>
-          </div>
-
-          <p className="text-xs text-gray-600 mb-6 sm:mb-8">
-            Free to join &bull; Expert reviews &bull; Price comparison &bull; Community marketplace
-          </p>
-
-          {/* Pillar quick links — horizontal row */}
-          <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3">
-            {PILLARS.map((p) => {
-              const Icon = p.icon;
-              return (
-                <Link
-                  key={p.title}
-                  href={p.href}
-                  className={`inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-white/[0.04] border border-white/[0.08] hover:border-white/20 hover:bg-white/[0.08] transition-all text-sm`}
-                >
-                  <Icon className={`w-4 h-4 ${p.accent}`} />
-                  <span className="text-gray-300 font-medium">{p.title}</span>
-                </Link>
-              );
-            })}
           </div>
         </div>
 
