@@ -75,13 +75,13 @@ export default function HomePage() {
         {/* Content */}
         <div className="relative z-10 max-w-5xl mx-auto px-5 sm:px-8 pt-28 sm:pt-32 pb-20 text-center">
           {/* Shield logo */}
-          <div className="mb-6 sm:mb-8">
+          <div className="mb-8 sm:mb-10">
             <Image
               src="/tcc-shield-logo.png"
               alt="The Carry Collective shield logo"
-              width={850}
-              height={795}
-              className="mx-auto h-28 sm:h-40 w-auto drop-shadow-2xl"
+              width={643}
+              height={874}
+              className="mx-auto h-48 sm:h-64 md:h-72 lg:h-80 w-auto drop-shadow-2xl"
               priority
             />
           </div>
