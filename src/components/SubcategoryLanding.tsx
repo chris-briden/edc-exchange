@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { ArrowRight, ArrowLeft, Pocket, Backpack, Plane, Dumbbell, Bell } from 'lucide-react';
+import { ArrowRight, ChevronRight, Pocket, Backpack, Plane, Dumbbell, Bell } from 'lucide-react';
 
 const iconMap = {
   pocket: Pocket,
@@ -64,7 +64,7 @@ interface SubcategoryLandingProps {
   pillarTitle: string;
   pillarHref: string;
   description: string;
-  iconName: IconName;
+  iconName?: IconName;
   accentColor: string;
   heroImage?: string;
   features: string[];
@@ -83,14 +83,13 @@ export default function SubcategoryLanding({
   relatedSubcategories,
 }: SubcategoryLandingProps) {
   const colors = colorMap[accentColor] || colorMap.orange;
-  const Icon = iconMap[iconName];
 
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar />
 
       {/* ═══════════════ HERO ═══════════════ */}
-      <section className="relative pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6 overflow-hidden">
+      <section className="relative pt-24 sm:pt-32 pb-16 sm:pb-24 px-4 sm:px-6 overflow-hidden">
         {/* Background image */}
         {heroImage && (
           <div className="absolute inset-0">
@@ -102,41 +101,36 @@ export default function SubcategoryLanding({
               priority
               quality={80}
             />
-            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 bg-black/50" />
             <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
           </div>
         )}
-        <div className={`absolute top-20 left-1/2 -translate-x-1/2 w-[400px] h-[400px] ${colors.bg} rounded-full blur-[120px] opacity-50`} />
+        <div className={`absolute top-20 left-1/2 -translate-x-1/2 w-[400px] h-[400px] ${colors.bg} rounded-full blur-[120px] opacity-30`} />
 
-        <div className="relative z-10 max-w-4xl mx-auto text-center">
-          {/* Breadcrumb */}
-          <Link
-            href={pillarHref}
-            className={`inline-flex items-center gap-2 text-sm ${colors.text} hover:underline mb-6`}
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            Back to {pillarTitle}
-          </Link>
+        <div className="relative z-10 max-w-4xl mx-auto">
+          {/* Breadcrumb — top left */}
+          <nav className="flex items-center gap-1.5 text-sm text-gray-400 mb-10 sm:mb-14">
+            <Link href={pillarHref} className={`${colors.text} hover:underline`}>
+              {pillarTitle}
+            </Link>
+            <ChevronRight className="w-3.5 h-3.5 text-gray-600" />
+            <span className="text-gray-300">{title}</span>
+          </nav>
 
-          {/* Icon */}
-          <div className={`inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br ${colors.gradient} mb-6`}>
-            <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+          {/* Title + Badge */}
+          <div className="text-center">
+            <div className={`inline-block px-3 py-1 rounded-full ${colors.badge} text-xs font-semibold tracking-wide uppercase mb-4`}>
+              Coming Soon
+            </div>
+
+            <h1 className="text-3xl sm:text-5xl font-black tracking-tight mb-4 sm:mb-6">
+              {title}
+            </h1>
+
+            <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              {description}
+            </p>
           </div>
-
-          {/* Badge */}
-          <div className={`inline-block px-4 py-1.5 rounded-full ${colors.badge} text-xs sm:text-sm font-semibold mb-4`}>
-            Coming Soon
-          </div>
-
-          {/* Title */}
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight mb-4 sm:mb-6">
-            {title}
-          </h1>
-
-          {/* Description */}
-          <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-8">
-            {description}
-          </p>
         </div>
       </section>
 
