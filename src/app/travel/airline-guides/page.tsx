@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { TRAVEL_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Airline Carry-On Guides — Size Limits, Personal Item Rules & More',
@@ -33,7 +34,7 @@ export default function AirlineGuidesPage() {
       pillarHref="/travel"
       description="Carry-on size limits, personal item rules, and weight restrictions for every major airline. Your go-to reference before you fly."
       iconName="plane"
-      heroImage="/hero-travel-airlines.jpg"
+      heroImage={TRAVEL_IMAGES.heroes.airlines}
       accentColor="sky"
       features={features}
       relatedSubcategories={relatedSubcategories}

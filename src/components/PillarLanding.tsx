@@ -11,6 +11,7 @@ export interface SubCategory {
   desc: string;
   href: string;
   itemCount?: number;
+  image?: string; // Unsplash URL for card background
 }
 
 export interface FeaturedContent {
@@ -36,14 +37,14 @@ interface PillarLandingProps {
   description: string;
   iconName: IconName;
   accentColor: string; // e.g. "orange", "amber", "sky", "green"
-  heroImage?: string; // e.g. "/hero-edc.jpg"
+  heroImage?: string; // e.g. Unsplash URL or "/hero-edc.jpg"
   subcategories: SubCategory[];
   featuredContent: FeaturedContent[];
   ctaText?: string;
   ctaHref?: string;
 }
 
-const colorMap: Record<string, { gradient: string; text: string; bg: string; border: string; borderHover: string; badge: string; shadow: string; hoverText: string }> = {
+const colorMap: Record<string, { gradient: string; text: string; bg: string; border: string; borderHover: string; badge: string; shadow: string; hoverText: string; overlay: string }> = {
   orange: {
     gradient: 'from-orange-500 to-orange-600',
     text: 'text-orange-400',
@@ -53,6 +54,7 @@ const colorMap: Record<string, { gradient: string; text: string; bg: string; bor
     badge: 'bg-orange-500/20 text-orange-400',
     shadow: 'shadow-orange-600/30',
     hoverText: 'group-hover:text-orange-400',
+    overlay: 'from-orange-950/80 via-black/60 to-transparent',
   },
   amber: {
     gradient: 'from-amber-500 to-amber-600',
@@ -63,6 +65,7 @@ const colorMap: Record<string, { gradient: string; text: string; bg: string; bor
     badge: 'bg-amber-500/20 text-amber-400',
     shadow: 'shadow-amber-600/30',
     hoverText: 'group-hover:text-amber-400',
+    overlay: 'from-amber-950/80 via-black/60 to-transparent',
   },
   sky: {
     gradient: 'from-sky-500 to-sky-600',
@@ -73,6 +76,7 @@ const colorMap: Record<string, { gradient: string; text: string; bg: string; bor
     badge: 'bg-sky-500/20 text-sky-400',
     shadow: 'shadow-sky-600/30',
     hoverText: 'group-hover:text-sky-400',
+    overlay: 'from-sky-950/80 via-black/60 to-transparent',
   },
   green: {
     gradient: 'from-green-500 to-green-600',
@@ -83,6 +87,7 @@ const colorMap: Record<string, { gradient: string; text: string; bg: string; bor
     badge: 'bg-green-500/20 text-green-400',
     shadow: 'shadow-green-600/30',
     hoverText: 'group-hover:text-green-400',
+    overlay: 'from-green-950/80 via-black/60 to-transparent',
   },
 };
 
@@ -117,6 +122,7 @@ export default function PillarLanding({
               className="object-cover"
               priority
               quality={80}
+              sizes="100vw"
             />
             <div className="absolute inset-0 bg-black/40" />
             <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
@@ -180,20 +186,54 @@ export default function PillarLanding({
               <Link
                 key={sub.title}
                 href={sub.href}
-                className={`group bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 sm:p-8 ${colors.borderHover} transition-all`}
+                className={`group relative rounded-xl overflow-hidden border border-zinc-800 ${colors.borderHover} transition-all ${sub.image ? 'aspect-[4/3]' : ''}`}
               >
-                <h3 className="text-lg sm:text-xl font-bold mb-2 group-hover:text-white transition-colors">
-                  {sub.title}
-                </h3>
-                <p className="text-sm text-gray-400 leading-relaxed mb-4">{sub.desc}</p>
-                {sub.itemCount !== undefined && (
-                  <span className={`text-xs font-medium ${colors.text}`}>
-                    {sub.itemCount} products tracked
-                  </span>
+                {/* Card background image */}
+                {sub.image ? (
+                  <>
+                    <Image
+                      src={sub.image}
+                      alt={sub.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    <div className={`absolute inset-0 bg-gradient-to-t ${colors.overlay}`} />
+                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors" />
+
+                    {/* Content over image */}
+                    <div className="absolute inset-0 flex flex-col justify-end p-5 sm:p-6">
+                      <h3 className="text-lg sm:text-xl font-bold mb-1 drop-shadow-lg">
+                        {sub.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-gray-300 leading-relaxed line-clamp-2 mb-2">{sub.desc}</p>
+                      {sub.itemCount !== undefined && (
+                        <span className={`text-xs font-medium ${colors.text}`}>
+                          {sub.itemCount} products tracked
+                        </span>
+                      )}
+                      <div className={`mt-2 flex items-center gap-1 text-sm font-medium ${colors.text} group-hover:gap-2 transition-all`}>
+                        Explore <ArrowRight className="w-3.5 h-3.5" />
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  /* Fallback: text-only card (original style) */
+                  <div className="bg-zinc-900/50 backdrop-blur p-6 sm:p-8">
+                    <h3 className="text-lg sm:text-xl font-bold mb-2 group-hover:text-white transition-colors">
+                      {sub.title}
+                    </h3>
+                    <p className="text-sm text-gray-400 leading-relaxed mb-4">{sub.desc}</p>
+                    {sub.itemCount !== undefined && (
+                      <span className={`text-xs font-medium ${colors.text}`}>
+                        {sub.itemCount} products tracked
+                      </span>
+                    )}
+                    <div className={`mt-3 flex items-center gap-1 text-sm font-medium ${colors.text} group-hover:gap-2 transition-all`}>
+                      Explore <ArrowRight className="w-3.5 h-3.5" />
+                    </div>
+                  </div>
                 )}
-                <div className={`mt-3 flex items-center gap-1 text-sm font-medium ${colors.text} group-hover:gap-2 transition-all`}>
-                  Explore <ArrowRight className="w-3.5 h-3.5" />
-                </div>
               </Link>
             ))}
           </div>

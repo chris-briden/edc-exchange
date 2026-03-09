@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { RUCK_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Rucksacks & Packs — GORUCK, Mystery Ranch & More Reviews',
@@ -33,7 +34,7 @@ export default function RucksacksPage() {
       pillarHref="/ruck"
       description="GORUCK, Mystery Ranch, 5.11, and more. Purpose-built rucking packs reviewed, compared, and priced for every mission."
       iconName="dumbbell"
-      heroImage="/hero-ruck-rucksacks.jpg"
+      heroImage={RUCK_IMAGES.heroes.rucksacks}
       accentColor="green"
       features={features}
       relatedSubcategories={relatedSubcategories}

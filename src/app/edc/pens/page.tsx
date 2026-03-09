@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { EDC_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'EDC Pens & Writing — Bolt-Action, Tactical & Fountain Pen Reviews',
@@ -33,7 +34,7 @@ export default function PensPage() {
       pillarHref="/edc"
       description="Bolt-action pens, tactical pens, fountain pens, and refills for everyday writers. The write stuff for your pocket."
       iconName="pocket"
-      heroImage="/hero-edc-pens.jpg"
+      heroImage={EDC_IMAGES.heroes.pens}
       accentColor="orange"
       features={features}
       relatedSubcategories={relatedSubcategories}

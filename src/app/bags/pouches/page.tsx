@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { BAGS_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Pouches & Organizers — Tech Pouch, Dopp Kit & Admin Panel Reviews',
@@ -33,7 +34,7 @@ export default function PouchesPage() {
       pillarHref="/bags"
       description="Tech pouches, dopp kits, admin panels, and modular organizers that keep your carry tidy. Small bags, big impact."
       iconName="backpack"
-      heroImage="/hero-bags-pouches.jpg"
+      heroImage={BAGS_IMAGES.heroes.pouches}
       accentColor="amber"
       features={features}
       relatedSubcategories={relatedSubcategories}

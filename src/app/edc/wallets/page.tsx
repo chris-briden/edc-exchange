@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { EDC_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'EDC Wallets & Organizers — Minimalist Wallet Reviews & Prices',
@@ -33,7 +34,7 @@ export default function WalletsPage() {
       pillarHref="/edc"
       description="Minimalist wallets, ridge wallets, card holders, key organizers, and pocket trays. Slim your carry without losing function."
       iconName="pocket"
-      heroImage="/hero-edc-wallets.jpg"
+      heroImage={EDC_IMAGES.heroes.wallets}
       accentColor="orange"
       features={features}
       relatedSubcategories={relatedSubcategories}

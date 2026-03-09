@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import PillarLanding from '@/components/PillarLanding';
+import { PILLAR_HEROES, BAGS_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Bags & Packs — Backpack Reviews, Guides & Price Comparison',
@@ -13,31 +14,37 @@ const subcategories = [
     title: 'Backpacks',
     desc: 'Urban EDC packs, tech backpacks, heritage rucksacks, and ultralight daypacks reviewed.',
     href: '/bags/backpacks',
+    image: BAGS_IMAGES.cards.backpacks,
   },
   {
     title: 'Sling Bags',
     desc: 'Crossbody slings, chest packs, and hip bags. The fastest-growing carry category.',
     href: '/bags/slings',
+    image: BAGS_IMAGES.cards.slings,
   },
   {
     title: 'Messenger & Briefcases',
     desc: 'Laptop messengers, leather briefcases, and professional bags for the office commute.',
     href: '/bags/messengers',
+    image: BAGS_IMAGES.cards.messengers,
   },
   {
     title: 'Duffels',
     desc: 'Gym duffels, weekenders, and expedition bags. From GORUCK to Patagonia.',
     href: '/bags/duffels',
+    image: BAGS_IMAGES.cards.duffels,
   },
   {
     title: 'Pouches & Organizers',
     desc: 'Tech pouches, dopp kits, admin panels, and modular organizers that keep your carry tidy.',
     href: '/bags/pouches',
+    image: BAGS_IMAGES.cards.pouches,
   },
   {
     title: 'Tote Bags',
     desc: 'Canvas totes, market bags, and carryalls. Versatile haulers for every occasion.',
     href: '/bags/totes',
+    image: BAGS_IMAGES.cards.totes,
   },
 ];
 
@@ -73,7 +80,7 @@ export default function BagsPage() {
       description="Backpacks, slings, messengers, duffels, and organizers. How you haul your world — reviewed, compared, and priced."
       iconName="backpack"
       accentColor="amber"
-      heroImage="/hero-bags.jpg"
+      heroImage={PILLAR_HEROES.bags}
       subcategories={subcategories}
       featuredContent={featuredContent}
     />

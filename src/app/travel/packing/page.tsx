@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { TRAVEL_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Packing Systems — Packing Cubes, Compression Bags & Guides',
@@ -33,7 +34,7 @@ export default function PackingPage() {
       pillarHref="/travel"
       description="Packing cubes, compression bags, garment folders, and the art of one-bag travel. Pack smarter, travel lighter."
       iconName="plane"
-      heroImage="/hero-travel-packing.jpg"
+      heroImage={TRAVEL_IMAGES.heroes.packing}
       accentColor="sky"
       features={features}
       relatedSubcategories={relatedSubcategories}

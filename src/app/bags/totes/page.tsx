@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { BAGS_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Tote Bags — Canvas Totes, Market Bags & Carryall Reviews',
@@ -33,7 +34,7 @@ export default function TotesPage() {
       pillarHref="/bags"
       description="Canvas totes, market bags, and carryalls. Versatile haulers for every occasion — reviewed, compared, and priced."
       iconName="backpack"
-      heroImage="/hero-bags-totes.jpg"
+      heroImage={BAGS_IMAGES.heroes.totes}
       accentColor="amber"
       features={features}
       relatedSubcategories={relatedSubcategories}

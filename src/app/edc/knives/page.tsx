@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { EDC_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Knives & Blades — EDC Knife Reviews, Guides & Price Comparison',
@@ -33,7 +34,7 @@ export default function KnivesPage() {
       pillarHref="/edc"
       description="Folding knives, fixed blades, OTF automatics, and slip joints. From budget beaters to grail knives — reviewed, compared, and priced."
       iconName="pocket"
-      heroImage="/hero-edc-knives.jpg"
+      heroImage={EDC_IMAGES.heroes.knives}
       accentColor="orange"
       features={features}
       relatedSubcategories={relatedSubcategories}

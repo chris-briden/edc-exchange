@@ -5,48 +5,53 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { ArrowRight, Pocket, Backpack, Plane, Dumbbell, Star, TrendingUp, Users, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Star, TrendingUp, Users, ShieldCheck } from 'lucide-react';
+import { PILLAR_CARDS } from '@/lib/images';
 
 const PILLARS = [
   {
-    icon: Pocket,
     title: 'EDC',
     subtitle: 'Everyday Carry',
     desc: 'Knives, flashlights, multi-tools, pens, wallets — the gear in your pockets.',
     href: '/edc',
-    color: 'from-orange-500/20 to-orange-600/20',
+    image: PILLAR_CARDS.edc,
     accent: 'text-orange-400',
+    accentBg: 'bg-orange-500/80',
     border: 'hover:border-orange-500/50',
+    overlay: 'from-orange-950/80 via-black/60 to-transparent',
   },
   {
-    icon: Backpack,
     title: 'Bags & Packs',
     subtitle: 'Carry Systems',
     desc: 'Backpacks, slings, messengers, duffels — how you haul your world.',
     href: '/bags',
-    color: 'from-amber-500/20 to-amber-600/20',
+    image: PILLAR_CARDS.bags,
     accent: 'text-amber-400',
+    accentBg: 'bg-amber-500/80',
     border: 'hover:border-amber-500/50',
+    overlay: 'from-amber-950/80 via-black/60 to-transparent',
   },
   {
-    icon: Plane,
     title: 'Travel Carry',
     subtitle: 'On The Move',
     desc: 'Carry-on luggage, packing systems, tech kits, airline guides.',
     href: '/travel',
-    color: 'from-sky-500/20 to-sky-600/20',
+    image: PILLAR_CARDS.travel,
     accent: 'text-sky-400',
+    accentBg: 'bg-sky-500/80',
     border: 'hover:border-sky-500/50',
+    overlay: 'from-sky-950/80 via-black/60 to-transparent',
   },
   {
-    icon: Dumbbell,
     title: 'Ruck & Fitness',
     subtitle: 'Loaded Carry',
     desc: 'Rucksacks, weighted vests, training plans, and ruck club directory.',
     href: '/ruck',
-    color: 'from-green-500/20 to-green-600/20',
+    image: PILLAR_CARDS.ruck,
     accent: 'text-green-400',
+    accentBg: 'bg-green-500/80',
     border: 'hover:border-green-500/50',
+    overlay: 'from-green-950/80 via-black/60 to-transparent',
   },
 ];
 
@@ -134,7 +139,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══════════════ 4 PILLARS ═══════════════ */}
+      {/* ═══════════════ 4 PILLARS — PHOTO CARDS ═══════════════ */}
       <section className="relative py-10 sm:py-24 px-4 sm:px-6 bg-gradient-to-b from-black to-zinc-900">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3">
@@ -145,26 +150,38 @@ export default function HomePage() {
           </p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {PILLARS.map((pillar) => {
-              const Icon = pillar.icon;
-              return (
-                <Link
-                  key={pillar.title}
-                  href={pillar.href}
-                  className={`bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 sm:p-8 ${pillar.border} transition-all group`}
-                >
-                  <div className={`w-12 h-12 sm:w-14 sm:h-14 mb-4 sm:mb-5 rounded-lg bg-gradient-to-br ${pillar.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                    <Icon className={`w-6 h-6 sm:w-7 sm:h-7 ${pillar.accent}`} />
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-bold mb-1">{pillar.title}</h3>
-                  <p className={`text-xs font-semibold ${pillar.accent} mb-2 uppercase tracking-wider`}>{pillar.subtitle}</p>
-                  <p className="text-sm text-gray-400 leading-relaxed">{pillar.desc}</p>
-                  <div className={`mt-4 flex items-center gap-1 text-sm font-medium ${pillar.accent} group-hover:gap-2 transition-all`}>
+            {PILLARS.map((pillar) => (
+              <Link
+                key={pillar.title}
+                href={pillar.href}
+                className={`group relative rounded-xl overflow-hidden border border-zinc-800 ${pillar.border} transition-all aspect-[3/4] sm:aspect-[3/4]`}
+              >
+                {/* Background image */}
+                <Image
+                  src={pillar.image}
+                  alt={pillar.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
+                />
+
+                {/* Dark overlay gradient from bottom */}
+                <div className={`absolute inset-0 bg-gradient-to-t ${pillar.overlay}`} />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+
+                {/* Content pinned to bottom */}
+                <div className="absolute inset-0 flex flex-col justify-end p-5 sm:p-6">
+                  <span className={`inline-block w-fit px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider ${pillar.accentBg} text-white mb-2`}>
+                    {pillar.subtitle}
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-black mb-1 drop-shadow-lg">{pillar.title}</h3>
+                  <p className="text-xs sm:text-sm text-gray-300 leading-relaxed line-clamp-2">{pillar.desc}</p>
+                  <div className={`mt-3 flex items-center gap-1 text-sm font-medium ${pillar.accent} group-hover:gap-2 transition-all`}>
                     Explore <ArrowRight className="w-3.5 h-3.5" />
                   </div>
-                </Link>
-              );
-            })}
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

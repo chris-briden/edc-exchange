@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { EDC_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'EDC Watches & Accessories — Field Watches, G-Shocks & More',
@@ -33,7 +34,7 @@ export default function AccessoriesPage() {
       pillarHref="/edc"
       description="Field watches, G-Shocks, watch straps, coins, beads, and pocket accessories. The finishing touches on your everyday carry."
       iconName="pocket"
-      heroImage="/hero-edc-accessories.jpg"
+      heroImage={EDC_IMAGES.heroes.accessories}
       accentColor="orange"
       features={features}
       relatedSubcategories={relatedSubcategories}

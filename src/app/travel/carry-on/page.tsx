@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { TRAVEL_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Carry-On Luggage — Reviews, Size Guides & Price Comparison',
@@ -33,7 +34,7 @@ export default function CarryOnPage() {
       pillarHref="/travel"
       description="Hardside spinners, soft-side rollers, and travel backpacks that fit every airline's overhead bin. Never check a bag again."
       iconName="plane"
-      heroImage="/hero-travel-carryon.jpg"
+      heroImage={TRAVEL_IMAGES.heroes.carryon}
       accentColor="sky"
       features={features}
       relatedSubcategories={relatedSubcategories}

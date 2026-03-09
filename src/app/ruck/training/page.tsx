@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { RUCK_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Ruck Training Plans — Beginner to Advanced Programs',
@@ -33,7 +34,7 @@ export default function TrainingPage() {
       pillarHref="/ruck"
       description="Beginner to advanced rucking programs. Couch to ruck, GORUCK event prep, and military standards. Your training starts here."
       iconName="dumbbell"
-      heroImage="/hero-ruck-training.jpg"
+      heroImage={RUCK_IMAGES.heroes.training}
       accentColor="green"
       features={features}
       relatedSubcategories={relatedSubcategories}

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { RUCK_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Ruck Events & Challenges — GORUCK, Star Course & Community Events',
@@ -33,7 +34,7 @@ export default function EventsPage() {
       pillarHref="/ruck"
       description="GORUCK events, Star Course, ruck marches, and community challenges to keep you moving. Find your next mission."
       iconName="dumbbell"
-      heroImage="/hero-ruck-events.jpg"
+      heroImage={RUCK_IMAGES.heroes.events}
       accentColor="green"
       features={features}
       relatedSubcategories={relatedSubcategories}

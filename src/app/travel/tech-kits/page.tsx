@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { TRAVEL_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Tech Travel Kits — Cable Organizers, Chargers & Adapter Reviews',
@@ -33,7 +34,7 @@ export default function TechKitsPage() {
       pillarHref="/travel"
       description="Cable organizers, portable chargers, adapters, and everything to keep your devices alive on the road."
       iconName="plane"
-      heroImage="/hero-travel-techkits.jpg"
+      heroImage={TRAVEL_IMAGES.heroes.techkits}
       accentColor="sky"
       features={features}
       relatedSubcategories={relatedSubcategories}

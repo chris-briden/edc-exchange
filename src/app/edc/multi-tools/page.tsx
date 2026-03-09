@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { EDC_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Multi-Tools — Leatherman, Victorinox & More Reviews & Prices',
@@ -33,7 +34,7 @@ export default function MultiToolsPage() {
       pillarHref="/edc"
       description="Leatherman, Victorinox, and boutique multi-tools. The Swiss Army knife and beyond — every tool compared, reviewed, and priced."
       iconName="pocket"
-      heroImage="/hero-edc-multitools.jpg"
+      heroImage={EDC_IMAGES.heroes.multitools}
       accentColor="orange"
       features={features}
       relatedSubcategories={relatedSubcategories}

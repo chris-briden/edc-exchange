@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { EDC_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'EDC Flashlights — Reviews, Guides & Price Comparison',
@@ -33,7 +34,7 @@ export default function FlashlightsPage() {
       pillarHref="/edc"
       description="EDC lights, keychain torches, headlamps, and tactical lights. Lumens, runtimes, and beam patterns compared across every budget."
       iconName="pocket"
-      heroImage="/hero-edc-flashlights.jpg"
+      heroImage={EDC_IMAGES.heroes.flashlights}
       accentColor="orange"
       features={features}
       relatedSubcategories={relatedSubcategories}

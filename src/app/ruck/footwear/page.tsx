@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { RUCK_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Rucking Footwear — Boots, Trail Runners & Shoe Reviews',
@@ -33,7 +34,7 @@ export default function FootwearPage() {
       pillarHref="/ruck"
       description="Boots, trail runners, and rucking-specific shoes. What works on pavement, trail, and everything in between."
       iconName="dumbbell"
-      heroImage="/hero-ruck-footwear.jpg"
+      heroImage={RUCK_IMAGES.heroes.footwear}
       accentColor="green"
       features={features}
       relatedSubcategories={relatedSubcategories}

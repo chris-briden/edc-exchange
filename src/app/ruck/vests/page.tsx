@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { RUCK_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Weighted Vests & Ruck Plates — Reviews & Price Comparison',
@@ -33,7 +34,7 @@ export default function VestsPage() {
       pillarHref="/ruck"
       description="Ruck plates, weight vests, sandbags, and loading systems for training and events. Load up and get moving."
       iconName="dumbbell"
-      heroImage="/hero-ruck-vests.jpg"
+      heroImage={RUCK_IMAGES.heroes.vests}
       accentColor="green"
       features={features}
       relatedSubcategories={relatedSubcategories}

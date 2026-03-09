@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { BAGS_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Backpacks — EDC Backpack Reviews, Guides & Price Comparison',
@@ -33,7 +34,7 @@ export default function BackpacksPage() {
       pillarHref="/bags"
       description="Urban EDC packs, tech backpacks, heritage rucksacks, and ultralight daypacks. Every style reviewed, compared, and priced."
       iconName="backpack"
-      heroImage="/hero-bags-backpacks.jpg"
+      heroImage={BAGS_IMAGES.heroes.backpacks}
       accentColor="amber"
       features={features}
       relatedSubcategories={relatedSubcategories}

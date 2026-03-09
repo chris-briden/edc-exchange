@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { TRAVEL_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'One-Bag Travel — Packing Lists, Bag Picks & Minimalist Travel',
@@ -33,7 +34,7 @@ export default function OneBagPage() {
       pillarHref="/travel"
       description="The art of traveling with a single bag. Packing lists, bag picks, and minimalist travel philosophy for the carry-on purist."
       iconName="plane"
-      heroImage="/hero-travel-onebag.jpg"
+      heroImage={TRAVEL_IMAGES.heroes.onebag}
       accentColor="sky"
       features={features}
       relatedSubcategories={relatedSubcategories}

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { RUCK_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Ruck Club Directory — Find Local Ruck Groups Near You',
@@ -33,7 +34,7 @@ export default function ClubsPage() {
       pillarHref="/ruck"
       description="Find a ruck club near you. Local groups, events, and community rucks across North America. Get out and ruck with others."
       iconName="dumbbell"
-      heroImage="/hero-ruck-clubs.jpg"
+      heroImage={RUCK_IMAGES.heroes.clubs}
       accentColor="green"
       features={features}
       relatedSubcategories={relatedSubcategories}

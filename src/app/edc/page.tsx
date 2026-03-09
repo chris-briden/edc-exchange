@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import PillarLanding from '@/components/PillarLanding';
+import { PILLAR_HEROES, EDC_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'EDC — Everyday Carry Reviews, Guides & Price Comparison',
@@ -14,33 +15,39 @@ const subcategories = [
     desc: 'Folding knives, fixed blades, OTF automatics, and slip joints. From budget to grail.',
     href: '/edc/knives',
     itemCount: 32,
+    image: EDC_IMAGES.cards.knives,
   },
   {
     title: 'Flashlights',
     desc: 'EDC lights, keychain torches, headlamps, and tactical lights. Lumens compared.',
     href: '/edc/flashlights',
     itemCount: 8,
+    image: EDC_IMAGES.cards.flashlights,
   },
   {
     title: 'Multi-Tools',
     desc: 'Leatherman, Victorinox, and boutique multi-tools. The Swiss Army knife and beyond.',
     href: '/edc/multi-tools',
     itemCount: 6,
+    image: EDC_IMAGES.cards.multitools,
   },
   {
     title: 'Pens & Writing',
     desc: 'Bolt-action pens, tactical pens, fountain pens, and refills for everyday writers.',
     href: '/edc/pens',
+    image: EDC_IMAGES.cards.pens,
   },
   {
     title: 'Wallets & Organizers',
     desc: 'Minimalist wallets, ridge wallets, card holders, key organizers, and pocket trays.',
     href: '/edc/wallets',
+    image: EDC_IMAGES.cards.wallets,
   },
   {
     title: 'Watches & Accessories',
     desc: 'Field watches, G-Shocks, watch straps, coins, beads, and pocket accessories.',
     href: '/edc/accessories',
+    image: EDC_IMAGES.cards.accessories,
   },
 ];
 
@@ -76,7 +83,7 @@ export default function EDCPage() {
       description="The gear in your pockets, on your belt, and around your neck. Expert reviews and the best prices on knives, flashlights, multi-tools, pens, and wallets."
       iconName="pocket"
       accentColor="orange"
-      heroImage="/hero-edc.jpg"
+      heroImage={PILLAR_HEROES.edc}
       subcategories={subcategories}
       featuredContent={featuredContent}
     />

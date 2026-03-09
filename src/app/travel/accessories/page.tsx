@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { TRAVEL_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Travel Accessories — Neck Pillows, TSA Locks, Luggage Tags & More',
@@ -33,7 +34,7 @@ export default function TravelAccessoriesPage() {
       pillarHref="/travel"
       description="Neck pillows, eye masks, TSA locks, luggage tags, and the small stuff that makes travel better. Comfort on the go."
       iconName="plane"
-      heroImage="/hero-travel-accessories.jpg"
+      heroImage={TRAVEL_IMAGES.heroes.accessories}
       accentColor="sky"
       features={features}
       relatedSubcategories={relatedSubcategories}

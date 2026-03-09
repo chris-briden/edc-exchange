@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { BAGS_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Sling Bags — Crossbody & Chest Pack Reviews & Price Comparison',
@@ -33,7 +34,7 @@ export default function SlingsPage() {
       pillarHref="/bags"
       description="Crossbody slings, chest packs, and hip bags. The fastest-growing carry category — reviewed, compared, and priced."
       iconName="backpack"
-      heroImage="/hero-bags-slings.jpg"
+      heroImage={BAGS_IMAGES.heroes.slings}
       accentColor="amber"
       features={features}
       relatedSubcategories={relatedSubcategories}

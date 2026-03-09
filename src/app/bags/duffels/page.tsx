@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { BAGS_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Duffel Bags — Gym, Weekender & Expedition Bag Reviews & Prices',
@@ -33,7 +34,7 @@ export default function DuffelsPage() {
       pillarHref="/bags"
       description="Gym duffels, weekenders, and expedition bags. From GORUCK to Patagonia — hauling capacity reviewed and compared."
       iconName="backpack"
-      heroImage="/hero-bags-duffels.jpg"
+      heroImage={BAGS_IMAGES.heroes.duffels}
       accentColor="amber"
       features={features}
       relatedSubcategories={relatedSubcategories}

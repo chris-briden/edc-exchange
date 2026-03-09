@@ -25,6 +25,7 @@ import {
 import { createClient } from "@/lib/supabase-browser";
 import type { User } from "@supabase/supabase-js";
 import type { Profile } from "@/lib/types";
+import { NAV_THUMBNAILS } from "@/lib/images";
 
 const NAV_PILLARS = [
   {
@@ -32,6 +33,7 @@ const NAV_PILLARS = [
     href: "/edc",
     icon: Pocket,
     color: "text-orange-400",
+    image: NAV_THUMBNAILS.edc,
     subs: [
       { label: "Knives & Blades", href: "/edc/knives" },
       { label: "Flashlights", href: "/edc/flashlights" },
@@ -45,6 +47,7 @@ const NAV_PILLARS = [
     href: "/bags",
     icon: Backpack,
     color: "text-amber-400",
+    image: NAV_THUMBNAILS.bags,
     subs: [
       { label: "Backpacks", href: "/bags/backpacks" },
       { label: "Sling Bags", href: "/bags/slings" },
@@ -58,6 +61,7 @@ const NAV_PILLARS = [
     href: "/travel",
     icon: Plane,
     color: "text-sky-400",
+    image: NAV_THUMBNAILS.travel,
     subs: [
       { label: "Carry-On Luggage", href: "/travel/carry-on" },
       { label: "Packing Systems", href: "/travel/packing" },
@@ -70,6 +74,7 @@ const NAV_PILLARS = [
     href: "/ruck",
     icon: Dumbbell,
     color: "text-green-400",
+    image: NAV_THUMBNAILS.ruck,
     subs: [
       { label: "Rucksacks & Packs", href: "/ruck/rucksacks" },
       { label: "Weighted Vests & Plates", href: "/ruck/vests" },
@@ -223,13 +228,25 @@ export default function Navbar() {
                 </button>
 
                 {megaMenuOpen === pillar.label && (
-                  <div className="absolute top-full left-0 mt-1 w-56 bg-zinc-900 rounded-xl border border-zinc-700 shadow-xl shadow-black/40 py-2 z-50">
+                  <div className="absolute top-full left-0 mt-1 w-64 bg-zinc-900 rounded-xl border border-zinc-700 shadow-xl shadow-black/40 py-2 z-50">
+                    {/* Pillar thumbnail + link */}
                     <Link
                       href={pillar.href}
                       onClick={() => setMegaMenuOpen(null)}
-                      className={`block px-4 py-2 text-sm font-semibold ${pillar.color} hover:bg-zinc-800 transition`}
+                      className="group flex items-center gap-3 px-4 py-2.5 hover:bg-zinc-800 transition"
                     >
-                      All {pillar.label} →
+                      <div className="relative w-10 h-10 rounded-lg overflow-hidden shrink-0">
+                        <Image
+                          src={pillar.image}
+                          alt={pillar.label}
+                          fill
+                          className="object-cover"
+                          sizes="40px"
+                        />
+                      </div>
+                      <span className={`text-sm font-semibold ${pillar.color}`}>
+                        All {pillar.label} →
+                      </span>
                     </Link>
                     <div className="border-t border-zinc-800 my-1" />
                     {pillar.subs.map((sub) => (
@@ -405,20 +422,25 @@ export default function Navbar() {
 
           {/* Pillar nav */}
           <div className="text-[10px] font-semibold uppercase tracking-wider text-gray-500 px-2 mb-1">Explore</div>
-          {NAV_PILLARS.map((pillar) => {
-            const Icon = pillar.icon;
-            return (
+          {NAV_PILLARS.map((pillar) => (
               <Link
                 key={pillar.href}
                 href={pillar.href}
                 onClick={() => setMobileOpen(false)}
-                className={`flex items-center gap-2 px-2 py-2 rounded-lg text-sm font-medium ${pillar.color} hover:bg-zinc-800 transition`}
+                className={`flex items-center gap-3 px-2 py-2 rounded-lg text-sm font-medium ${pillar.color} hover:bg-zinc-800 transition`}
               >
-                <Icon className="w-4 h-4" />
+                <div className="relative w-8 h-8 rounded-md overflow-hidden shrink-0">
+                  <Image
+                    src={pillar.image}
+                    alt={pillar.label}
+                    fill
+                    className="object-cover"
+                    sizes="32px"
+                  />
+                </div>
                 {pillar.label}
               </Link>
-            );
-          })}
+          ))}
 
           <div className="border-t border-zinc-800 my-2" />
 

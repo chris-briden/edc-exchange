@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
+import { BAGS_IMAGES } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Messenger Bags & Briefcases — Reviews & Price Comparison',
@@ -33,7 +34,7 @@ export default function MessengersPage() {
       pillarHref="/bags"
       description="Laptop messengers, leather briefcases, and professional bags for the office commute. Style meets function."
       iconName="backpack"
-      heroImage="/hero-bags-messengers.jpg"
+      heroImage={BAGS_IMAGES.heroes.messengers}
       accentColor="amber"
       features={features}
       relatedSubcategories={relatedSubcategories}
