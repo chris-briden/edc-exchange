@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { ArrowRight, Pocket, Backpack, Plane, Dumbbell } from 'lucide-react';
+import { ArrowRight, ChevronRight, Pocket, Backpack, Plane, Dumbbell } from 'lucide-react';
 
 export interface SubCategory {
   title: string;
@@ -35,7 +35,7 @@ interface PillarLandingProps {
   title: string;
   subtitle: string;
   description: string;
-  iconName: IconName;
+  iconName?: IconName;
   accentColor: string; // e.g. "orange", "amber", "sky", "green"
   heroImage?: string; // e.g. Unsplash URL or "/hero-edc.jpg"
   subcategories: SubCategory[];
@@ -104,14 +104,13 @@ export default function PillarLanding({
   ctaHref = '/signup',
 }: PillarLandingProps) {
   const colors = colorMap[accentColor] || colorMap.orange;
-  const Icon = iconMap[iconName];
 
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar />
 
       {/* ═══════════════ HERO ═══════════════ */}
-      <section className="relative pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6 overflow-hidden">
+      <section className="relative pt-24 sm:pt-32 pb-16 sm:pb-24 px-4 sm:px-6 overflow-hidden">
         {/* Background image */}
         {heroImage && (
           <div className="absolute inset-0">
@@ -124,49 +123,53 @@ export default function PillarLanding({
               quality={80}
               sizes="100vw"
             />
-            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 bg-black/50" />
             <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
           </div>
         )}
         {/* Background glow */}
-        <div className={`absolute top-20 left-1/2 -translate-x-1/2 w-[500px] h-[500px] ${colors.bg} rounded-full blur-[120px] opacity-60`} />
+        <div className={`absolute top-20 left-1/2 -translate-x-1/2 w-[500px] h-[500px] ${colors.bg} rounded-full blur-[120px] opacity-30`} />
 
-        <div className="relative z-10 max-w-5xl mx-auto text-center">
-          {/* Icon */}
-          <div className={`inline-flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br ${colors.gradient} mb-6 sm:mb-8`}>
-            <Icon className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
-          </div>
-
-          {/* Badge */}
-          <div className={`inline-block px-4 py-1.5 rounded-full ${colors.badge} text-xs sm:text-sm font-semibold mb-4`}>
-            {subtitle}
-          </div>
-
-          {/* Title */}
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4 sm:mb-6">
-            {title}
-          </h1>
-
-          {/* Description */}
-          <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-8 sm:mb-10">
-            {description}
-          </p>
-
-          {/* CTA */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/products"
-              className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-gradient-to-r ${colors.gradient} hover:opacity-90 text-white text-base font-bold tracking-wide transition-all transform hover:scale-[1.03] active:scale-[0.98] shadow-lg ${colors.shadow}`}
-            >
-              Compare Prices
-              <ArrowRight className="ml-2 w-4 h-4" />
+        <div className="relative z-10 max-w-5xl mx-auto">
+          {/* Breadcrumb — top left */}
+          <nav className="flex items-center gap-1.5 text-sm text-gray-400 mb-10 sm:mb-14">
+            <Link href="/" className="hover:text-white transition-colors">
+              Home
             </Link>
-            <Link
-              href="/reviews"
-              className="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white text-sm font-medium transition-all"
-            >
-              Browse Reviews
-            </Link>
+            <ChevronRight className="w-3.5 h-3.5 text-gray-600" />
+            <span className={colors.text}>{title}</span>
+          </nav>
+
+          {/* Title + Badge */}
+          <div className="text-center">
+            <div className={`inline-block px-3 py-1 rounded-full ${colors.badge} text-xs font-semibold tracking-wide uppercase mb-4`}>
+              {subtitle}
+            </div>
+
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4 sm:mb-6">
+              {title}
+            </h1>
+
+            <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-8 sm:mb-10">
+              {description}
+            </p>
+
+            {/* CTA */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/products"
+                className={`inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-gradient-to-r ${colors.gradient} hover:opacity-90 text-white text-base font-bold tracking-wide transition-all transform hover:scale-[1.03] active:scale-[0.98] shadow-lg ${colors.shadow}`}
+              >
+                Compare Prices
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
+              <Link
+                href="/reviews"
+                className="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white text-sm font-medium transition-all"
+              >
+                Browse Reviews
+              </Link>
+            </div>
           </div>
         </div>
       </section>
