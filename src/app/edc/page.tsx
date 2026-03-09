@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import PillarLanding from '@/components/PillarLanding';
 import { PILLAR_HEROES, EDC_IMAGES } from '@/lib/images';
+import { getArticlesByPillar } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'EDC — Everyday Carry Reviews, Guides & Price Comparison',
@@ -51,29 +52,40 @@ const subcategories = [
   },
 ];
 
-const featuredContent = [
-  {
-    title: 'What Is EDC? The Beginner\'s Guide',
-    excerpt: 'Everything you need to know about everyday carry — what it is, why it matters, and how to build your first pocket dump.',
-    href: '/blog/what-is-edc-everyday-carry-beginners-guide',
-    tag: 'Guide',
-    date: 'Jan 2026',
-  },
+const typeLabels: Record<string, string> = {
+  review: 'Review', guide: 'Guide', comparison: 'Comparison', news: 'News', opinion: 'Opinion',
+};
+
+const placeholderContent = [
   {
     title: 'EDC Pocket Dump Ideas for 2026',
     excerpt: 'Fresh loadout inspiration across budgets and styles. Minimalist, tactical, urban, and outdoor carries.',
-    href: '/blog/edc-pocket-dump-ideas-2026',
+    href: '/blog',
     tag: 'Inspiration',
-    date: 'Jan 2026',
+    date: 'Coming Soon',
   },
   {
     title: 'How to Price Used EDC Gear',
     excerpt: 'A practical guide to pricing your knives, flashlights, and multi-tools for resale on the secondary market.',
-    href: '/blog/how-to-price-used-edc-gear',
+    href: '/blog',
     tag: 'Selling',
-    date: 'Jan 2026',
+    date: 'Coming Soon',
   },
 ];
+
+function getFeaturedContent() {
+  const articles = getArticlesByPillar('edc');
+  const real = articles.slice(0, 3).map((a) => ({
+    title: a.frontmatter.title,
+    excerpt: a.frontmatter.description,
+    href: `/blog/edc/${a.slug}`,
+    tag: typeLabels[a.frontmatter.type] || a.frontmatter.type,
+    date: new Date(a.frontmatter.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+  }));
+  // Fill remaining slots with placeholders up to 3 total
+  const needed = 3 - real.length;
+  return [...real, ...placeholderContent.slice(0, needed)];
+}
 
 export default function EDCPage() {
   return (
@@ -85,7 +97,7 @@ export default function EDCPage() {
       accentColor="orange"
       heroImage={PILLAR_HEROES.edc}
       subcategories={subcategories}
-      featuredContent={featuredContent}
+      featuredContent={getFeaturedContent()}
     />
   );
 }

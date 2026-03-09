@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import PillarLanding from '@/components/PillarLanding';
 import { PILLAR_HEROES, TRAVEL_IMAGES } from '@/lib/images';
+import { getArticlesByPillar } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Travel Carry — Luggage Reviews, Packing Guides & Price Comparison',
@@ -48,14 +49,11 @@ const subcategories = [
   },
 ];
 
-const featuredContent = [
-  {
-    title: 'Carry-On Size Guide: Every Airline Compared',
-    excerpt: 'A regularly updated reference for carry-on dimensions and weight limits across 50+ airlines worldwide.',
-    href: '/blog',
-    tag: 'Reference',
-    date: 'Coming Soon',
-  },
+const typeLabels: Record<string, string> = {
+  review: 'Review', guide: 'Guide', comparison: 'Comparison', news: 'News', opinion: 'Opinion',
+};
+
+const placeholderContent = [
   {
     title: 'One-Bag Travel: The Complete Guide',
     excerpt: 'How to travel the world with just one bag. Packing strategies, bag recommendations, and lessons learned.',
@@ -72,6 +70,19 @@ const featuredContent = [
   },
 ];
 
+function getFeaturedContent() {
+  const articles = getArticlesByPillar('travel');
+  const real = articles.slice(0, 3).map((a) => ({
+    title: a.frontmatter.title,
+    excerpt: a.frontmatter.description,
+    href: `/blog/travel/${a.slug}`,
+    tag: typeLabels[a.frontmatter.type] || a.frontmatter.type,
+    date: new Date(a.frontmatter.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+  }));
+  const needed = 3 - real.length;
+  return [...real, ...placeholderContent.slice(0, needed)];
+}
+
 export default function TravelPage() {
   return (
     <PillarLanding
@@ -82,7 +93,7 @@ export default function TravelPage() {
       accentColor="sky"
       heroImage={PILLAR_HEROES.travel}
       subcategories={subcategories}
-      featuredContent={featuredContent}
+      featuredContent={getFeaturedContent()}
     />
   );
 }

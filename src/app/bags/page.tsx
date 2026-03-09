@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import PillarLanding from '@/components/PillarLanding';
 import { PILLAR_HEROES, BAGS_IMAGES } from '@/lib/images';
+import { getArticlesByPillar } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Bags & Packs — Backpack Reviews, Guides & Price Comparison',
@@ -48,14 +49,11 @@ const subcategories = [
   },
 ];
 
-const featuredContent = [
-  {
-    title: 'Best EDC Backpacks for 2026',
-    excerpt: 'Our top picks across budgets for the best everyday carry backpacks — from commuter to weekend warrior.',
-    href: '/blog',
-    tag: 'Review',
-    date: 'Coming Soon',
-  },
+const typeLabels: Record<string, string> = {
+  review: 'Review', guide: 'Guide', comparison: 'Comparison', news: 'News', opinion: 'Opinion',
+};
+
+const placeholderContent = [
   {
     title: 'Sling Bag Buyer\'s Guide',
     excerpt: 'How to choose the right sling for your carry style, body type, and use case.',
@@ -72,6 +70,19 @@ const featuredContent = [
   },
 ];
 
+function getFeaturedContent() {
+  const articles = getArticlesByPillar('bags');
+  const real = articles.slice(0, 3).map((a) => ({
+    title: a.frontmatter.title,
+    excerpt: a.frontmatter.description,
+    href: `/blog/bags/${a.slug}`,
+    tag: typeLabels[a.frontmatter.type] || a.frontmatter.type,
+    date: new Date(a.frontmatter.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+  }));
+  const needed = 3 - real.length;
+  return [...real, ...placeholderContent.slice(0, needed)];
+}
+
 export default function BagsPage() {
   return (
     <PillarLanding
@@ -82,7 +93,7 @@ export default function BagsPage() {
       accentColor="amber"
       heroImage={PILLAR_HEROES.bags}
       subcategories={subcategories}
-      featuredContent={featuredContent}
+      featuredContent={getFeaturedContent()}
     />
   );
 }

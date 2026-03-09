@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import PillarLanding from '@/components/PillarLanding';
 import { PILLAR_HEROES, RUCK_IMAGES } from '@/lib/images';
+import { getArticlesByPillar } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Ruck & Fitness — Rucking Gear Reviews, Training Plans & Community',
@@ -48,14 +49,11 @@ const subcategories = [
   },
 ];
 
-const featuredContent = [
-  {
-    title: 'Rucking 101: The Beginner\'s Guide',
-    excerpt: 'Everything you need to start rucking. What it is, why it\'s the best exercise you\'re not doing, and how to begin.',
-    href: '/blog',
-    tag: 'Guide',
-    date: 'Coming Soon',
-  },
+const typeLabels: Record<string, string> = {
+  review: 'Review', guide: 'Guide', comparison: 'Comparison', news: 'News', opinion: 'Opinion',
+};
+
+const placeholderContent = [
   {
     title: 'GORUCK Rucker vs. GR1: Which to Buy?',
     excerpt: 'Two of the most popular rucking packs compared. Purpose-built fitness ruck vs. all-around legend.',
@@ -72,6 +70,19 @@ const featuredContent = [
   },
 ];
 
+function getFeaturedContent() {
+  const articles = getArticlesByPillar('ruck');
+  const real = articles.slice(0, 3).map((a) => ({
+    title: a.frontmatter.title,
+    excerpt: a.frontmatter.description,
+    href: `/blog/ruck/${a.slug}`,
+    tag: typeLabels[a.frontmatter.type] || a.frontmatter.type,
+    date: new Date(a.frontmatter.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+  }));
+  const needed = 3 - real.length;
+  return [...real, ...placeholderContent.slice(0, needed)];
+}
+
 export default function RuckPage() {
   return (
     <PillarLanding
@@ -82,7 +93,7 @@ export default function RuckPage() {
       accentColor="green"
       heroImage={PILLAR_HEROES.ruck}
       subcategories={subcategories}
-      featuredContent={featuredContent}
+      featuredContent={getFeaturedContent()}
     />
   );
 }
