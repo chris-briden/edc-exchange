@@ -11,8 +11,8 @@ interface AffiliateLinkProps {
 
 /**
  * Wraps outbound affiliate links with UTM tracking params and
- * a subtle external-link icon. Clicking logs to console for now;
- * will be wired to Supabase `affiliate_clicks` table later.
+ * a subtle external-link icon. Clicks are logged to Supabase
+ * via /api/affiliate-click for analytics.
  */
 export default function AffiliateLink({
   href,
@@ -23,10 +23,33 @@ export default function AffiliateLink({
   const trackedHref = addUtmParams(href, retailer);
 
   const handleClick = () => {
-    // TODO: POST to /api/affiliate-click with { href, retailer, timestamp }
+    // Extract article context from the current URL path
+    // e.g. /blog/edc/best-edc-knives-under-100 → pillar=edc, slug=best-edc-knives-under-100
+    let articleSlug: string | undefined;
+    let articlePillar: string | undefined;
+
     if (typeof window !== 'undefined') {
-      console.log('[Affiliate Click]', { href: trackedHref, retailer });
+      const segments = window.location.pathname.split('/').filter(Boolean);
+      // Expected pattern: /blog/{pillar}/{slug}
+      if (segments[0] === 'blog' && segments.length >= 3) {
+        articlePillar = segments[1];
+        articleSlug = segments[2];
+      }
     }
+
+    // Fire-and-forget POST to tracking endpoint
+    fetch('/api/affiliate-click', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        href: trackedHref,
+        retailer,
+        articleSlug,
+        articlePillar,
+      }),
+    }).catch(() => {
+      // Silently fail — don't block the user from navigating
+    });
   };
 
   return (
