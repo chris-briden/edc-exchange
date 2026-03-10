@@ -1,55 +1,53 @@
 import type { MetadataRoute } from 'next';
+import { getArticlesByPillar, type Pillar } from '@/lib/content';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://jointhecarry.com';
+  const now = new Date();
 
-  // Blog posts with their publish dates
-  const blogPosts = [
-    { slug: 'best-places-to-buy-sell-trade-edc-gear', date: '2026-02-15' },
-    { slug: 'what-is-edc-everyday-carry-beginners-guide', date: '2026-02-14' },
-    { slug: 'how-to-price-used-edc-gear', date: '2026-02-13' },
-    { slug: 'why-founding-sellers-win-on-new-marketplaces', date: '2026-02-12' },
-    { slug: 'edc-pocket-dump-ideas-2026', date: '2026-02-11' },
+  // ── Static pages ──────────────────────────────────────────────
+  const staticPages: MetadataRoute.Sitemap = [
+    { url: baseUrl, lastModified: now, changeFrequency: 'weekly', priority: 1 },
+    { url: `${baseUrl}/blog`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
+    { url: `${baseUrl}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${baseUrl}/privacy`, lastModified: now, changeFrequency: 'monthly', priority: 0.3 },
+    { url: `${baseUrl}/terms`, lastModified: now, changeFrequency: 'monthly', priority: 0.3 },
   ];
 
-  const blogEntries = blogPosts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
+  // ── Pillar landing pages ──────────────────────────────────────
+  const pillars: { slug: Pillar; subcategories: string[] }[] = [
+    { slug: 'edc', subcategories: ['knives', 'flashlights', 'multi-tools', 'pens', 'wallets', 'accessories'] },
+    { slug: 'bags', subcategories: ['backpacks', 'slings', 'messengers', 'duffels', 'pouches', 'totes'] },
+    { slug: 'travel', subcategories: ['carry-on', 'packing', 'tech-kits', 'airline-guides', 'accessories', 'one-bag'] },
+    { slug: 'ruck', subcategories: ['rucksacks', 'training', 'vests', 'footwear', 'events', 'clubs'] },
+  ];
+
+  const pillarPages: MetadataRoute.Sitemap = pillars.map((p) => ({
+    url: `${baseUrl}/${p.slug}`,
+    lastModified: now,
+    changeFrequency: 'weekly' as const,
+    priority: 0.9,
   }));
 
-  return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
+  // ── Subcategory pages ─────────────────────────────────────────
+  const subcategoryPages: MetadataRoute.Sitemap = pillars.flatMap((p) =>
+    p.subcategories.map((sub) => ({
+      url: `${baseUrl}/${p.slug}/${sub}`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
       priority: 0.8,
-    },
-    ...blogEntries,
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/privacy`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/terms`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.3,
-    },
-  ];
+    })),
+  );
+
+  // ── All MDX articles (dynamically from content/) ──────────────
+  const articlePages: MetadataRoute.Sitemap = pillars.flatMap((p) =>
+    getArticlesByPillar(p.slug).map((a) => ({
+      url: `${baseUrl}/blog/${p.slug}/${a.slug}`,
+      lastModified: new Date(a.frontmatter.date),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    })),
+  );
+
+  return [...staticPages, ...pillarPages, ...subcategoryPages, ...articlePages];
 }
