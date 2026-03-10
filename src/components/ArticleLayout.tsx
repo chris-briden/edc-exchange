@@ -107,7 +107,7 @@ export default function ArticleLayout({
           )}
 
           {/* MDX Content */}
-          <div className="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-headings:font-bold prose-p:text-gray-300 prose-a:text-orange-400 prose-strong:text-white prose-li:text-gray-300 prose-blockquote:border-orange-500/40 prose-blockquote:text-gray-400 prose-code:text-orange-300 prose-code:bg-zinc-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-img:rounded-xl">
+          <div className="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-headings:font-bold prose-p:text-gray-300 prose-a:text-orange-400 prose-strong:text-white prose-li:text-gray-300 prose-blockquote:border-orange-500/40 prose-blockquote:text-gray-400 prose-code:text-orange-300 prose-code:bg-zinc-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-img:rounded-xl prose-table:border-collapse prose-table:w-full prose-table:text-sm prose-th:bg-zinc-800 prose-th:text-white prose-th:font-semibold prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:border prose-th:border-zinc-700 prose-td:px-4 prose-td:py-2.5 prose-td:border prose-td:border-zinc-700/60 prose-td:text-gray-300 prose-thead:border-b-2 prose-thead:border-zinc-600 [&_tbody_tr:nth-child(even)]:bg-zinc-900/40 [&_tbody_tr:hover]:bg-zinc-800/50 [&_table]:rounded-lg [&_table]:overflow-hidden [&_figure]:overflow-x-auto [&_table]:my-8">
             {children}
           </div>
 

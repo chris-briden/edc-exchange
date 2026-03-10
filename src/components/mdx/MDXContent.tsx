@@ -7,6 +7,14 @@ const components = {
   AffiliateLink,
   ReviewCard,
   BuyersGuide,
+  // Responsive table wrapper for mobile
+  table: (props: React.TableHTMLAttributes<HTMLTableElement>) => (
+    <div className="overflow-x-auto -mx-4 sm:mx-0 my-8">
+      <div className="inline-block min-w-full align-middle px-4 sm:px-0">
+        <table {...props} className="min-w-full" />
+      </div>
+    </div>
+  ),
   // Override default anchor tags to use nofollow for external links
   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
     const isExternal = props.href?.startsWith('http');
