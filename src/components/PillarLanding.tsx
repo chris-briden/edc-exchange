@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { ArrowRight, ChevronRight, Pocket, Backpack, Plane, Dumbbell } from 'lucide-react';
+import { ArrowRight, ChevronRight, Pocket, Backpack, Plane, Dumbbell, Clock, Calendar } from 'lucide-react';
 
 export interface SubCategory {
   title: string;
@@ -20,6 +20,8 @@ export interface FeaturedContent {
   href: string;
   tag: string;
   date?: string;
+  readingTime?: string;
+  tags?: string[];
 }
 
 const iconMap = {
@@ -246,34 +248,86 @@ export default function PillarLanding({
       {/* ═══════════════ FEATURED CONTENT ═══════════════ */}
       {featuredContent.length > 0 && (
         <section className="py-16 sm:py-24 px-4 sm:px-6 bg-zinc-900">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl sm:text-3xl font-bold text-center mb-3">
-              Latest Reviews & Guides
-            </h2>
-            <p className="text-gray-400 text-center mb-10 sm:mb-14 max-w-xl mx-auto">
-              Expert takes and deep dives from the community.
-            </p>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {featuredContent.map((content) => (
-                <Link
-                  key={content.title}
-                  href={content.href}
-                  className={`group bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-6 ${colors.borderHover} transition-all`}
-                >
-                  <span className={`inline-block text-xs font-semibold px-2.5 py-1 rounded-full ${colors.badge} mb-3`}>
-                    {content.tag}
-                  </span>
-                  <h3 className={`text-lg font-bold mb-2 ${colors.hoverText} transition-colors leading-tight`}>
-                    {content.title}
-                  </h3>
-                  <p className="text-sm text-gray-400 leading-relaxed mb-3">{content.excerpt}</p>
-                  {content.date && (
-                    <span className="text-xs text-gray-500">{content.date}</span>
-                  )}
-                </Link>
-              ))}
+          <div className="max-w-6xl mx-auto">
+            <div className="flex items-center justify-between mb-10 sm:mb-14">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-bold mb-2">
+                  Latest Reviews &amp; Guides
+                </h2>
+                <p className="text-gray-400 max-w-xl">
+                  {featuredContent.length} articles — expert takes and deep dives from the community.
+                </p>
+              </div>
             </div>
+
+            {/* Featured article (first) */}
+            <Link
+              href={featuredContent[0].href}
+              className={`group block bg-zinc-900/60 border border-zinc-800 ${colors.borderHover} rounded-2xl p-6 sm:p-8 mb-6 transition-all hover:bg-zinc-900/80`}
+            >
+              <div className="flex flex-wrap items-center gap-3 mb-3">
+                <span className={`text-xs font-bold uppercase tracking-wider ${colors.text}`}>
+                  {featuredContent[0].tag}
+                </span>
+                {featuredContent[0].date && (
+                  <span className="text-xs text-gray-500 flex items-center gap-1">
+                    <Calendar className="w-3 h-3" /> {featuredContent[0].date}
+                  </span>
+                )}
+                {featuredContent[0].readingTime && (
+                  <span className="text-xs text-gray-500 flex items-center gap-1">
+                    <Clock className="w-3 h-3" /> {featuredContent[0].readingTime}
+                  </span>
+                )}
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold mb-2 group-hover:text-white transition-colors">
+                {featuredContent[0].title}
+              </h3>
+              <p className="text-gray-400 text-sm sm:text-base leading-relaxed mb-4 max-w-3xl">
+                {featuredContent[0].excerpt}
+              </p>
+              {featuredContent[0].tags && (
+                <div className="flex flex-wrap gap-2">
+                  {featuredContent[0].tags.slice(0, 4).map((tag) => (
+                    <span key={tag} className="text-xs bg-zinc-800 text-gray-400 rounded-full px-2.5 py-0.5">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </Link>
+
+            {/* Remaining articles in grid */}
+            {featuredContent.length > 1 && (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                {featuredContent.slice(1).map((content) => (
+                  <Link
+                    key={content.title}
+                    href={content.href}
+                    className={`group bg-zinc-900/50 backdrop-blur border border-zinc-800 rounded-xl p-5 sm:p-6 ${colors.borderHover} transition-all hover:bg-zinc-900/70 flex flex-col`}
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className={`text-xs font-bold uppercase tracking-wider ${colors.text}`}>
+                        {content.tag}
+                      </span>
+                      {content.readingTime && (
+                        <span className="text-xs text-gray-500">{content.readingTime}</span>
+                      )}
+                    </div>
+                    <h3 className={`text-base sm:text-lg font-bold mb-2 group-hover:text-white transition-colors leading-snug`}>
+                      {content.title}
+                    </h3>
+                    <p className="text-sm text-gray-400 leading-relaxed flex-1 mb-3 line-clamp-3">{content.excerpt}</p>
+                    <div className="flex items-center justify-between mt-auto">
+                      {content.date && (
+                        <span className="text-xs text-gray-500">{content.date}</span>
+                      )}
+                      <div className={`flex items-center gap-1 text-sm font-medium ${colors.text} group-hover:gap-2 transition-all`}>
+                        Read <ArrowRight className="w-3.5 h-3.5" />
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         </section>
       )}

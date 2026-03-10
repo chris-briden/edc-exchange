@@ -56,35 +56,17 @@ const typeLabels: Record<string, string> = {
   review: 'Review', guide: 'Guide', comparison: 'Comparison', news: 'News', opinion: 'Opinion',
 };
 
-const placeholderContent = [
-  {
-    title: 'EDC Pocket Dump Ideas for 2026',
-    excerpt: 'Fresh loadout inspiration across budgets and styles. Minimalist, tactical, urban, and outdoor carries.',
-    href: '/blog',
-    tag: 'Inspiration',
-    date: 'Coming Soon',
-  },
-  {
-    title: 'How to Price Used EDC Gear',
-    excerpt: 'A practical guide to pricing your knives, flashlights, and multi-tools for resale on the secondary market.',
-    href: '/blog',
-    tag: 'Selling',
-    date: 'Coming Soon',
-  },
-];
-
 function getFeaturedContent() {
   const articles = getArticlesByPillar('edc');
-  const real = articles.slice(0, 3).map((a) => ({
+  return articles.map((a) => ({
     title: a.frontmatter.title,
     excerpt: a.frontmatter.description,
     href: `/blog/edc/${a.slug}`,
     tag: typeLabels[a.frontmatter.type] || a.frontmatter.type,
-    date: new Date(a.frontmatter.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+    date: new Date(a.frontmatter.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    readingTime: a.readingTime,
+    tags: a.frontmatter.tags,
   }));
-  // Fill remaining slots with placeholders up to 3 total
-  const needed = 3 - real.length;
-  return [...real, ...placeholderContent.slice(0, needed)];
 }
 
 export default function EDCPage() {

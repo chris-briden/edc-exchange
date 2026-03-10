@@ -53,34 +53,17 @@ const typeLabels: Record<string, string> = {
   review: 'Review', guide: 'Guide', comparison: 'Comparison', news: 'News', opinion: 'Opinion',
 };
 
-const placeholderContent = [
-  {
-    title: 'Sling Bag Buyer\'s Guide',
-    excerpt: 'How to choose the right sling for your carry style, body type, and use case.',
-    href: '/blog',
-    tag: 'Guide',
-    date: 'Coming Soon',
-  },
-  {
-    title: 'Peak Design vs. Aer vs. Bellroy',
-    excerpt: 'Three of the biggest names in urban carry bags go head to head. Which brand fits you?',
-    href: '/blog',
-    tag: 'Comparison',
-    date: 'Coming Soon',
-  },
-];
-
 function getFeaturedContent() {
   const articles = getArticlesByPillar('bags');
-  const real = articles.slice(0, 3).map((a) => ({
+  return articles.map((a) => ({
     title: a.frontmatter.title,
     excerpt: a.frontmatter.description,
     href: `/blog/bags/${a.slug}`,
     tag: typeLabels[a.frontmatter.type] || a.frontmatter.type,
-    date: new Date(a.frontmatter.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+    date: new Date(a.frontmatter.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    readingTime: a.readingTime,
+    tags: a.frontmatter.tags,
   }));
-  const needed = 3 - real.length;
-  return [...real, ...placeholderContent.slice(0, needed)];
 }
 
 export default function BagsPage() {

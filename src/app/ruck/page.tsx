@@ -53,34 +53,17 @@ const typeLabels: Record<string, string> = {
   review: 'Review', guide: 'Guide', comparison: 'Comparison', news: 'News', opinion: 'Opinion',
 };
 
-const placeholderContent = [
-  {
-    title: 'GORUCK Rucker vs. GR1: Which to Buy?',
-    excerpt: 'Two of the most popular rucking packs compared. Purpose-built fitness ruck vs. all-around legend.',
-    href: '/blog',
-    tag: 'Comparison',
-    date: 'Coming Soon',
-  },
-  {
-    title: '12-Week Ruck Training Plan',
-    excerpt: 'A progressive training program to build your ruck fitness from zero to a 12-mile heavy ruck.',
-    href: '/blog',
-    tag: 'Training',
-    date: 'Coming Soon',
-  },
-];
-
 function getFeaturedContent() {
   const articles = getArticlesByPillar('ruck');
-  const real = articles.slice(0, 3).map((a) => ({
+  return articles.map((a) => ({
     title: a.frontmatter.title,
     excerpt: a.frontmatter.description,
     href: `/blog/ruck/${a.slug}`,
     tag: typeLabels[a.frontmatter.type] || a.frontmatter.type,
-    date: new Date(a.frontmatter.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+    date: new Date(a.frontmatter.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    readingTime: a.readingTime,
+    tags: a.frontmatter.tags,
   }));
-  const needed = 3 - real.length;
-  return [...real, ...placeholderContent.slice(0, needed)];
 }
 
 export default function RuckPage() {
