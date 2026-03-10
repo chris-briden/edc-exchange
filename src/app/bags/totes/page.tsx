@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
 import { BAGS_IMAGES } from '@/lib/images';
+import { getArticlesByCategory } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Tote Bags — Canvas Totes, Market Bags & Carryall Reviews',
@@ -26,7 +27,20 @@ const relatedSubcategories = [
   { title: 'Pouches & Organizers', href: '/bags/pouches' },
 ];
 
+function getArticles() {
+  return getArticlesByCategory('bags', 'totes').map((a) => ({
+    title: a.frontmatter.title,
+    description: a.frontmatter.description,
+    href: `/blog/bags/${a.slug}`,
+    type: a.frontmatter.type,
+    date: new Date(a.frontmatter.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    readingTime: a.readingTime,
+    tags: a.frontmatter.tags,
+  }));
+}
+
 export default function TotesPage() {
+  const articles = getArticles();
   return (
     <SubcategoryLanding
       title="Tote Bags"
@@ -38,6 +52,7 @@ export default function TotesPage() {
       accentColor="amber"
       features={features}
       relatedSubcategories={relatedSubcategories}
+      articles={articles}
     />
   );
 }

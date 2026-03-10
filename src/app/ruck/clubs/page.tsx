@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
 import { RUCK_IMAGES } from '@/lib/images';
+import { getArticlesByCategory } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Ruck Club Directory — Find Local Ruck Groups Near You',
@@ -26,7 +27,20 @@ const relatedSubcategories = [
   { title: 'Events & Challenges', href: '/ruck/events' },
 ];
 
+function getArticles() {
+  return getArticlesByCategory('ruck', 'clubs').map((a) => ({
+    title: a.frontmatter.title,
+    description: a.frontmatter.description,
+    href: `/blog/ruck/${a.slug}`,
+    type: a.frontmatter.type,
+    date: new Date(a.frontmatter.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    readingTime: a.readingTime,
+    tags: a.frontmatter.tags,
+  }));
+}
+
 export default function ClubsPage() {
+  const articles = getArticles();
   return (
     <SubcategoryLanding
       title="Ruck Club Directory"
@@ -38,6 +52,7 @@ export default function ClubsPage() {
       accentColor="green"
       features={features}
       relatedSubcategories={relatedSubcategories}
+      articles={articles}
     />
   );
 }

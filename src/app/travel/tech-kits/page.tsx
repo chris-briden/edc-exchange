@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
 import { TRAVEL_IMAGES } from '@/lib/images';
+import { getArticlesByCategory } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Tech Travel Kits — Cable Organizers, Chargers & Adapter Reviews',
@@ -26,7 +27,20 @@ const relatedSubcategories = [
   { title: 'One-Bag Travel', href: '/travel/one-bag' },
 ];
 
+function getArticles() {
+  return getArticlesByCategory('travel', 'tech-kits').map((a) => ({
+    title: a.frontmatter.title,
+    description: a.frontmatter.description,
+    href: `/blog/travel/${a.slug}`,
+    type: a.frontmatter.type,
+    date: new Date(a.frontmatter.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    readingTime: a.readingTime,
+    tags: a.frontmatter.tags,
+  }));
+}
+
 export default function TechKitsPage() {
+  const articles = getArticles();
   return (
     <SubcategoryLanding
       title="Tech Travel Kits"
@@ -38,6 +52,7 @@ export default function TechKitsPage() {
       accentColor="sky"
       features={features}
       relatedSubcategories={relatedSubcategories}
+      articles={articles}
     />
   );
 }

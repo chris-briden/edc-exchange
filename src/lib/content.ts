@@ -160,6 +160,15 @@ export function getArticlesByTag(tag: string, pillar?: Pillar): ArticleMeta[] {
 }
 
 /**
+ * Get articles for a specific subcategory within a pillar.
+ */
+export function getArticlesByCategory(pillar: Pillar, category: string): ArticleMeta[] {
+  return getArticlesByPillar(pillar).filter(
+    (a) => a.frontmatter.category === category
+  );
+}
+
+/**
  * Get all slugs for static generation (generateStaticParams).
  */
 export function getAllArticleSlugs(): { pillar: Pillar; slug: string }[] {

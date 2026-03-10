@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
 import { BAGS_IMAGES } from '@/lib/images';
+import { getArticlesByCategory } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Messenger Bags & Briefcases — Reviews & Price Comparison',
@@ -26,7 +27,20 @@ const relatedSubcategories = [
   { title: 'Tote Bags', href: '/bags/totes' },
 ];
 
+function getArticles() {
+  return getArticlesByCategory('bags', 'messengers').map((a) => ({
+    title: a.frontmatter.title,
+    description: a.frontmatter.description,
+    href: `/blog/bags/${a.slug}`,
+    type: a.frontmatter.type,
+    date: new Date(a.frontmatter.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    readingTime: a.readingTime,
+    tags: a.frontmatter.tags,
+  }));
+}
+
 export default function MessengersPage() {
+  const articles = getArticles();
   return (
     <SubcategoryLanding
       title="Messenger & Briefcases"
@@ -38,6 +52,7 @@ export default function MessengersPage() {
       accentColor="amber"
       features={features}
       relatedSubcategories={relatedSubcategories}
+      articles={articles}
     />
   );
 }

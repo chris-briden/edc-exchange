@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import SubcategoryLanding from '@/components/SubcategoryLanding';
 import { EDC_IMAGES } from '@/lib/images';
+import { getArticlesByCategory } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Multi-Tools — Leatherman, Victorinox & More Reviews & Prices',
@@ -26,7 +27,20 @@ const relatedSubcategories = [
   { title: 'Watches & Accessories', href: '/edc/accessories' },
 ];
 
+function getArticles() {
+  return getArticlesByCategory('edc', 'multi-tools').map((a) => ({
+    title: a.frontmatter.title,
+    description: a.frontmatter.description,
+    href: `/blog/edc/${a.slug}`,
+    type: a.frontmatter.type,
+    date: new Date(a.frontmatter.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    readingTime: a.readingTime,
+    tags: a.frontmatter.tags,
+  }));
+}
+
 export default function MultiToolsPage() {
+  const articles = getArticles();
   return (
     <SubcategoryLanding
       title="Multi-Tools"
@@ -38,6 +52,7 @@ export default function MultiToolsPage() {
       accentColor="orange"
       features={features}
       relatedSubcategories={relatedSubcategories}
+      articles={articles}
     />
   );
 }
